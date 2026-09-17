@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SGM - Equipamentos</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>SGM</h1>
+
+        <p>Sistema de Gerenciamento de Manutenção</p>
+
+        <nav aria-label="Navegação principal">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="equipamentos.html" aria-current="page">
+                        Equipamentos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="ordens.html">
+                        Ordens de Serviço
+                    </a>
+                </li>
+
+                <li>
+                    <a href="manutencoes.html">
+                        Manutenções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="usuarios.html">
+                        Usuários
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section>
+            <header>
+                <h2>Equipamentos</h2>
+
+                <p>
+                    Gerenciamento dos equipamentos cadastrados
+                    no sistema.
+                </p>
+            </header>
+        </section>
+
+
+        <section>
+            <header>
+                <h2>Resumo dos equipamentos</h2>
+            </header>
+
+            <article>
+                <header>
+                    <h3>Total de equipamentos</h3>
+                </header>
+
+                <p>
+                    <strong>42</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Equipamentos ativos</h3>
+                </header>
+
+                <p>
+                    <strong>36</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Em manutenção</h3>
+                </header>
+
+                <p>
+                    <strong>5</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Inativos</h3>
+                </header>
+
+                <p>
+                    <strong>1</strong>
+                </p>
+            </article>
+        </section>
+
+
+        <section>
+
+            <header>
+                <h2>Lista de equipamentos</h2>
+
+                <p>
+                    Equipamentos atualmente cadastrados no sistema.
+                </p>
+            </header>
+
+
+            <form action="#" method="get">
+
+                <fieldset>
+                    <legend>Pesquisar equipamentos</legend>
+
+                    <p>
+                        <label for="busca">
+                            Buscar por nome ou código:
+                        </label>
+
+                        <input
+                            type="search"
+                            id="busca"
+                            name="busca"
+                            placeholder="Ex.: Compressor ou EQ-001"
+                        >
+                    </p>
+
+                    <p>
+                        <label for="status">
+                            Status:
+                        </label>
+
+                        <select id="status" name="status">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="ativo">
+                                Ativo
+                            </option>
+
+                            <option value="manutencao">
+                                Em manutenção
+                            </option>
+
+                            <option value="inativo">
+                                Inativo
+                            </option>
+                        </select>
+                    </p>
+
+                    <button type="submit">
+                        Pesquisar
+                    </button>
+
+                    <button type="reset">
+                        Limpar
+                    </button>
+                </fieldset>
+
+            </form>
+
+
+            <table>
+
+                <caption>
+                    Equipamentos cadastrados
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Localização</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Última manutenção</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>EQ-001</td>
+                        <td>Compressor Industrial</td>
+                        <td>Compressor</td>
+                        <td>Produção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-08-18">
+                                18/08/2026
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#equipamento-001">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>EQ-002</td>
+                        <td>Gerador Diesel</td>
+                        <td>Gerador</td>
+                        <td>Elétrica</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-08-20">
+                                20/08/2026
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#equipamento-002">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>EQ-003</td>
+                        <td>Motor Trifásico</td>
+                        <td>Motor</td>
+                        <td>Produção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-08-23">
+                                23/08/2026
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#equipamento-003">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>EQ-004</td>
+                        <td>Bomba Hidráulica</td>
+                        <td>Bomba</td>
+                        <td>Produção</td>
+                        <td>Em manutenção</td>
+                        <td>
+                            <time datetime="2026-07-25">
+                                25/07/2026
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#equipamento-004">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>EQ-005</td>
+                        <td>Painel Elétrico</td>
+                        <td>Elétrica</td>
+                        <td>Manutenção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-08-27">
+                                27/08/2026
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#equipamento-005">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>EQ-006</td>
+                        <td>Caldeira</td>
+                        <td>Caldeira</td>
+                        <td>Produção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-08-30">
+                                30/08/2026
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#equipamento-006">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <section>
+
+            <header>
+                <h2>Cadastrar equipamento</h2>
+
+                <p>
+                    Preencha os dados abaixo para cadastrar
+                    um novo equipamento.
+                </p>
+            </header>
+
+
+            <form action="#" method="post">
+
+                <fieldset>
+
+                    <legend>Identificação</legend>
+
+                    <p>
+                        <label for="codigo">
+                            Código do equipamento:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="codigo"
+                            name="codigo"
+                            placeholder="Ex.: EQ-007"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="nome">
+                            Nome do equipamento:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Ex.: Compressor Industrial"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="numero-serie">
+                            Número de série:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="numero-serie"
+                            name="numero-serie"
+                            placeholder="Informe o número de série"
+                        >
+                    </p>
+
+                </fieldset>
+
+
+                <fieldset>
+
+                    <legend>Informações do equipamento</legend>
+
+                    <p>
+                        <label for="categoria">
+                            Categoria:
+                        </label>
+
+                        <select
+                            id="categoria"
+                            name="categoria"
+                            required
+                        >
+                            <option value="">
+                                Selecione uma categoria
+                            </option>
+
+                            <option value="motor">
+                                Motor
+                            </option>
+
+                            <option value="compressor">
+                                Compressor
+                            </option>
+
+                            <option value="bomba">
+                                Bomba
+                            </option>
+
+                            <option value="gerador">
+                                Gerador
+                            </option>
+
+                            <option value="caldeira">
+                                Caldeira
+                            </option>
+
+                            <option value="eletrica">
+                                Equipamento elétrico
+                            </option>
+
+                            <option value="outro">
+                                Outro
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="fabricante">
+                            Fabricante:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="fabricante"
+                            name="fabricante"
+                            placeholder="Ex.: WEG"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="modelo">
+                            Modelo:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="modelo"
+                            name="modelo"
+                            placeholder="Informe o modelo"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="status-equipamento">
+                            Status:
+                        </label>
+
+                        <select
+                            id="status-equipamento"
+                            name="status-equipamento"
+                            required
+                        >
+                            <option value="">
+                                Selecione o status
+                            </option>
+
+                            <option value="ativo">
+                                Ativo
+                            </option>
+
+                            <option value="manutencao">
+                                Em manutenção
+                            </option>
+
+                            <option value="inativo">
+                                Inativo
+                            </option>
+                        </select>
+                    </p>
+
+                </fieldset>
+
+
+                <fieldset>
+
+                    <legend>Localização</legend>
+
+                    <p>
+                        <label for="setor">
+                            Setor:
+                        </label>
+
+                        <select
+                            id="setor"
+                            name="setor"
+                            required
+                        >
+                            <option value="">
+                                Selecione o setor
+                            </option>
+
+                            <option value="producao">
+                                Produção
+                            </option>
+
+                            <option value="eletrica">
+                                Elétrica
+                            </option>
+
+                            <option value="manutencao">
+                                Manutenção
+                            </option>
+
+                            <option value="almoxarifado">
+                                Almoxarifado
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="localizacao">
+                            Localização específica:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="localizacao"
+                            name="localizacao"
+                            placeholder="Ex.: Galpão 1 - Linha 2"
+                        >
+                    </p>
+
+                </fieldset>
+
+
+                <fieldset>
+
+                    <legend>Observações</legend>
+
+                    <p>
+                        <label for="observacoes">
+                            Informações adicionais:
+                        </label>
+                    </p>
+
+                    <p>
+                        <textarea
+                            id="observacoes"
+                            name="observacoes"
+                            rows="6"
+                            cols="50"
+                            placeholder="Informe outras informações relevantes sobre o equipamento."
+                        ></textarea>
+                    </p>
+
+                </fieldset>
+
+
+                <p>
+                    <button type="submit">
+                        Cadastrar equipamento
+                    </button>
+
+                    <button type="reset">
+                        Limpar formulário
+                    </button>
+                </p>
+
+            </form>
+
+        </section>
+
+
+        <aside>
+            <header>
+                <h2>Importante</h2>
+            </header>
+
+            <p>
+                Mantenha os dados dos equipamentos atualizados
+                para facilitar o planejamento das manutenções.
+            </p>
+        </aside>
+
+    </main>
+
+
+    <footer>
+        <p>
+            SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+    </footer>
+
+</body>
+</html>
