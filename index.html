@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SGM - Dashboard</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>SGM</h1>
+
+        <p>Sistema de Gerenciamento de Manutenção</p>
+
+        <nav aria-label="Navegação principal">
+            <ul>
+                <li>
+                    <a href="index.html" aria-current="page">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="equipamentos.html">
+                        Equipamentos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="ordens.html">
+                        Ordens de Serviço
+                    </a>
+                </li>
+
+                <li>
+                    <a href="manutencoes.html">
+                        Manutenções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="usuarios.html">
+                        Usuários
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section>
+            <header>
+                <h2>Dashboard</h2>
+
+                <p>
+                    Visão geral do sistema de manutenção
+                </p>
+            </header>
+
+            <aside>
+                <p>
+                    <strong>Data:</strong>
+                    <time datetime="2026-09-16">
+                        16 de setembro de 2026
+                    </time>
+                </p>
+
+                <p>Quarta-feira</p>
+            </aside>
+        </section>
+
+
+        <section>
+            <header>
+                <h2>Resumo</h2>
+            </header>
+
+            <article>
+                <header>
+                    <h3>Total de Equipamentos</h3>
+                </header>
+
+                <p>
+                    <strong>42</strong>
+                </p>
+
+                <p>
+                    <a href="equipamentos.html">
+                        Ver todos
+                    </a>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Ordens de Serviço Abertas</h3>
+                </header>
+
+                <p>
+                    <strong>8</strong>
+                </p>
+
+                <p>
+                    <a href="ordens.html">
+                        Ver ordens
+                    </a>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Manutenções em Andamento</h3>
+                </header>
+
+                <p>
+                    <strong>5</strong>
+                </p>
+
+                <p>
+                    <a href="manutencoes.html">
+                        Ver manutenções
+                    </a>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Manutenções Preventivas</h3>
+                </header>
+
+                <p>
+                    <strong>12</strong>
+                </p>
+
+                <p>
+                    <a href="manutencoes.html">
+                        Ver histórico
+                    </a>
+                </p>
+            </article>
+        </section>
+
+
+        <section>
+            <header>
+                <h2>Próximas Manutenções</h2>
+
+                <p>
+                    <a href="manutencoes.html">
+                        Ver todas
+                    </a>
+                </p>
+            </header>
+
+
+            <table>
+                <caption>
+                    Manutenções programadas para os próximos dias
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Data prevista</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Compressor Industrial</td>
+                        <td>EQ-001</td>
+                        <td>
+                            <time datetime="2026-09-18">
+                                18/09/2026
+                            </time>
+                        </td>
+                        <td>Preventiva</td>
+                        <td>Agendada</td>
+                    </tr>
+
+                    <tr>
+                        <td>Gerador Diesel</td>
+                        <td>EQ-002</td>
+                        <td>
+                            <time datetime="2026-09-20">
+                                20/09/2026
+                            </time>
+                        </td>
+                        <td>Preventiva</td>
+                        <td>Agendada</td>
+                    </tr>
+
+                    <tr>
+                        <td>Motor Trifásico</td>
+                        <td>EQ-003</td>
+                        <td>
+                            <time datetime="2026-09-23">
+                                23/09/2026
+                            </time>
+                        </td>
+                        <td>Preventiva</td>
+                        <td>Agendada</td>
+                    </tr>
+
+                    <tr>
+                        <td>Bomba Hidráulica</td>
+                        <td>EQ-004</td>
+                        <td>
+                            <time datetime="2026-09-25">
+                                25/09/2026
+                            </time>
+                        </td>
+                        <td>Corretiva</td>
+                        <td>Pendente</td>
+                    </tr>
+
+                    <tr>
+                        <td>Painel Elétrico</td>
+                        <td>EQ-005</td>
+                        <td>
+                            <time datetime="2026-09-27">
+                                27/09/2026
+                            </time>
+                        </td>
+                        <td>Preventiva</td>
+                        <td>Agendada</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+        <section>
+            <header>
+                <h2>Últimas Atividades</h2>
+            </header>
+
+            <article>
+                <h3>Manutenção concluída</h3>
+
+                <p>
+                    Motor Trifásico (EQ-003)
+                </p>
+
+                <time datetime="2026-09-16T10:24">
+                    Hoje, 10:24
+                </time>
+            </article>
+
+
+            <article>
+                <h3>Nova ordem de serviço</h3>
+
+                <p>
+                    Gerador Diesel (EQ-002)
+                </p>
+
+                <time datetime="2026-09-16T09:17">
+                    Hoje, 09:17
+                </time>
+            </article>
+
+
+            <article>
+                <h3>Manutenção em andamento</h3>
+
+                <p>
+                    Bomba Hidráulica (EQ-004)
+                </p>
+
+                <time datetime="2026-09-16T08:45">
+                    Hoje, 08:45
+                </time>
+            </article>
+
+
+            <article>
+                <h3>Equipamento cadastrado</h3>
+
+                <p>
+                    Caldeira (EQ-006)
+                </p>
+
+                <time datetime="2026-09-15T16:32">
+                    Ontem, 16:32
+                </time>
+            </article>
+
+
+            <article>
+                <h3>Manutenção atrasada</h3>
+
+                <p>
+                    Compressor Industrial (EQ-001)
+                </p>
+
+                <time datetime="2026-09-15T11:03">
+                    Ontem, 11:03
+                </time>
+            </article>
+        </section>
+
+
+        <section>
+            <header>
+                <h2>Distribuição das Manutenções</h2>
+            </header>
+
+            <ul>
+                <li>
+                    Preventivas: 18 (56%)
+                </li>
+
+                <li>
+                    Corretivas: 9 (28%)
+                </li>
+
+                <li>
+                    Preditivas: 3 (9%)
+                </li>
+
+                <li>
+                    Emergenciais: 2 (6%)
+                </li>
+            </ul>
+
+            <p>
+                Total de manutenções:
+                <strong>32</strong>
+            </p>
+        </section>
+
+
+        <aside>
+            <header>
+                <h2>Dica de manutenção</h2>
+            </header>
+
+            <p>
+                Mantenha seus equipamentos em dia!
+            </p>
+
+            <p>
+                A manutenção preventiva reduz custos, evita
+                paradas inesperadas e aumenta a vida útil dos
+                equipamentos.
+            </p>
+        </aside>
+
+    </main>
+
+
+    <footer>
+        <p>
+            SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+    </footer>
+
+</body>
+</html>
