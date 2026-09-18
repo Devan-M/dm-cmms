@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,9 @@
     <header>
         <h1>DM-SGM</h1>
 
-        <p>Sistema de Gerenciamento de Manutenção</p>
+        <p>
+            Sistema de Gerenciamento de Manutenção
+        </p>
 
         <nav aria-label="Navegação principal">
             <ul>
@@ -56,7 +59,7 @@
     <!-- Conteúdo principal da interface do dashboard -->
     <main>
 
-        <!-- Seção inicial com identificação da página e dados do dia -->
+        <!-- Identificação da página e informações do dia -->
         <section>
             <header>
                 <h2>Dashboard</h2>
@@ -69,95 +72,149 @@
             <aside>
                 <p>
                     <strong>Data:</strong>
+
                     <time datetime="2026-09-16">
                         16 de setembro de 2026
                     </time>
                 </p>
 
-                <p>Quarta-feira</p>
+                <p>
+                    Quarta-feira
+                </p>
             </aside>
         </section>
 
 
         <!-- Indicadores de desempenho e visão geral do sistema -->
-        <section>
+        <section class="indicadores" aria-labelledby="titulo-indicadores">
+
             <header>
-                <h2>Resumo</h2>
+                <h2 id="titulo-indicadores">
+                    Resumo
+                </h2>
+
+                <p>
+                    Indicadores gerais do sistema
+                </p>
             </header>
 
-            <article>
-                <header>
-                    <h3>Total de Equipamentos</h3>
-                </header>
+            <div class="indicadores-grid">
 
-                <p>
-                    <strong>42</strong>
-                </p>
+                <!-- Total de equipamentos -->
+                <article class="indicador-card">
 
-                <p>
-                    <a href="equipamentos.html">
-                        Ver todos
-                    </a>
-                </p>
-            </article>
+                    <div class="indicador-conteudo">
 
+                        <p class="indicador-label">
+                            Total de Equipamentos
+                        </p>
 
-            <article>
-                <header>
-                    <h3>Ordens de Serviço Abertas</h3>
-                </header>
+                        <strong class="indicador-valor">
+                            42
+                        </strong>
 
-                <p>
-                    <strong>8</strong>
-                </p>
+                        <p class="indicador-descricao">
+                            Equipamentos cadastrados
+                        </p>
 
-                <p>
-                    <a href="ordens.html">
-                        Ver ordens
-                    </a>
-                </p>
-            </article>
+                    </div>
+
+                    <div class="indicador-icone" aria-hidden="true">
+                        EQ
+                    </div>
+
+                </article>
 
 
-            <article>
-                <header>
-                    <h3>Manutenções em Andamento</h3>
-                </header>
+                <!-- Ordens de serviço abertas -->
+                <article class="indicador-card">
 
-                <p>
-                    <strong>5</strong>
-                </p>
+                    <div class="indicador-conteudo">
 
-                <p>
-                    <a href="manutencoes.html">
-                        Ver manutenções
-                    </a>
-                </p>
-            </article>
+                        <p class="indicador-label">
+                            Ordens de Serviço Abertas
+                        </p>
+
+                        <strong class="indicador-valor">
+                            8
+                        </strong>
+
+                        <p class="indicador-descricao">
+                            Aguardando atendimento
+                        </p>
+
+                    </div>
+
+                    <div class="indicador-icone" aria-hidden="true">
+                        OS
+                    </div>
+
+                </article>
 
 
-            <article>
-                <header>
-                    <h3>Manutenções Preventivas</h3>
-                </header>
+                <!-- Manutenções em andamento -->
+                <article class="indicador-card">
 
-                <p>
-                    <strong>12</strong>
-                </p>
+                    <div class="indicador-conteudo">
 
-                <p>
-                    <a href="manutencoes.html">
-                        Ver histórico
-                    </a>
-                </p>
-            </article>
+                        <p class="indicador-label">
+                            Manutenções em Andamento
+                        </p>
+
+                        <strong class="indicador-valor">
+                            5
+                        </strong>
+
+                        <p class="indicador-descricao">
+                            Serviços em execução
+                        </p>
+
+                    </div>
+
+                    <div class="indicador-icone" aria-hidden="true">
+                        MT
+                    </div>
+
+                </article>
+
+
+                <!-- Manutenções preventivas -->
+                <article class="indicador-card">
+
+                    <div class="indicador-conteudo">
+
+                        <p class="indicador-label">
+                            Manutenções Preventivas
+                        </p>
+
+                        <strong class="indicador-valor">
+                            12
+                        </strong>
+
+                        <p class="indicador-descricao">
+                            Programadas
+                        </p>
+
+                    </div>
+
+                    <div class="indicador-icone" aria-hidden="true">
+                        PV
+                    </div>
+
+                </article>
+
+            </div>
+
         </section>
 
 
         <!-- Listagem das manutenções programadas para os próximos dias -->
-        <section>
+        <section class="proximas-manutencoes">
+
             <header>
-                <h2>Próximas Manutenções</h2>
+                <h2>
+                    Próximas Manutenções
+                </h2>
 
                 <p>
                     <a href="manutencoes.html">
@@ -169,94 +226,193 @@
 
             <!-- Tabela com as manutenções agendadas -->
             <table>
+
                 <caption>
                     Manutenções programadas para os próximos dias
                 </caption>
 
                 <thead>
                     <tr>
-                        <th scope="col">Equipamento</th>
-                        <th scope="col">Código</th>
-                        <th scope="col">Data prevista</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">
+                            Equipamento
+                        </th>
+
+                        <th scope="col">
+                            Código
+                        </th>
+
+                        <th scope="col">
+                            Data prevista
+                        </th>
+
+                        <th scope="col">
+                            Tipo
+                        </th>
+
+                        <th scope="col">
+                            Status
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody>
+
                     <tr>
-                        <td>Compressor Industrial</td>
-                        <td>EQ-001</td>
+                        <td>
+                            Compressor Industrial
+                        </td>
+
+                        <td>
+                            EQ-001
+                        </td>
+
                         <td>
                             <time datetime="2026-09-18">
                                 18/09/2026
                             </time>
                         </td>
-                        <td>Preventiva</td>
-                        <td>Agendada</td>
+
+                        <td>
+                            Preventiva
+                        </td>
+
+                        <td>
+                            <span class="status status-agendada">
+                                Agendada
+                            </span>
+                        </td>
                     </tr>
 
+
                     <tr>
-                        <td>Gerador Diesel</td>
-                        <td>EQ-002</td>
+                        <td>
+                            Gerador Diesel
+                        </td>
+
+                        <td>
+                            EQ-002
+                        </td>
+
                         <td>
                             <time datetime="2026-09-20">
                                 20/09/2026
                             </time>
                         </td>
-                        <td>Preventiva</td>
-                        <td>Agendada</td>
+
+                        <td>
+                            Preventiva
+                        </td>
+
+                        <td>
+                            <span class="status status-agendada">
+                                Agendada
+                            </span>
+                        </td>
                     </tr>
 
+
                     <tr>
-                        <td>Motor Trifásico</td>
-                        <td>EQ-003</td>
+                        <td>
+                            Motor Trifásico
+                        </td>
+
+                        <td>
+                            EQ-003
+                        </td>
+
                         <td>
                             <time datetime="2026-09-23">
                                 23/09/2026
                             </time>
                         </td>
-                        <td>Preventiva</td>
-                        <td>Agendada</td>
+
+                        <td>
+                            Preventiva
+                        </td>
+
+                        <td>
+                            <span class="status status-agendada">
+                                Agendada
+                            </span>
+                        </td>
                     </tr>
 
+
                     <tr>
-                        <td>Bomba Hidráulica</td>
-                        <td>EQ-004</td>
+                        <td>
+                            Bomba Hidráulica
+                        </td>
+
+                        <td>
+                            EQ-004
+                        </td>
+
                         <td>
                             <time datetime="2026-09-25">
                                 25/09/2026
                             </time>
                         </td>
-                        <td>Corretiva</td>
-                        <td>Pendente</td>
+
+                        <td>
+                            Corretiva
+                        </td>
+
+                        <td>
+                            <span class="status status-pendente">
+                                Pendente
+                            </span>
+                        </td>
                     </tr>
 
+
                     <tr>
-                        <td>Painel Elétrico</td>
-                        <td>EQ-005</td>
+                        <td>
+                            Painel Elétrico
+                        </td>
+
+                        <td>
+                            EQ-005
+                        </td>
+
                         <td>
                             <time datetime="2026-09-27">
                                 27/09/2026
                             </time>
                         </td>
-                        <td>Preventiva</td>
-                        <td>Agendada</td>
+
+                        <td>
+                            Preventiva
+                        </td>
+
+                        <td>
+                            <span class="status status-agendada">
+                                Agendada
+                            </span>
+                        </td>
                     </tr>
+
                 </tbody>
+
             </table>
+
         </section>
 
-
         <!-- Registro das atividades e movimentações mais recentes -->
-        <section>
+        <section class="ultimas-atividades">
+
             <header>
-                <h2>Últimas Atividades</h2>
+                <h2>
+                    Últimas Atividades
+                </h2>
             </header>
 
-            <!-- Registro de atividade recente do sistema -->
-            <article>
-                <h3>Manutenção concluída</h3>
+
+            <!-- Manutenção concluída -->
+            <article class="atividade">
+
+                <h3>
+                    Manutenção concluída
+                </h3>
 
                 <p>
                     Motor Trifásico (EQ-003)
@@ -265,11 +421,16 @@
                 <time datetime="2026-09-16T10:24">
                     Hoje, 10:24
                 </time>
+
             </article>
 
 
-            <article>
-                <h3>Nova ordem de serviço</h3>
+            <!-- Nova ordem de serviço -->
+            <article class="atividade">
+
+                <h3>
+                    Nova ordem de serviço
+                </h3>
 
                 <p>
                     Gerador Diesel (EQ-002)
@@ -278,11 +439,16 @@
                 <time datetime="2026-09-16T09:17">
                     Hoje, 09:17
                 </time>
+
             </article>
 
 
-            <article>
-                <h3>Manutenção em andamento</h3>
+            <!-- Manutenção em andamento -->
+            <article class="atividade">
+
+                <h3>
+                    Manutenção em andamento
+                </h3>
 
                 <p>
                     Bomba Hidráulica (EQ-004)
@@ -291,11 +457,16 @@
                 <time datetime="2026-09-16T08:45">
                     Hoje, 08:45
                 </time>
+
             </article>
 
 
-            <article>
-                <h3>Equipamento cadastrado</h3>
+            <!-- Equipamento cadastrado -->
+            <article class="atividade">
+
+                <h3>
+                    Equipamento cadastrado
+                </h3>
 
                 <p>
                     Caldeira (EQ-006)
@@ -304,11 +475,16 @@
                 <time datetime="2026-09-15T16:32">
                     Ontem, 16:32
                 </time>
+
             </article>
 
 
-            <article>
-                <h3>Manutenção atrasada</h3>
+            <!-- Manutenção atrasada -->
+            <article class="atividade">
+
+                <h3>
+                    Manutenção atrasada
+                </h3>
 
                 <p>
                     Compressor Industrial (EQ-001)
@@ -317,43 +493,131 @@
                 <time datetime="2026-09-15T11:03">
                     Ontem, 11:03
                 </time>
+
             </article>
+
         </section>
 
+        <!-- Distribuição dos tipos de manutenção -->
+        <section class="distribuicao-manutencoes">
 
-        <section>
             <header>
-                <h2>Distribuição das Manutenções</h2>
+                <h2>
+                    Distribuição das Manutenções
+                </h2>
+
+                <p>
+                    Quantidade de manutenções por tipo
+                </p>
             </header>
 
+
             <ul>
-                <li>
-                    Preventivas: 18 (56%)
-                </li>
 
                 <li>
-                    Corretivas: 9 (28%)
+                    <div class="distribuicao-info">
+                        <span>
+                            Preventivas
+                        </span>
+
+                        <strong>
+                            18
+                        </strong>
+
+                        <span>
+                            56%
+                        </span>
+                    </div>
+
+                    <div class="distribuicao-barra">
+                        <span class="distribuicao-progresso" style="width: 56%;">
+                        </span>
+                    </div>
                 </li>
 
-                <li>
-                    Preditivas: 3 (9%)
-                </li>
 
                 <li>
-                    Emergenciais: 2 (6%)
+                    <div class="distribuicao-info">
+                        <span>
+                            Corretivas
+                        </span>
+
+                        <strong>
+                            9
+                        </strong>
+
+                        <span>
+                            28%
+                        </span>
+                    </div>
+
+                    <div class="distribuicao-barra">
+                        <span class="distribuicao-progresso" style="width: 28%;">
+                        </span>
+                    </div>
                 </li>
+
+
+                <li>
+                    <div class="distribuicao-info">
+                        <span>
+                            Preditivas
+                        </span>
+
+                        <strong>
+                            3
+                        </strong>
+
+                        <span>
+                            9%
+                        </span>
+                    </div>
+
+                    <div class="distribuicao-barra">
+                        <span class="distribuicao-progresso" style="width: 9%;">
+                        </span>
+                    </div>
+                </li>
+
+
+                <li>
+                    <div class="distribuicao-info">
+                        <span>
+                            Emergenciais
+                        </span>
+
+                        <strong>
+                            2
+                        </strong>
+
+                        <span>
+                            6%
+                        </span>
+                    </div>
+
+                    <div class="distribuicao-barra">
+                        <span class="distribuicao-progresso" style="width: 6%;">
+                        </span>
+                    </div>
+                </li>
+
             </ul>
 
-            <p>
+
+            <p class="distribuicao-total">
                 Total de manutenções:
                 <strong>32</strong>
             </p>
+
         </section>
 
-
+        <!-- Dica de manutenção -->
         <aside>
+
             <header>
-                <h2>Dica de manutenção</h2>
+                <h2>
+                    Dica de manutenção
+                </h2>
             </header>
 
             <p>
@@ -365,12 +629,15 @@
                 paradas inesperadas e aumenta a vida útil dos
                 equipamentos.
             </p>
+
         </aside>
 
     </main>
 
 
+    <!-- Rodapé -->
     <footer>
+
         <p>
             DM-SGM - Sistema de Gerenciamento de Manutenção
         </p>
@@ -384,7 +651,9 @@
                 LinkedIn de Devan M.
             </a>
         </p>
+
     </footer>
 
 </body>
+
 </html>
