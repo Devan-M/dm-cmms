@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DM-SGM - Usuários</title>
+</head>
+
+<body>
+
+    <!-- Cabeçalho do sistema com branding e navegação principal -->
+    <header>
+        <h1>DM-SGM</h1>
+
+        <p>Sistema de Gerenciamento de Manutenção</p>
+
+        <nav aria-label="Navegação principal">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="equipamentos.html">
+                        Equipamentos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="ordens.html">
+                        Ordens de Serviço
+                    </a>
+                </li>
+
+                <li>
+                    <a href="manutencoes.html">
+                        Manutenções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="usuarios.html" aria-current="page">
+                        Usuários
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Conteúdo principal da área de gerenciamento dos usuários -->
+    <main>
+
+        <!-- Seção inicial com apresentação da página -->
+        <section>
+            <header>
+                <h2>Usuários</h2>
+
+                <p>
+                    Gerenciamento dos usuários e dos níveis de acesso
+                    ao sistema de manutenção.
+                </p>
+            </header>
+        </section>
+
+
+        <!-- Resumo dos principais indicadores de usuários -->
+        <section>
+            <header>
+                <h2>Resumo dos usuários</h2>
+            </header>
+
+            <article>
+                <header>
+                    <h3>Total de usuários</h3>
+                </header>
+
+                <p>
+                    <strong>8</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Usuários ativos</h3>
+                </header>
+
+                <p>
+                    <strong>7</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Administradores</h3>
+                </header>
+
+                <p>
+                    <strong>2</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Técnicos</h3>
+                </header>
+
+                <p>
+                    <strong>4</strong>
+                </p>
+            </article>
+        </section>
+
+
+        <!-- Pesquisa e consulta dos usuários cadastrados -->
+        <section>
+
+            <header>
+                <h2>Lista de usuários</h2>
+
+                <p>
+                    Consulte os usuários cadastrados e seus
+                    respectivos níveis de acesso.
+                </p>
+            </header>
+
+
+            <!-- Formulário de pesquisa e filtragem dos usuários -->
+            <form action="#" method="get">
+
+                <fieldset>
+                    <legend>Pesquisar usuários</legend>
+
+                    <p>
+                        <label for="busca">
+                            Buscar por nome ou e-mail:
+                        </label>
+
+                        <input
+                            type="search"
+                            id="busca"
+                            name="busca"
+                            placeholder="Ex.: Carlos ou carlos@empresa.com"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="perfil">
+                            Perfil:
+                        </label>
+
+                        <select id="perfil" name="perfil">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="administrador">
+                                Administrador
+                            </option>
+
+                            <option value="supervisor">
+                                Supervisor
+                            </option>
+
+                            <option value="tecnico">
+                                Técnico
+                            </option>
+
+                            <option value="solicitante">
+                                Solicitante
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="status">
+                            Status:
+                        </label>
+
+                        <select id="status" name="status">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="ativo">
+                                Ativo
+                            </option>
+
+                            <option value="inativo">
+                                Inativo
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <button type="submit">
+                        Pesquisar
+                    </button>
+
+                    <button type="reset">
+                        Limpar
+                    </button>
+                </fieldset>
+
+            </form>
+
+
+            <!-- Tabela com os usuários cadastrados no sistema -->
+            <table>
+
+                <caption>
+                    Usuários cadastrados
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Perfil</th>
+                        <th scope="col">Setor</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Último acesso</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>USR-001</td>
+                        <td>Carlos Silva</td>
+                        <td>carlos@empresa.com</td>
+                        <td>Administrador</td>
+                        <td>Manutenção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-16T10:24">
+                                16/09/2026 10:24
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-001">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-002</td>
+                        <td>João Santos</td>
+                        <td>joao@empresa.com</td>
+                        <td>Técnico</td>
+                        <td>Elétrica</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-16T09:17">
+                                16/09/2026 09:17
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-002">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-003</td>
+                        <td>Marcos Lima</td>
+                        <td>marcos@empresa.com</td>
+                        <td>Técnico</td>
+                        <td>Produção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-16T08:45">
+                                16/09/2026 08:45
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-003">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-004</td>
+                        <td>Rafael Oliveira</td>
+                        <td>rafael@empresa.com</td>
+                        <td>Técnico</td>
+                        <td>Manutenção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-15T16:32">
+                                15/09/2026 16:32
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-004">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-005</td>
+                        <td>Ana Costa</td>
+                        <td>ana@empresa.com</td>
+                        <td>Supervisor</td>
+                        <td>Produção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-15T14:18">
+                                15/09/2026 14:18
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-005">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-006</td>
+                        <td>Fernanda Souza</td>
+                        <td>fernanda@empresa.com</td>
+                        <td>Solicitante</td>
+                        <td>Produção</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-14T11:06">
+                                14/09/2026 11:06
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-006">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-007</td>
+                        <td>Pedro Almeida</td>
+                        <td>pedro@empresa.com</td>
+                        <td>Administrador</td>
+                        <td>TI</td>
+                        <td>Ativo</td>
+                        <td>
+                            <time datetime="2026-09-13T17:42">
+                                13/09/2026 17:42
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-007">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>USR-008</td>
+                        <td>Lucas Martins</td>
+                        <td>lucas@empresa.com</td>
+                        <td>Técnico</td>
+                        <td>Manutenção</td>
+                        <td>Inativo</td>
+                        <td>
+                            <time datetime="2026-08-28T15:10">
+                                28/08/2026 15:10
+                            </time>
+                        </td>
+                        <td>
+                            <a href="#usuario-008">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Formulário para cadastrar um novo usuário -->
+        <section>
+
+            <header>
+                <h2>Cadastrar usuário</h2>
+
+                <p>
+                    Preencha os dados abaixo para cadastrar
+                    um novo usuário no sistema.
+                </p>
+            </header>
+
+
+            <!-- Formulário de cadastro do usuário -->
+            <form action="#" method="post">
+
+                <!-- Dados pessoais e identificação do usuário -->
+                <fieldset>
+
+                    <legend>Dados pessoais</legend>
+
+                    <p>
+                        <label for="nome">
+                            Nome completo:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Ex.: Carlos Silva"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="email">
+                            E-mail:
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Ex.: usuario@empresa.com"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="telefone">
+                            Telefone:
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="telefone"
+                            name="telefone"
+                            placeholder="Ex.: (41) 99999-9999"
+                        >
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Definição do perfil e permissões do usuário -->
+                <fieldset>
+
+                    <legend>Acesso ao sistema</legend>
+
+                    <p>
+                        <label for="perfil-usuario">
+                            Perfil:
+                        </label>
+
+                        <select
+                            id="perfil-usuario"
+                            name="perfil-usuario"
+                            required
+                        >
+                            <option value="">
+                                Selecione o perfil
+                            </option>
+
+                            <option value="administrador">
+                                Administrador
+                            </option>
+
+                            <option value="supervisor">
+                                Supervisor
+                            </option>
+
+                            <option value="tecnico">
+                                Técnico
+                            </option>
+
+                            <option value="solicitante">
+                                Solicitante
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="setor">
+                            Setor:
+                        </label>
+
+                        <select
+                            id="setor"
+                            name="setor"
+                            required
+                        >
+                            <option value="">
+                                Selecione o setor
+                            </option>
+
+                            <option value="manutencao">
+                                Manutenção
+                            </option>
+
+                            <option value="producao">
+                                Produção
+                            </option>
+
+                            <option value="eletrica">
+                                Elétrica
+                            </option>
+
+                            <option value="almoxarifado">
+                                Almoxarifado
+                            </option>
+
+                            <option value="ti">
+                                TI
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="status-usuario">
+                            Status:
+                        </label>
+
+                        <select
+                            id="status-usuario"
+                            name="status-usuario"
+                            required
+                        >
+                            <option value="">
+                                Selecione o status
+                            </option>
+
+                            <option value="ativo">
+                                Ativo
+                            </option>
+
+                            <option value="inativo">
+                                Inativo
+                            </option>
+                        </select>
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Definição das credenciais de acesso -->
+                <fieldset>
+
+                    <legend>Credenciais</legend>
+
+                    <p>
+                        <label for="senha">
+                            Senha:
+                        </label>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            minlength="8"
+                            placeholder="Mínimo de 8 caracteres"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="confirmacao-senha">
+                            Confirmar senha:
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmacao-senha"
+                            name="confirmacao-senha"
+                            minlength="8"
+                            placeholder="Digite a senha novamente"
+                            required
+                        >
+                    </p>
+
+                </fieldset>
+
+
+                <p>
+                    <button type="submit">
+                        Cadastrar usuário
+                    </button>
+
+                    <button type="reset">
+                        Limpar formulário
+                    </button>
+                </p>
+
+            </form>
+
+        </section>
+
+
+        <!-- Orientação sobre o gerenciamento dos usuários -->
+        <aside>
+            <header>
+                <h2>Importante</h2>
+            </header>
+
+            <p>
+                Conceda aos usuários somente as permissões
+                necessárias para a realização de suas atividades
+                no sistema.
+            </p>
+        </aside>
+
+    </main>
+
+
+    <footer>
+        <p>
+            DM-SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+    </footer>
+
+</body>
+</html>
