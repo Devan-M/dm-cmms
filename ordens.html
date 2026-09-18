@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DM-SGM - Ordens de Serviço</title>
+</head>
+
+<body>
+
+    <!-- Cabeçalho do sistema com branding e navegação principal -->
+    <header>
+        <h1>DM-SGM</h1>
+
+        <p>Sistema de Gerenciamento de Manutenção</p>
+
+        <nav aria-label="Navegação principal">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="equipamentos.html">
+                        Equipamentos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="ordens.html" aria-current="page">
+                        Ordens de Serviço
+                    </a>
+                </li>
+
+                <li>
+                    <a href="manutencoes.html">
+                        Manutenções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="usuarios.html">
+                        Usuários
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Conteúdo principal da área de gerenciamento das ordens de serviço -->
+    <main>
+
+        <!-- Seção inicial com apresentação da página -->
+        <section>
+            <header>
+                <h2>Ordens de Serviço</h2>
+
+                <p>
+                    Gerenciamento das ordens de serviço de manutenção
+                    dos equipamentos cadastrados.
+                </p>
+            </header>
+        </section>
+
+
+        <!-- Resumo operacional das ordens de serviço -->
+        <section>
+            <header>
+                <h2>Resumo das ordens</h2>
+            </header>
+
+            <article>
+                <header>
+                    <h3>Total de ordens</h3>
+                </header>
+
+                <p>
+                    <strong>24</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Ordens abertas</h3>
+                </header>
+
+                <p>
+                    <strong>8</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Em andamento</h3>
+                </header>
+
+                <p>
+                    <strong>5</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Concluídas</h3>
+                </header>
+
+                <p>
+                    <strong>11</strong>
+                </p>
+            </article>
+        </section>
+
+
+        <!-- Pesquisa e filtros para localizar ordens de serviço -->
+        <section>
+
+            <header>
+                <h2>Lista de ordens de serviço</h2>
+
+                <p>
+                    Consulte e acompanhe as ordens de serviço
+                    cadastradas no sistema.
+                </p>
+            </header>
+
+
+            <!-- Formulário de pesquisa e filtragem das ordens -->
+            <form action="#" method="get">
+
+                <fieldset>
+                    <legend>Pesquisar ordens</legend>
+
+                    <p>
+                        <label for="busca">
+                            Buscar por código ou equipamento:
+                        </label>
+
+                        <input
+                            type="search"
+                            id="busca"
+                            name="busca"
+                            placeholder="Ex.: OS-001 ou Compressor"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="tipo">
+                            Tipo de manutenção:
+                        </label>
+
+                        <select id="tipo" name="tipo">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="preventiva">
+                                Preventiva
+                            </option>
+
+                            <option value="corretiva">
+                                Corretiva
+                            </option>
+
+                            <option value="preditiva">
+                                Preditiva
+                            </option>
+
+                            <option value="emergencial">
+                                Emergencial
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="prioridade">
+                            Prioridade:
+                        </label>
+
+                        <select id="prioridade" name="prioridade">
+                            <option value="">
+                                Todas
+                            </option>
+
+                            <option value="baixa">
+                                Baixa
+                            </option>
+
+                            <option value="media">
+                                Média
+                            </option>
+
+                            <option value="alta">
+                                Alta
+                            </option>
+
+                            <option value="critica">
+                                Crítica
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="status">
+                            Status:
+                        </label>
+
+                        <select id="status" name="status">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="aberta">
+                                Aberta
+                            </option>
+
+                            <option value="andamento">
+                                Em andamento
+                            </option>
+
+                            <option value="concluida">
+                                Concluída
+                            </option>
+
+                            <option value="cancelada">
+                                Cancelada
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <button type="submit">
+                        Pesquisar
+                    </button>
+
+                    <button type="reset">
+                        Limpar
+                    </button>
+                </fieldset>
+
+            </form>
+
+
+            <!-- Tabela com as ordens de serviço cadastradas -->
+            <table>
+
+                <caption>
+                    Ordens de serviço cadastradas
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Prioridade</th>
+                        <th scope="col">Responsável</th>
+                        <th scope="col">Data de abertura</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>OS-001</td>
+                        <td>Compressor Industrial</td>
+                        <td>Preventiva</td>
+                        <td>Média</td>
+                        <td>Carlos Silva</td>
+                        <td>
+                            <time datetime="2026-09-16">
+                                16/09/2026
+                            </time>
+                        </td>
+                        <td>Aberta</td>
+                        <td>
+                            <a href="#ordem-001">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>OS-002</td>
+                        <td>Gerador Diesel</td>
+                        <td>Corretiva</td>
+                        <td>Alta</td>
+                        <td>João Santos</td>
+                        <td>
+                            <time datetime="2026-09-15">
+                                15/09/2026
+                            </time>
+                        </td>
+                        <td>Em andamento</td>
+                        <td>
+                            <a href="#ordem-002">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>OS-003</td>
+                        <td>Motor Trifásico</td>
+                        <td>Preventiva</td>
+                        <td>Baixa</td>
+                        <td>Marcos Lima</td>
+                        <td>
+                            <time datetime="2026-09-14">
+                                14/09/2026
+                            </time>
+                        </td>
+                        <td>Concluída</td>
+                        <td>
+                            <a href="#ordem-003">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>OS-004</td>
+                        <td>Bomba Hidráulica</td>
+                        <td>Corretiva</td>
+                        <td>Crítica</td>
+                        <td>Rafael Oliveira</td>
+                        <td>
+                            <time datetime="2026-09-13">
+                                13/09/2026
+                            </time>
+                        </td>
+                        <td>Em andamento</td>
+                        <td>
+                            <a href="#ordem-004">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>OS-005</td>
+                        <td>Painel Elétrico</td>
+                        <td>Preventiva</td>
+                        <td>Média</td>
+                        <td>Carlos Silva</td>
+                        <td>
+                            <time datetime="2026-09-12">
+                                12/09/2026
+                            </time>
+                        </td>
+                        <td>Aberta</td>
+                        <td>
+                            <a href="#ordem-005">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>OS-006</td>
+                        <td>Caldeira</td>
+                        <td>Preditiva</td>
+                        <td>Baixa</td>
+                        <td>Marcos Lima</td>
+                        <td>
+                            <time datetime="2026-09-10">
+                                10/09/2026
+                            </time>
+                        </td>
+                        <td>Concluída</td>
+                        <td>
+                            <a href="#ordem-006">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Formulário para abertura de uma nova ordem de serviço -->
+        <section>
+
+            <header>
+                <h2>Abrir ordem de serviço</h2>
+
+                <p>
+                    Preencha os dados abaixo para registrar
+                    uma nova ordem de serviço.
+                </p>
+            </header>
+
+
+            <!-- Formulário de cadastro da ordem de serviço -->
+            <form action="#" method="post">
+
+                <!-- Identificação da ordem e do equipamento -->
+                <fieldset>
+
+                    <legend>Identificação</legend>
+
+                    <p>
+                        <label for="codigo-os">
+                            Código da ordem:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="codigo-os"
+                            name="codigo-os"
+                            placeholder="Ex.: OS-007"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="equipamento">
+                            Equipamento:
+                        </label>
+
+                        <select
+                            id="equipamento"
+                            name="equipamento"
+                            required
+                        >
+                            <option value="">
+                                Selecione o equipamento
+                            </option>
+
+                            <option value="eq-001">
+                                EQ-001 - Compressor Industrial
+                            </option>
+
+                            <option value="eq-002">
+                                EQ-002 - Gerador Diesel
+                            </option>
+
+                            <option value="eq-003">
+                                EQ-003 - Motor Trifásico
+                            </option>
+
+                            <option value="eq-004">
+                                EQ-004 - Bomba Hidráulica
+                            </option>
+
+                            <option value="eq-005">
+                                EQ-005 - Painel Elétrico
+                            </option>
+
+                            <option value="eq-006">
+                                EQ-006 - Caldeira
+                            </option>
+                        </select>
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Classificação e prioridade da manutenção -->
+                <fieldset>
+
+                    <legend>Classificação da manutenção</legend>
+
+                    <p>
+                        <label for="tipo-manutencao">
+                            Tipo de manutenção:
+                        </label>
+
+                        <select
+                            id="tipo-manutencao"
+                            name="tipo-manutencao"
+                            required
+                        >
+                            <option value="">
+                                Selecione o tipo
+                            </option>
+
+                            <option value="preventiva">
+                                Preventiva
+                            </option>
+
+                            <option value="corretiva">
+                                Corretiva
+                            </option>
+
+                            <option value="preditiva">
+                                Preditiva
+                            </option>
+
+                            <option value="emergencial">
+                                Emergencial
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="prioridade-os">
+                            Prioridade:
+                        </label>
+
+                        <select
+                            id="prioridade-os"
+                            name="prioridade-os"
+                            required
+                        >
+                            <option value="">
+                                Selecione a prioridade
+                            </option>
+
+                            <option value="baixa">
+                                Baixa
+                            </option>
+
+                            <option value="media">
+                                Média
+                            </option>
+
+                            <option value="alta">
+                                Alta
+                            </option>
+
+                            <option value="critica">
+                                Crítica
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="status-os">
+                            Status:
+                        </label>
+
+                        <select
+                            id="status-os"
+                            name="status-os"
+                            required
+                        >
+                            <option value="">
+                                Selecione o status
+                            </option>
+
+                            <option value="aberta">
+                                Aberta
+                            </option>
+
+                            <option value="andamento">
+                                Em andamento
+                            </option>
+
+                            <option value="concluida">
+                                Concluída
+                            </option>
+
+                            <option value="cancelada">
+                                Cancelada
+                            </option>
+                        </select>
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Descrição e informações relacionadas ao serviço -->
+                <fieldset>
+
+                    <legend>Descrição do serviço</legend>
+
+                    <p>
+                        <label for="descricao">
+                            Descrição do problema ou serviço:
+                        </label>
+                    </p>
+
+                    <p>
+                        <textarea
+                            id="descricao"
+                            name="descricao"
+                            rows="6"
+                            cols="50"
+                            placeholder="Descreva o problema identificado ou o serviço que deverá ser realizado."
+                            required
+                        ></textarea>
+                    </p>
+
+
+                    <p>
+                        <label for="observacoes">
+                            Observações:
+                        </label>
+                    </p>
+
+                    <p>
+                        <textarea
+                            id="observacoes"
+                            name="observacoes"
+                            rows="5"
+                            cols="50"
+                            placeholder="Informe outras informações relevantes para a execução do serviço."
+                        ></textarea>
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Responsável e planejamento da execução -->
+                <fieldset>
+
+                    <legend>Planejamento</legend>
+
+                    <p>
+                        <label for="responsavel">
+                            Responsável:
+                        </label>
+
+                        <select
+                            id="responsavel"
+                            name="responsavel"
+                            required
+                        >
+                            <option value="">
+                                Selecione o responsável
+                            </option>
+
+                            <option value="carlos-silva">
+                                Carlos Silva
+                            </option>
+
+                            <option value="joao-santos">
+                                João Santos
+                            </option>
+
+                            <option value="marcos-lima">
+                                Marcos Lima
+                            </option>
+
+                            <option value="rafael-oliveira">
+                                Rafael Oliveira
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="data-abertura">
+                            Data de abertura:
+                        </label>
+
+                        <input
+                            type="date"
+                            id="data-abertura"
+                            name="data-abertura"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="data-prevista">
+                            Data prevista para execução:
+                        </label>
+
+                        <input
+                            type="date"
+                            id="data-prevista"
+                            name="data-prevista"
+                            required
+                        >
+                    </p>
+
+                </fieldset>
+
+
+                <p>
+                    <button type="submit">
+                        Abrir ordem de serviço
+                    </button>
+
+                    <button type="reset">
+                        Limpar formulário
+                    </button>
+                </p>
+
+            </form>
+
+        </section>
+
+
+        <!-- Orientação para o acompanhamento das ordens -->
+        <aside>
+            <header>
+                <h2>Importante</h2>
+            </header>
+
+            <p>
+                Mantenha o status das ordens de serviço atualizado
+                para facilitar o acompanhamento das atividades
+                de manutenção.
+            </p>
+        </aside>
+
+    </main>
+
+
+    <footer>
+        <p>
+            DM-SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+    </footer>
+
+</body>
+</html>
