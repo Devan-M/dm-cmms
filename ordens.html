@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>DM-SGM - Ordens de Serviço</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
@@ -142,12 +146,7 @@
                             Buscar por código ou equipamento:
                         </label>
 
-                        <input
-                            type="search"
-                            id="busca"
-                            name="busca"
-                            placeholder="Ex.: OS-001 ou Compressor"
-                        >
+                        <input type="search" id="busca" name="busca" placeholder="Ex.: OS-001 ou Compressor">
                     </p>
 
 
@@ -424,13 +423,7 @@
                             Código da ordem:
                         </label>
 
-                        <input
-                            type="text"
-                            id="codigo-os"
-                            name="codigo-os"
-                            placeholder="Ex.: OS-007"
-                            required
-                        >
+                        <input type="text" id="codigo-os" name="codigo-os" placeholder="Ex.: OS-007" required>
                     </p>
 
 
@@ -439,11 +432,7 @@
                             Equipamento:
                         </label>
 
-                        <select
-                            id="equipamento"
-                            name="equipamento"
-                            required
-                        >
+                        <select id="equipamento" name="equipamento" required>
                             <option value="">
                                 Selecione o equipamento
                             </option>
@@ -487,11 +476,7 @@
                             Tipo de manutenção:
                         </label>
 
-                        <select
-                            id="tipo-manutencao"
-                            name="tipo-manutencao"
-                            required
-                        >
+                        <select id="tipo-manutencao" name="tipo-manutencao" required>
                             <option value="">
                                 Selecione o tipo
                             </option>
@@ -520,11 +505,7 @@
                             Prioridade:
                         </label>
 
-                        <select
-                            id="prioridade-os"
-                            name="prioridade-os"
-                            required
-                        >
+                        <select id="prioridade-os" name="prioridade-os" required>
                             <option value="">
                                 Selecione a prioridade
                             </option>
@@ -553,11 +534,7 @@
                             Status:
                         </label>
 
-                        <select
-                            id="status-os"
-                            name="status-os"
-                            required
-                        >
+                        <select id="status-os" name="status-os" required>
                             <option value="">
                                 Selecione o status
                             </option>
@@ -595,14 +572,9 @@
                     </p>
 
                     <p>
-                        <textarea
-                            id="descricao"
-                            name="descricao"
-                            rows="6"
-                            cols="50"
+                        <textarea id="descricao" name="descricao" rows="6" cols="50"
                             placeholder="Descreva o problema identificado ou o serviço que deverá ser realizado."
-                            required
-                        ></textarea>
+                            required></textarea>
                     </p>
 
 
@@ -613,13 +585,8 @@
                     </p>
 
                     <p>
-                        <textarea
-                            id="observacoes"
-                            name="observacoes"
-                            rows="5"
-                            cols="50"
-                            placeholder="Informe outras informações relevantes para a execução do serviço."
-                        ></textarea>
+                        <textarea id="observacoes" name="observacoes" rows="5" cols="50"
+                            placeholder="Informe outras informações relevantes para a execução do serviço."></textarea>
                     </p>
 
                 </fieldset>
@@ -635,11 +602,7 @@
                             Responsável:
                         </label>
 
-                        <select
-                            id="responsavel"
-                            name="responsavel"
-                            required
-                        >
+                        <select id="responsavel" name="responsavel" required>
                             <option value="">
                                 Selecione o responsável
                             </option>
@@ -668,12 +631,7 @@
                             Data de abertura:
                         </label>
 
-                        <input
-                            type="date"
-                            id="data-abertura"
-                            name="data-abertura"
-                            required
-                        >
+                        <input type="date" id="data-abertura" name="data-abertura" required>
                     </p>
 
 
@@ -682,12 +640,7 @@
                             Data prevista para execução:
                         </label>
 
-                        <input
-                            type="date"
-                            id="data-prevista"
-                            name="data-prevista"
-                            required
-                        >
+                        <input type="date" id="data-prevista" name="data-prevista" required>
                     </p>
 
                 </fieldset>
@@ -741,4 +694,5 @@
     </footer>
 
 </body>
+
 </html>
