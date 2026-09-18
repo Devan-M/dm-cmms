@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DM-SGM - Manutenções</title>
+</head>
+
+<body>
+
+    <!-- Cabeçalho do sistema com branding e navegação principal -->
+    <header>
+        <h1>DM-SGM</h1>
+
+        <p>Sistema de Gerenciamento de Manutenção</p>
+
+        <nav aria-label="Navegação principal">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="equipamentos.html">
+                        Equipamentos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="ordens.html">
+                        Ordens de Serviço
+                    </a>
+                </li>
+
+                <li>
+                    <a href="manutencoes.html" aria-current="page">
+                        Manutenções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="usuarios.html">
+                        Usuários
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Conteúdo principal da área de gerenciamento das manutenções -->
+    <main>
+
+        <!-- Seção inicial com apresentação da página -->
+        <section>
+            <header>
+                <h2>Manutenções</h2>
+
+                <p>
+                    Planejamento, acompanhamento e histórico das
+                    manutenções realizadas nos equipamentos.
+                </p>
+            </header>
+        </section>
+
+
+        <!-- Resumo dos principais indicadores de manutenção -->
+        <section>
+            <header>
+                <h2>Resumo das manutenções</h2>
+            </header>
+
+            <article>
+                <header>
+                    <h3>Total de manutenções</h3>
+                </header>
+
+                <p>
+                    <strong>32</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Programadas</h3>
+                </header>
+
+                <p>
+                    <strong>12</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Em andamento</h3>
+                </header>
+
+                <p>
+                    <strong>5</strong>
+                </p>
+            </article>
+
+
+            <article>
+                <header>
+                    <h3>Concluídas</h3>
+                </header>
+
+                <p>
+                    <strong>15</strong>
+                </p>
+            </article>
+        </section>
+
+
+        <!-- Filtros para consulta das manutenções -->
+        <section>
+
+            <header>
+                <h2>Consultar manutenções</h2>
+
+                <p>
+                    Utilize os filtros para localizar manutenções
+                    específicas no sistema.
+                </p>
+            </header>
+
+
+            <!-- Formulário de pesquisa e filtragem -->
+            <form action="#" method="get">
+
+                <fieldset>
+                    <legend>Filtros de pesquisa</legend>
+
+                    <p>
+                        <label for="busca">
+                            Buscar por equipamento ou código:
+                        </label>
+
+                        <input
+                            type="search"
+                            id="busca"
+                            name="busca"
+                            placeholder="Ex.: EQ-001 ou Compressor"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="tipo">
+                            Tipo de manutenção:
+                        </label>
+
+                        <select id="tipo" name="tipo">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="preventiva">
+                                Preventiva
+                            </option>
+
+                            <option value="corretiva">
+                                Corretiva
+                            </option>
+
+                            <option value="preditiva">
+                                Preditiva
+                            </option>
+
+                            <option value="emergencial">
+                                Emergencial
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="status">
+                            Status:
+                        </label>
+
+                        <select id="status" name="status">
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="programada">
+                                Programada
+                            </option>
+
+                            <option value="andamento">
+                                Em andamento
+                            </option>
+
+                            <option value="concluida">
+                                Concluída
+                            </option>
+
+                            <option value="atrasada">
+                                Atrasada
+                            </option>
+
+                            <option value="cancelada">
+                                Cancelada
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="periodo-inicial">
+                            Período inicial:
+                        </label>
+
+                        <input
+                            type="date"
+                            id="periodo-inicial"
+                            name="periodo-inicial"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="periodo-final">
+                            Período final:
+                        </label>
+
+                        <input
+                            type="date"
+                            id="periodo-final"
+                            name="periodo-final"
+                        >
+                    </p>
+
+
+                    <button type="submit">
+                        Pesquisar
+                    </button>
+
+                    <button type="reset">
+                        Limpar
+                    </button>
+                </fieldset>
+
+            </form>
+
+        </section>
+
+
+        <!-- Listagem das manutenções programadas e realizadas -->
+        <section>
+
+            <header>
+                <h2>Lista de manutenções</h2>
+
+                <p>
+                    Manutenções programadas, em andamento e
+                    concluídas.
+                </p>
+            </header>
+
+
+            <!-- Tabela de acompanhamento das manutenções -->
+            <table>
+
+                <caption>
+                    Registro das manutenções do sistema
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Data prevista</th>
+                        <th scope="col">Responsável</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>MAN-001</td>
+                        <td>Compressor Industrial</td>
+                        <td>Preventiva</td>
+                        <td>
+                            <time datetime="2026-09-18">
+                                18/09/2026
+                            </time>
+                        </td>
+                        <td>Carlos Silva</td>
+                        <td>Programada</td>
+                        <td>
+                            <a href="#manutencao-001">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>MAN-002</td>
+                        <td>Gerador Diesel</td>
+                        <td>Preventiva</td>
+                        <td>
+                            <time datetime="2026-09-20">
+                                20/09/2026
+                            </time>
+                        </td>
+                        <td>João Santos</td>
+                        <td>Programada</td>
+                        <td>
+                            <a href="#manutencao-002">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>MAN-003</td>
+                        <td>Motor Trifásico</td>
+                        <td>Preventiva</td>
+                        <td>
+                            <time datetime="2026-09-23">
+                                23/09/2026
+                            </time>
+                        </td>
+                        <td>Marcos Lima</td>
+                        <td>Concluída</td>
+                        <td>
+                            <a href="#manutencao-003">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>MAN-004</td>
+                        <td>Bomba Hidráulica</td>
+                        <td>Corretiva</td>
+                        <td>
+                            <time datetime="2026-09-17">
+                                17/09/2026
+                            </time>
+                        </td>
+                        <td>Rafael Oliveira</td>
+                        <td>Em andamento</td>
+                        <td>
+                            <a href="#manutencao-004">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>MAN-005</td>
+                        <td>Painel Elétrico</td>
+                        <td>Preventiva</td>
+                        <td>
+                            <time datetime="2026-09-25">
+                                25/09/2026
+                            </time>
+                        </td>
+                        <td>Carlos Silva</td>
+                        <td>Programada</td>
+                        <td>
+                            <a href="#manutencao-005">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>MAN-006</td>
+                        <td>Caldeira</td>
+                        <td>Preditiva</td>
+                        <td>
+                            <time datetime="2026-09-12">
+                                12/09/2026
+                            </time>
+                        </td>
+                        <td>Marcos Lima</td>
+                        <td>Concluída</td>
+                        <td>
+                            <a href="#manutencao-006">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>MAN-007</td>
+                        <td>Compressor Industrial</td>
+                        <td>Corretiva</td>
+                        <td>
+                            <time datetime="2026-09-10">
+                                10/09/2026
+                            </time>
+                        </td>
+                        <td>João Santos</td>
+                        <td>Atrasada</td>
+                        <td>
+                            <a href="#manutencao-007">
+                                Visualizar
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Cadastro de uma nova manutenção -->
+        <section>
+
+            <header>
+                <h2>Programar manutenção</h2>
+
+                <p>
+                    Registre uma nova manutenção preventiva,
+                    corretiva, preditiva ou emergencial.
+                </p>
+            </header>
+
+
+            <!-- Formulário para programação da manutenção -->
+            <form action="#" method="post">
+
+                <!-- Identificação da manutenção -->
+                <fieldset>
+
+                    <legend>Identificação</legend>
+
+                    <p>
+                        <label for="codigo-manutencao">
+                            Código da manutenção:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="codigo-manutencao"
+                            name="codigo-manutencao"
+                            placeholder="Ex.: MAN-008"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="equipamento-manutencao">
+                            Equipamento:
+                        </label>
+
+                        <select
+                            id="equipamento-manutencao"
+                            name="equipamento-manutencao"
+                            required
+                        >
+                            <option value="">
+                                Selecione o equipamento
+                            </option>
+
+                            <option value="eq-001">
+                                EQ-001 - Compressor Industrial
+                            </option>
+
+                            <option value="eq-002">
+                                EQ-002 - Gerador Diesel
+                            </option>
+
+                            <option value="eq-003">
+                                EQ-003 - Motor Trifásico
+                            </option>
+
+                            <option value="eq-004">
+                                EQ-004 - Bomba Hidráulica
+                            </option>
+
+                            <option value="eq-005">
+                                EQ-005 - Painel Elétrico
+                            </option>
+
+                            <option value="eq-006">
+                                EQ-006 - Caldeira
+                            </option>
+                        </select>
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Classificação e situação da manutenção -->
+                <fieldset>
+
+                    <legend>Classificação</legend>
+
+                    <p>
+                        <label for="tipo-manutencao">
+                            Tipo de manutenção:
+                        </label>
+
+                        <select
+                            id="tipo-manutencao"
+                            name="tipo-manutencao"
+                            required
+                        >
+                            <option value="">
+                                Selecione o tipo
+                            </option>
+
+                            <option value="preventiva">
+                                Preventiva
+                            </option>
+
+                            <option value="corretiva">
+                                Corretiva
+                            </option>
+
+                            <option value="preditiva">
+                                Preditiva
+                            </option>
+
+                            <option value="emergencial">
+                                Emergencial
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="status-manutencao">
+                            Status:
+                        </label>
+
+                        <select
+                            id="status-manutencao"
+                            name="status-manutencao"
+                            required
+                        >
+                            <option value="">
+                                Selecione o status
+                            </option>
+
+                            <option value="programada">
+                                Programada
+                            </option>
+
+                            <option value="andamento">
+                                Em andamento
+                            </option>
+
+                            <option value="concluida">
+                                Concluída
+                            </option>
+
+                            <option value="atrasada">
+                                Atrasada
+                            </option>
+
+                            <option value="cancelada">
+                                Cancelada
+                            </option>
+                        </select>
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Planejamento da execução da manutenção -->
+                <fieldset>
+
+                    <legend>Planejamento</legend>
+
+                    <p>
+                        <label for="responsavel-manutencao">
+                            Responsável:
+                        </label>
+
+                        <select
+                            id="responsavel-manutencao"
+                            name="responsavel-manutencao"
+                            required
+                        >
+                            <option value="">
+                                Selecione o responsável
+                            </option>
+
+                            <option value="carlos-silva">
+                                Carlos Silva
+                            </option>
+
+                            <option value="joao-santos">
+                                João Santos
+                            </option>
+
+                            <option value="marcos-lima">
+                                Marcos Lima
+                            </option>
+
+                            <option value="rafael-oliveira">
+                                Rafael Oliveira
+                            </option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="data-programada">
+                            Data programada:
+                        </label>
+
+                        <input
+                            type="date"
+                            id="data-programada"
+                            name="data-programada"
+                            required
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="hora-programada">
+                            Horário previsto:
+                        </label>
+
+                        <input
+                            type="time"
+                            id="hora-programada"
+                            name="hora-programada"
+                        >
+                    </p>
+
+
+                    <p>
+                        <label for="duracao">
+                            Duração estimada em horas:
+                        </label>
+
+                        <input
+                            type="number"
+                            id="duracao"
+                            name="duracao"
+                            min="1"
+                            step="0.5"
+                            placeholder="Ex.: 4"
+                        >
+                    </p>
+
+                </fieldset>
+
+
+                <!-- Descrição das atividades que deverão ser realizadas -->
+                <fieldset>
+
+                    <legend>Atividades</legend>
+
+                    <p>
+                        <label for="descricao-atividades">
+                            Descrição das atividades:
+                        </label>
+                    </p>
+
+                    <p>
+                        <textarea
+                            id="descricao-atividades"
+                            name="descricao-atividades"
+                            rows="6"
+                            cols="50"
+                            placeholder="Descreva as atividades que deverão ser realizadas durante a manutenção."
+                            required
+                        ></textarea>
+                    </p>
+
+
+                    <p>
+                        <label for="materiais">
+                            Materiais ou peças necessárias:
+                        </label>
+                    </p>
+
+                    <p>
+                        <textarea
+                            id="materiais"
+                            name="materiais"
+                            rows="5"
+                            cols="50"
+                            placeholder="Informe os materiais, peças ou componentes necessários para a manutenção."
+                        ></textarea>
+                    </p>
+
+                </fieldset>
+
+
+                <p>
+                    <button type="submit">
+                        Programar manutenção
+                    </button>
+
+                    <button type="reset">
+                        Limpar formulário
+                    </button>
+                </p>
+
+            </form>
+
+        </section>
+
+
+        <!-- Histórico resumido das últimas manutenções concluídas -->
+        <section>
+
+            <header>
+                <h2>Histórico recente</h2>
+
+                <p>
+                    Últimas manutenções concluídas no sistema.
+                </p>
+            </header>
+
+
+            <table>
+
+                <caption>
+                    Histórico das manutenções concluídas
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Data de conclusão</th>
+                        <th scope="col">Responsável</th>
+                        <th scope="col">Resultado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Motor Trifásico</td>
+                        <td>Preventiva</td>
+                        <td>
+                            <time datetime="2026-09-16">
+                                16/09/2026
+                            </time>
+                        </td>
+                        <td>Marcos Lima</td>
+                        <td>Concluída sem ocorrências</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Caldeira</td>
+                        <td>Preditiva</td>
+                        <td>
+                            <time datetime="2026-09-12">
+                                12/09/2026
+                            </time>
+                        </td>
+                        <td>Marcos Lima</td>
+                        <td>Equipamento aprovado</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Painel Elétrico</td>
+                        <td>Preventiva</td>
+                        <td>
+                            <time datetime="2026-09-08">
+                                08/09/2026
+                            </time>
+                        </td>
+                        <td>Carlos Silva</td>
+                        <td>Concluída sem ocorrências</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Gerador Diesel</td>
+                        <td>Corretiva</td>
+                        <td>
+                            <time datetime="2026-09-05">
+                                05/09/2026
+                            </time>
+                        </td>
+                        <td>João Santos</td>
+                        <td>Peça substituída</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Orientação relacionada ao planejamento das manutenções -->
+        <aside>
+            <header>
+                <h2>Importante</h2>
+            </header>
+
+            <p>
+                O planejamento das manutenções preventivas ajuda
+                a reduzir falhas inesperadas e permite organizar
+                os recursos necessários para a execução dos serviços.
+            </p>
+        </aside>
+
+    </main>
+
+
+    <footer>
+        <p>
+            DM-SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+    </footer>
+
+</body>
+</html>
