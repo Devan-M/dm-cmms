@@ -1,7 +1,10 @@
 # DM-CMMS
 
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
-![Licença](https://img.shields.io/badge/licença-a%20definir-lightgrey)
+[![Licença](https://img.shields.io/badge/licença-free%20até%20o%20momento-brightgreen)](#licença)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Devan%20M.-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devan-m/)
+
 Sistema de **Computerized Maintenance Management System (CMMS)** para centralizar o planejamento, o acompanhamento e o histórico das atividades de manutenção.
 
 ## Visão geral
@@ -65,8 +68,8 @@ A estrutura pode ser consultada diretamente no repositório. Recomenda-se manter
 
 ## Licença
 
-A licença do projeto ainda não está informada. Defina-a neste arquivo e adicione o respectivo arquivo de licença quando a decisão for tomada.
+A licença do projeto está em desenvolvimento. Até o momento, o projeto é gratuito para uso.
 
 ## Contato
 
-Para dúvidas, sugestões ou relatos de problemas, abra uma issue no repositório.
+Para dúvidas, sugestões ou relatos de problemas, abra uma issue no repositório ou entre em contato pelo [LinkedIn](https://www.linkedin.com/in/devan-m/).
