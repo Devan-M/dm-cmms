@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico - SGM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- BARRA LATERAL (SIDEBAR) -->
+    <header>
+        <h1>SGM</h1>
+        <p>Gestão de Manutenção</p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="equipamentos.html">Equipamentos</a></li>
+                <li><a href="ordens-servico.html">Ordens de Serviço</a></li>
+                <li><a href="manutencoes.html">Manutenções</a></li>
+                <li><a href="historico.html" aria-current="page">Histórico</a></li>
+                <li><a href="relatorios.html">Relatórios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main>
+        <section class="main-header">
+            <div>
+                <h2>Histórico de Intervenções</h2>
+                <p>Auditoria e consulta de serviços finalizados</p>
+            </div>
+        </section>
+
+        <section class="card-painel">
+            <div class="filtros-bar">
+                <input type="text" class="input-search" placeholder="Pesquisar registro no histórico...">
+            </div>
+
+            <table class="tabela-dados">
+                <thead>
+                    <tr>
+                        <th>Concluído em</th>
+                        <th>OS / Código</th>
+                        <th>Equipamento</th>
+                        <th>Tipo de Intervenção</th>
+                        <th>Técnico</th>
+                        <th>Custo total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>20/09/2026 - 16:00</td>
+                        <td><strong>#1040</strong></td>
+                        <td>Ponte Rolante - PR01</td>
+                        <td>Preventiva</td>
+                        <td>Marcos Souza</td>
+                        <td>R$ 450,00</td>
+                    </tr>
+                    <tr>
+                        <td>18/09/2026 - 11:30</td>
+                        <td><strong>#1038</strong></td>
+                        <td>Torno CNC - T01</td>
+                        <td>Corretiva (Troca de Rolamento)</td>
+                        <td>Carlos Silva</td>
+                        <td>R$ 1.200,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>

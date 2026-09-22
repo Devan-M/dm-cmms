@@ -1,1013 +1,561 @@
 /* =========================================================
-   VARIÁVEIS DO SISTEMA
+   VARIÁVEIS DE DESIGN E CORES
    ========================================================= */
 
 :root {
-    --cor-primaria: #2563eb;
-    --cor-primaria-hover: #1d4ed8;
-    --cor-primaria-clara: #eff6ff;
+    /* Cores Globais */
+    --bg-app: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0f172a;
+    --bg-sidebar-active: #2563eb;
 
-    --cor-acao: #2563eb;
-    --cor-acao-hover: #1d4ed8;
+    /* Textos */
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --text-sidebar: #94a3b8;
 
-    --cor-fundo: #f8fafc;
-    --cor-fundo-card: #ffffff;
-    --cor-fundo-hover: #f1f5f9;
+    /* Bordas e Sombras */
+    --border-color: #e2e8f0;
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --radius-card: 10px;
 
-    --cor-texto: #334155;
-    --cor-texto-principal: #0f172a;
-    --cor-texto-secundario: #64748b;
-    --cor-texto-terciario: #475569;
+    /* Cores dos Status */
+    --badge-agendada-bg: #dcfce7;
+    --badge-agendada-text: #166534;
+    --badge-pendente-bg: #fef3c7;
+    --badge-pendente-text: #92400e;
 
-    --cor-borda: #e2e8f0;
-    --cor-borda-forte: #cbd5e1;
-
-    --cor-sucesso: #16a34a;
-    --cor-sucesso-clara: #f0fdf4;
-
-    --cor-alerta: #d97706;
-    --cor-alerta-clara: #fffbeb;
-
-    --cor-perigo: #dc2626;
-    --cor-perigo-clara: #fef2f2;
-
-    --cor-info: #2563eb;
-    --cor-info-clara: #eff6ff;
-
-    --sombra-pequena:
-        0 1px 3px rgba(15, 23, 42, 0.05);
-
-    --sombra-media:
-        0 4px 12px rgba(15, 23, 42, 0.06);
-
-    --sombra-card:
-        0 1px 2px rgba(15, 23, 42, 0.04),
-        0 4px 12px rgba(15, 23, 42, 0.04);
-
-    --raio-pequeno: 6px;
-    --raio-medio: 10px;
-    --raio-grande: 14px;
+    /* Cores dos Ícones dos Cards */
+    --card-eq-bg: #eff6ff;
+    --card-eq-icon: #3b82f6;
+    --card-os-bg: #fef2f2;
+    --card-os-icon: #ef4444;
+    --card-mt-bg: #fefce8;
+    --card-mt-icon: #eab308;
+    --card-pv-bg: #f0fdf4;
+    --card-pv-icon: #22c55e;
 }
 
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
+/* RESET INICIAL */
 * {
     box-sizing: border-box;
-}
-
-html {
-    font-size: 16px;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-    line-height: 1.5;
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-main);
 }
-
 
 /* =========================================================
-   ELEMENTOS GERAIS
+   1. SIDEBAR LATERAL FIXA
    ========================================================= */
 
-h1,
-h2,
-h3,
-h4,
-p {
-    margin-top: 0;
+body>header {
+    width: 240px;
+    background-color: var(--bg-sidebar);
+    color: var(--text-sidebar);
+    padding: 1.5rem 1rem;
+    position: fixed;
+    height: 100vh;
+    box-sizing: border-box;
 }
 
-h2,
-h3 {
-    color: var(--cor-texto-principal);
-}
-
-p {
-    margin-bottom: 1rem;
-}
-
-a {
-    color: var(--cor-primaria);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-button,
-input,
-select,
-textarea {
-    font: inherit;
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-body > header {
-    padding: 1.5rem 2.5rem 0;
-
-    background-color: var(--cor-fundo-card);
-    border-bottom: 1px solid var(--cor-borda);
-}
-
-
-/* =========================================================
-   IDENTIDADE DO SISTEMA
-   ========================================================= */
-
-body > header h1 {
-    margin-bottom: 0.2rem;
-
-    color: var(--cor-texto-principal);
-
-    font-size: 1.6rem;
+body>header h1 {
+    color: #ffffff;
+    font-size: 1.25rem;
     font-weight: 700;
-    letter-spacing: -0.025em;
 }
 
-body > header > p {
-    margin-bottom: 1.5rem;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.875rem;
-}
-
-
-/* =========================================================
-   NAVEGAÇÃO
-   ========================================================= */
-
-nav {
-    border-top: 1px solid var(--cor-borda);
+body>header>p {
+    font-size: 0.75rem;
+    color: var(--text-sidebar);
+    margin-bottom: 2rem;
 }
 
 nav ul {
     display: flex;
-    align-items: center;
-    gap: 0.25rem;
-
-    margin: 0;
-    padding: 0;
-
+    flex-direction: column;
+    gap: 0.4rem;
     list-style: none;
 }
 
 nav a {
-    position: relative;
-
-    display: block;
-
-    padding: 0.875rem 1rem;
-
-    border-radius:
-        var(--raio-pequeno)
-        var(--raio-pequeno)
-        0
-        0;
-
-    color: var(--cor-texto-secundario);
-
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    color: var(--text-sidebar);
+    text-decoration: none;
     font-size: 0.875rem;
-    font-weight: 600;
-
-    transition:
-        color 0.2s ease,
-        background-color 0.2s ease;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
 nav a:hover {
-    color: var(--cor-primaria);
-    background-color: var(--cor-primaria-clara);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
 }
 
 nav a[aria-current="page"] {
-    color: var(--cor-primaria);
-    background-color: var(--cor-primaria-clara);
+    background-color: var(--bg-sidebar-active);
+    color: #ffffff;
 }
-
-nav a[aria-current="page"]::after {
-    content: "";
-
-    position: absolute;
-
-    right: 0.75rem;
-    bottom: 0;
-    left: 0.75rem;
-
-    height: 2px;
-
-    border-radius: 2px 2px 0 0;
-
-    background-color: var(--cor-primaria);
-}
-
 
 /* =========================================================
-   CONTEÚDO PRINCIPAL
+   2. ÁREA PRINCIPAL DE CONTEÚDO (MAIN)
    ========================================================= */
 
 main {
-    width: min(1400px, calc(100% - 5rem));
-
-    margin: 0 auto;
-
-    padding: 2rem 0 3rem;
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
-main > section,
-main > article,
-main > aside {
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
 }
 
-
-/* =========================================================
-   CABEÇALHO DAS SEÇÕES PRINCIPAIS
-   ========================================================= */
-
-main > section:first-child {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2rem;
-}
-
-main > section:first-child > header {
-    padding: 0;
-
-    background-color: transparent;
-    border: 0;
-}
-
-main > section:first-child h2 {
-    margin-bottom: 0.25rem;
-
-    color: var(--cor-texto-principal);
-
+.main-header h2 {
     font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
 }
 
-main > section:first-child header p {
-    margin: 0;
-
-    color: var(--cor-texto-secundario);
-
+.main-header p {
+    color: var(--text-secondary);
     font-size: 0.875rem;
 }
 
-
 /* =========================================================
-   INFORMAÇÕES DA DATA
-   ========================================================= */
-
-main > section:first-child > aside {
-    flex-shrink: 0;
-
-    padding: 0.75rem 1rem;
-
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-medio);
-
-    background-color: var(--cor-fundo-card);
-
-    box-shadow: var(--sombra-pequena);
-
-    text-align: right;
-}
-
-main > section:first-child > aside p {
-    margin-bottom: 0.15rem;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.75rem;
-}
-
-main > section:first-child > aside p:last-child {
-    margin-bottom: 0;
-
-    color: var(--cor-texto-terciario);
-
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   INDICADORES DO DASHBOARD
-   ========================================================= */
-
-.indicadores {
-    margin-bottom: 2rem;
-}
-
-.indicadores > header {
-    margin-bottom: 1rem;
-    padding: 0;
-
-    background-color: transparent;
-    border: 0;
-}
-
-.indicadores > header h2 {
-    margin-bottom: 0.25rem;
-
-    color: var(--cor-texto-principal);
-
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.indicadores > header p {
-    margin: 0;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.8rem;
-}
-
-
-/* =========================================================
-   GRID DOS INDICADORES
+   3. CARDS DE INDICADORES (GRID DE 4 COLUNAS)
    ========================================================= */
 
 .indicadores-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+    margin-bottom: 1.5rem;
 }
-
-
-/* =========================================================
-   CARD DOS INDICADORES
-   ========================================================= */
 
 .indicador-card {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    min-height: 150px;
-
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
     padding: 1.25rem;
-
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-grande);
-
-    background-color: var(--cor-fundo-card);
-
-    box-shadow: var(--sombra-card);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.indicador-card:hover {
-    transform: translateY(-2px);
-
-    border-color: var(--cor-borda-forte);
-
-    box-shadow: var(--sombra-media);
-}
-
-.indicador-conteudo {
-    min-width: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: var(--shadow-card);
 }
 
 .indicador-label {
-    margin-bottom: 0.65rem;
-
-    color: var(--cor-texto-secundario);
-
     font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.35;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .indicador-valor {
-    display: block;
-
-    margin-bottom: 0.4rem;
-
-    color: var(--cor-texto-principal);
-
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    line-height: 1;
-
-    letter-spacing: -0.03em;
+    margin: 0.2rem 0;
 }
 
 .indicador-descricao {
-    margin: 0;
-
-    color: var(--cor-texto-secundario);
-
     font-size: 0.75rem;
+    color: var(--text-muted);
 }
 
 .indicador-icone {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    flex-shrink: 0;
-
-    width: 42px;
-    height: 42px;
-
-    border-radius: var(--raio-medio);
-
-    background-color: var(--cor-primaria-clara);
-    color: var(--cor-primaria);
-
-    font-size: 0.7rem;
     font-weight: 700;
+    font-size: 0.75rem;
 }
 
+.indicador-icone.eq {
+    background-color: var(--card-eq-bg);
+    color: var(--card-eq-icon);
+}
+
+.indicador-icone.os {
+    background-color: var(--card-os-bg);
+    color: var(--card-os-icon);
+}
+
+.indicador-icone.mt {
+    background-color: var(--card-mt-bg);
+    color: var(--card-mt-icon);
+}
+
+.indicador-icone.pv {
+    background-color: var(--card-pv-bg);
+    color: var(--card-pv-icon);
+}
 
 /* =========================================================
-   PRÓXIMAS MANUTENÇÕES
+   4. LAYOUT EM 2 COLUNAS (GRID DO DASHBOARD)
    ========================================================= */
 
-.proximas-manutencoes {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-grande);
-
-    background-color: var(--cor-fundo-card);
-
-    box-shadow: var(--sombra-card);
+.dashboard-grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* Coluna esquerda maior que a direita */
+    gap: 1.5rem;
 }
 
-.proximas-manutencoes > header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-
-    margin-bottom: 1.25rem;
-    padding: 0;
-
-    background-color: transparent;
-    border: 0;
+/* Estilo comum dos painéis/cards */
+.proximas-manutencoes,
+.dica-manutencao,
+.ultimas-atividades,
+.distribuicao-manutencoes {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1.5rem;
 }
 
-.proximas-manutencoes > header h2 {
-    margin-bottom: 0.25rem;
-
-    color: var(--cor-texto-principal);
-
+.proximas-manutencoes h3,
+.ultimas-atividades h3,
+.distribuicao-manutencoes h3 {
     font-size: 1rem;
     font-weight: 600;
+    margin-bottom: 1rem;
 }
 
-.proximas-manutencoes > header p {
-    margin: 0;
-}
-
-.proximas-manutencoes > header a {
-    color: var(--cor-primaria);
-
-    font-size: 0.8rem;
-    font-weight: 600;
-
-    transition: color 0.2s ease;
-}
-
-.proximas-manutencoes > header a:hover {
-    color: var(--cor-primaria-hover);
-}
-
-
-/* =========================================================
-   TABELA
-   ========================================================= */
-
+/* --- TABELA DA COLUNA PRINCIPAL --- */
 .proximas-manutencoes table {
     width: 100%;
-
     border-collapse: collapse;
-
-    font-size: 0.875rem;
-}
-
-.proximas-manutencoes caption {
-    margin-bottom: 1rem;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.8rem;
-    text-align: left;
-}
-
-.proximas-manutencoes thead {
-    background-color: var(--cor-fundo);
 }
 
 .proximas-manutencoes th {
-    padding: 0.75rem 1rem;
-
-    border-bottom: 1px solid var(--cor-borda);
-
-    color: var(--cor-texto-secundario);
-
+    color: var(--text-muted);
     font-size: 0.75rem;
+    text-transform: uppercase;
     font-weight: 600;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--border-color);
     text-align: left;
-
-    white-space: nowrap;
 }
 
 .proximas-manutencoes td {
-    padding: 0.9rem 1rem;
-
-    border-bottom: 1px solid var(--cor-borda);
-
-    color: var(--cor-texto);
-
-    vertical-align: middle;
-}
-
-.proximas-manutencoes tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-.proximas-manutencoes tbody tr {
-    transition: background-color 0.2s ease;
-}
-
-.proximas-manutencoes tbody tr:hover {
-    background-color: var(--cor-fundo-hover);
-}
-
-.proximas-manutencoes td:nth-child(2) {
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.proximas-manutencoes time {
-    color: var(--cor-texto);
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-.status {
-    display: inline-flex;
-    align-items: center;
-
-    padding: 0.3rem 0.65rem;
-
-    border-radius: 999px;
-
-    font-size: 0.7rem;
-    font-weight: 600;
-    line-height: 1;
-
-    white-space: nowrap;
-}
-
-.status-agendada {
-    background-color: var(--cor-info-clara);
-    color: var(--cor-info);
-}
-
-.status-pendente {
-    background-color: var(--cor-alerta-clara);
-    color: var(--cor-alerta);
-}
-
-
-/* =========================================================
-   ÚLTIMAS ATIVIDADES
-   ========================================================= */
-
-.ultimas-atividades {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-grande);
-
-    background-color: var(--cor-fundo-card);
-
-    box-shadow: var(--sombra-card);
-}
-
-.ultimas-atividades > header {
-    margin-bottom: 1.25rem;
-    padding: 0;
-
-    background-color: transparent;
-    border: 0;
-}
-
-.ultimas-atividades > header h2 {
-    margin: 0;
-
-    color: var(--cor-texto-principal);
-
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   ATIVIDADES
-   ========================================================= */
-
-.atividade {
-    position: relative;
-
-    padding: 1rem 0 1rem 1.25rem;
-
-    border-left: 2px solid var(--cor-borda);
-
-    transition: background-color 0.2s ease;
-}
-
-.atividade:first-of-type {
-    padding-top: 0;
-}
-
-.atividade:last-child {
-    padding-bottom: 0;
-}
-
-.atividade::before {
-    content: "";
-
-    position: absolute;
-
-    top: 1.3rem;
-    left: -5px;
-
-    width: 8px;
-    height: 8px;
-
-    border-radius: 50%;
-
-    background-color: var(--cor-primaria);
-}
-
-.atividade:first-of-type::before {
-    top: 0.3rem;
-}
-
-.atividade h3 {
-    margin-bottom: 0.3rem;
-
-    color: var(--cor-texto-principal);
-
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.atividade p {
-    margin-bottom: 0.35rem;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.8rem;
-}
-
-.atividade time {
-    color: var(--cor-texto-terciario);
-
-    font-size: 0.75rem;
-}
-
-.atividade:hover {
-    background-color: var(--cor-fundo-hover);
-}
-
-
-/* =========================================================
-   DISTRIBUIÇÃO DAS MANUTENÇÕES
-   ========================================================= */
-
-.distribuicao-manutencoes {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-grande);
-
-    background-color: var(--cor-fundo-card);
-
-    box-shadow: var(--sombra-card);
-}
-
-.distribuicao-manutencoes > header {
-    margin-bottom: 1.5rem;
-    padding: 0;
-
-    background-color: transparent;
-    border: 0;
-}
-
-.distribuicao-manutencoes > header h2 {
-    margin-bottom: 0.25rem;
-
-    color: var(--cor-texto-principal);
-
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.distribuicao-manutencoes > header p {
-    margin: 0;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.8rem;
-}
-
-.distribuicao-manutencoes ul {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    margin: 0;
-    padding: 0;
-
-    list-style: none;
-}
-
-.distribuicao-manutencoes li {
-    width: 100%;
-}
-
-.distribuicao-info {
-    display: grid;
-
-    grid-template-columns: 1fr auto auto;
-
-    align-items: center;
-    gap: 1rem;
-
-    margin-bottom: 0.5rem;
-}
-
-.distribuicao-info span:first-child {
-    color: var(--cor-texto);
-
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.distribuicao-info strong {
-    color: var(--cor-texto-principal);
-
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.distribuicao-info span:last-child {
-    min-width: 2.5rem;
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.75rem;
-
-    text-align: right;
-}
-
-.distribuicao-barra {
-    width: 100%;
-    height: 8px;
-
-    overflow: hidden;
-
-    border-radius: 999px;
-
-    background-color: var(--cor-fundo-hover);
-}
-
-.distribuicao-progresso {
-    display: block;
-
-    height: 100%;
-
-    border-radius: inherit;
-
-    background-color: var(--cor-primaria);
-}
-
-.distribuicao-total {
-    margin: 1.5rem 0 0;
-    padding-top: 1rem;
-
-    border-top: 1px solid var(--cor-borda);
-
-    color: var(--cor-texto-secundario);
-
-    font-size: 0.8rem;
-}
-
-.distribuicao-total strong {
-    color: var(--cor-texto-principal);
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   DICA DE MANUTENÇÃO
-   ========================================================= */
-
-.dica-manutencao {
-    padding: 1.5rem;
-
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-grande);
-
-    background-color: var(--cor-primaria-clara);
-}
-
-.dica-manutencao > header {
-    margin-bottom: 0.75rem;
-    padding: 0;
-
-    background-color: transparent;
-    border: 0;
-}
-
-.dica-manutencao > header h2 {
-    margin-bottom: 0;
-
-    color: var(--cor-primaria);
-
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.dica-manutencao p {
-    margin-bottom: 0.5rem;
-
-    color: var(--cor-texto);
-
+    padding: 0.85rem 0.5rem;
+    border-bottom: 1px solid var(--border-color);
     font-size: 0.85rem;
 }
 
-.dica-manutencao p:last-child {
-    margin-bottom: 0;
-
-    color: var(--cor-texto-secundario);
+.proximas-manutencoes tr:last-child td {
+    border-bottom: none;
 }
 
-
-/* =========================================================
-   RODAPÉ
-   ========================================================= */
-
-footer {
-    padding: 1.5rem 2.5rem;
-
-    border-top: 1px solid var(--cor-borda);
-
-    background-color: var(--cor-fundo-card);
-
-    color: var(--cor-texto-secundario);
-
+/* Badges de Status (Pill Design) */
+.status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
     font-size: 0.75rem;
-    text-align: center;
-}
-
-footer p {
-    margin-bottom: 0.25rem;
-}
-
-footer p:last-child {
-    margin-bottom: 0;
-}
-
-footer a {
-    color: var(--cor-primaria);
-
     font-weight: 600;
 }
 
+.status-agendada {
+    background-color: var(--badge-agendada-bg);
+    color: var(--badge-agendada-text);
+}
+
+.status-pendente {
+    background-color: var(--badge-pendente-bg);
+    color: var(--badge-pendente-text);
+}
+
+/* Card Dica de Manutenção */
+.dica-manutencao {
+    background-color: #f0f9ff;
+    border-color: #bae6fd;
+}
+
+.dica-manutencao h4 {
+    color: #0369a1;
+    margin-bottom: 0.5rem;
+}
+
+.dica-manutencao p {
+    font-size: 0.85rem;
+    color: #0c4a6e;
+}
+
+/* --- COLUNA LATERAL (ATIVIDADES & GRÁFICO) --- */
+
+/* Lista de Atividades */
+.lista-atividades {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.lista-atividades li {
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.6rem;
+}
+
+.lista-atividades li:last-child {
+    border-bottom: none;
+}
+
+.lista-atividades span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Gráfico de Rosca CSS */
+.grafico-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.donut-chart {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    /* Simulação de fatias via Conic Gradient */
+    background: conic-gradient(#2563eb 0% 60%,
+            #ef4444 60% 85%,
+            #eab308 85% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.donut-hole {
+    width: 70px;
+    height: 70px;
+    background-color: var(--bg-card);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.legenda-grafico {
+    list-style: none;
+    width: 100%;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.legenda-grafico li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legenda-grafico span {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.cor-preventiva {
+    background-color: #2563eb;
+}
+
+.cor-corretiva {
+    background-color: #ef4444;
+}
+
+.cor-inspecao {
+    background-color: #eab308;
+}
 
 /* =========================================================
-   RESPONSIVIDADE — TABLET
+   5. RESPONSIVIDADE (DISPOSITIVOS MÓVEIS / TABLETS)
    ========================================================= */
 
-@media (max-width: 1100px) {
-
+@media (max-width: 1024px) {
     .indicadores-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid-layout {
+        grid-template-columns: 1fr;
+        /* Transforma as 2 colunas em uma única coluna */
     }
 }
 
+@media (max-width: 640px) {
+    body {
+        flex-direction: column;
+    }
 
-@media (max-width: 800px) {
-
-    body > header {
-        padding: 1.25rem 1rem 0;
+    body>header {
+        width: 100%;
+        height: auto;
+        position: relative;
     }
 
     main {
-        width: calc(100% - 2rem);
-
-        padding-top: 1.5rem;
-    }
-
-    nav ul {
-        flex-wrap: wrap;
-    }
-
-    .proximas-manutencoes {
-        overflow-x: auto;
-
-        padding: 1rem;
-    }
-
-    .proximas-manutencoes table {
-        min-width: 700px;
-    }
-
-    footer {
-        padding: 1.5rem 1rem;
-    }
-}
-
-
-/* =========================================================
-   RESPONSIVIDADE — MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    main > section:first-child {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    main > section:first-child > aside {
+        margin-left: 0;
         width: 100%;
-
-        text-align: left;
     }
 
     .indicadores-grid {
         grid-template-columns: 1fr;
     }
+}
 
-    .indicador-card {
-        min-height: auto;
-    }
+/* =========================================================
+   ESTILOS COMPLEMENTARES PARA AS DEMAIS PÁGINAS
+   ========================================================= */
 
-    .proximas-manutencoes > header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+/* Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
 
-    .ultimas-atividades {
-        padding: 1rem;
-    }
+.btn-primary {
+    background-color: var(--bg-sidebar-active);
+    color: #ffffff;
+}
 
-    .distribuicao-manutencoes {
-        padding: 1rem;
-    }
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
 
-    .distribuicao-info {
-        gap: 0.75rem;
-    }
+/* Painéis de Conteúdo e Tabelas Genéricas */
+.card-painel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1.5rem;
+}
+
+.tabela-dados {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.tabela-dados th {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.tabela-dados td {
+    padding: 0.85rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+/* Campos de Entrada e Filtros */
+.filtros-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.input-search,
+.select-filter,
+.textarea-custom {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: var(--font-main);
+    outline: none;
+    background-color: #fff;
+    color: var(--text-primary);
+}
+
+.input-search {
+    flex: 1;
+    min-width: 200px;
+}
+
+.textarea-custom {
+    width: 100%;
+    resize: vertical;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Badges e Tags Adicionais */
+.badge-criticidade {
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-criticidade.alta { background-color: #fee2e2; color: #991b1b; }
+.badge-criticidade.media { background-color: #fef3c7; color: #92400e; }
+.badge-criticidade.baixa { background-color: #f3f4f6; color: #374151; }
+
+.status-andamento { background-color: #e0f2fe; color: #075985; }
+
+.link-acao {
+    color: var(--bg-sidebar-active);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-acao:hover {
+    text-decoration: underline;
 }

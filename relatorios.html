@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - SGM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL (SIDEBAR) -->
+    <header>
+        <h1>SGM</h1>
+        <p>Gestão de Manutenção</p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="equipamentos.html">Equipamentos</a></li>
+                <li><a href="ordens-servico.html">Ordens de Serviço</a></li>
+                <li><a href="manutencoes.html">Manutenções</a></li>
+                <li><a href="historico.html">Histórico</a></li>
+                <li><a href="relatorios.html" aria-current="page">Relatórios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main>
+        <section class="main-header">
+            <div>
+                <h2>Relatórios e Indicadores</h2>
+                <p>Análise de KPIs operacionais (MTBF, MTTR e custos)</p>
+            </div>
+            <button class="btn btn-primary">Exportar Relatório (PDF)</button>
+        </section>
+
+        <!-- LAYOUT GRID -->
+        <div class="dashboard-grid-layout">
+            <div class="coluna-principal">
+                <section class="card-painel">
+                    <h3>Desempenho Geral do Mês</h3>
+                    <div style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        <p><strong>MTBF (Tempo Médio Entre Falhas):</strong> 142 Horas (+8%)</p>
+                        <p style="margin-top: 0.5rem;"><strong>MTTR (Tempo Médio para Reparo):</strong> 2.4 Horas (-12%)
+                        </p>
+                    </div>
+                </section>
+            </div>
+            <div class="coluna-lateral">
+                <section class="card-painel">
+                    <h3>Opções de Exportação</h3>
+                    <ul class="lista-atividades">
+                        <li>Relatório Mensal de Custos</li>
+                        <li>Análise da Criticidade dos Ativos</li>
+                        <li>Desempenho da Equipe Técnica</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
