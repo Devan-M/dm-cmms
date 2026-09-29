@@ -51,6 +51,11 @@ body {
     background-color: var(--bg-app);
     color: var(--text-primary);
     font-family: var(--font-main);
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }
 
 /* =========================================================
@@ -106,6 +111,14 @@ nav a:hover {
 nav a[aria-current="page"] {
     background-color: var(--bg-sidebar-active);
     color: #ffffff;
+}
+
+body>footer {
+    margin-left: 240px;
+    padding: 1.5rem 2rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
 }
 
 /* =========================================================
@@ -422,6 +435,10 @@ main {
         width: 100%;
     }
 
+    body>footer {
+        margin-left: 0;
+    }
+
     .indicadores-grid {
         grid-template-columns: 1fr;
     }
@@ -544,11 +561,25 @@ main {
     font-weight: 600;
 }
 
-.badge-criticidade.alta { background-color: #fee2e2; color: #991b1b; }
-.badge-criticidade.media { background-color: #fef3c7; color: #92400e; }
-.badge-criticidade.baixa { background-color: #f3f4f6; color: #374151; }
+.badge-criticidade.alta {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
 
-.status-andamento { background-color: #e0f2fe; color: #075985; }
+.badge-criticidade.media {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.badge-criticidade.baixa {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.status-andamento {
+    background-color: #e0f2fe;
+    color: #075985;
+}
 
 .link-acao {
     color: var(--bg-sidebar-active);
@@ -558,4 +589,59 @@ main {
 
 .link-acao:hover {
     text-decoration: underline;
+}
+
+/* Acessibilidade: esconde visualmente, mantém para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+fieldset {
+    border: none;
+    min-width: 0;
+}
+
+/* Inputs e selects dentro dos formulários */
+.form-group input,
+.form-group select {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: var(--font-main);
+    background-color: #fff;
+    color: var(--text-primary);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.input-search:focus,
+.select-filter:focus {
+    border-color: var(--bg-sidebar-active);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Botão secundário e status de usuário */
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
+.status-ativo {
+    background-color: var(--badge-agendada-bg);
+    color: var(--badge-agendada-text);
+}
+
+.status-inativo {
+    background-color: #f3f4f6;
+    color: #374151;
 }
