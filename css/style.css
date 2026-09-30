@@ -233,7 +233,7 @@ main {
 /* Estilo comum dos painéis/cards */
 .proximas-manutencoes,
 .dica-manutencao,
-.ultimas-atividades,
+.dica-seguranca .ultimas-atividades,
 .distribuicao-manutencoes {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -308,6 +308,22 @@ main {
 }
 
 .dica-manutencao p {
+    font-size: 0.85rem;
+    color: #0c4a6e;
+}
+
+/* Card Dica de Segurança */
+.dica-seguranca {
+    background-color: #f0f9ff;
+    border-color: #bae6fd;
+}
+
+.dica-seguranca h2 {
+    color: #0369a1;
+    margin-bottom: 0.5rem;
+}
+
+.dica-seguranca p {
     font-size: 0.85rem;
     color: #0c4a6e;
 }
