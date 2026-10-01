@@ -87,3 +87,36 @@
     font: inherit;
     font-weight: 600;
 }
+
+/* Cards de indicadores: 5 colunas nesta página */
+.indicadores-cinco {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.indicador-icone.and {
+    background-color: #e0f2fe;
+    color: #075985;
+}
+
+.indicador-icone.can {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+@media (max-width: 1280px) {
+    .indicadores-cinco {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .indicadores-cinco {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .indicadores-cinco {
+        grid-template-columns: 1fr;
+    }
+}

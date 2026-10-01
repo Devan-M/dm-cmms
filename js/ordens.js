@@ -27,8 +27,25 @@ const nomeEquipamento = (os) => {
     return eq ? eq.nome : os.equipamento;
 };
 
+// --- Indicadores (sempre sobre o total, ignorando filtros) --------------------
+function atualizarIndicadores(ordens) {
+    const total = ordens.length;
+    const contar = (s) => ordens.filter(o => o.status === s).length;
+    const pct = (n) => `${total ? Math.round((n / total) * 100) : 0}% do total`;
+
+    document.getElementById('ind-total').textContent = total;
+    [['aberto', 'Em Aberto'], ['andamento', 'Em Andamento'], ['concluida', 'Concluída'], ['cancelada', 'Cancelada']]
+        .forEach(([id, status]) => {
+            const n = contar(status);
+            document.getElementById(`ind-${id}`).textContent = n;
+            document.getElementById(`ind-${id}-pct`).textContent = pct(n);
+        });
+}
+
 // --- Tabela -----------------------------------------------------------------
 function renderizarTabela() {
+    atualizarIndicadores(carregarOrdens());
+
     const termo = document.getElementById('busca').value.trim().toLowerCase();
     const status = document.getElementById('filtro-status').value;
     const prio = document.getElementById('filtro-prioridade').value;

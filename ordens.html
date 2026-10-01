@@ -39,6 +39,50 @@
             </div>
         </section>
 
+        <!-- INDICADORES RESUMIDOS -->
+        <section class="indicadores-grid indicadores-cinco" aria-label="Resumo das ordens de serviço">
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Total de O.S.</p>
+                    <p class="indicador-valor" id="ind-total">0</p>
+                    <span class="indicador-descricao">Registradas</span>
+                </div>
+                <div class="indicador-icone eq">OS</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Em Aberto</p>
+                    <p class="indicador-valor" id="ind-aberto">0</p>
+                    <span class="indicador-descricao" id="ind-aberto-pct">0% do total</span>
+                </div>
+                <div class="indicador-icone mt">AB</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Em Andamento</p>
+                    <p class="indicador-valor" id="ind-andamento">0</p>
+                    <span class="indicador-descricao" id="ind-andamento-pct">0% do total</span>
+                </div>
+                <div class="indicador-icone and">AN</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Concluídas</p>
+                    <p class="indicador-valor" id="ind-concluida">0</p>
+                    <span class="indicador-descricao" id="ind-concluida-pct">0% do total</span>
+                </div>
+                <div class="indicador-icone pv">CO</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Canceladas</p>
+                    <p class="indicador-valor" id="ind-cancelada">0</p>
+                    <span class="indicador-descricao" id="ind-cancelada-pct">0% do total</span>
+                </div>
+                <div class="indicador-icone can">CA</div>
+            </article>
+        </section>
+
         <div class="dashboard-grid-layout">
 
             <!-- LISTA DE O.S. -->
@@ -88,7 +132,8 @@
                             <select id="os-equipamento" name="equipamento" class="select-filter" required></select>
                         </div>
                         <p class="aviso-form" id="aviso-sem-equip" hidden>
-                            Nenhum equipamento cadastrado. <a href="equipamentos.html">Cadastre um equipamento</a> para abrir uma O.S.
+                            Nenhum equipamento cadastrado. <a href="equipamentos.html">Cadastre um equipamento</a> para
+                            abrir uma O.S.
                         </p>
                         <div class="form-group">
                             <label for="os-prioridade">Prioridade</label>
@@ -111,7 +156,8 @@
                             <textarea id="os-descricao" name="descricao" class="textarea-custom" rows="4" required
                                 placeholder="Descreva o problema encontrado..."></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-criar-os">Criar Ordem de Serviço</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-criar-os">Criar Ordem
+                            de Serviço</button>
                     </form>
                 </section>
             </div>
