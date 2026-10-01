@@ -9,11 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/equipamentos.css">
 </head>
 
 <body>
 
-    <!-- BARRA LATERAL (SIDEBAR) -->
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
@@ -30,22 +30,20 @@
         </nav>
     </header>
 
-    <!-- ÁREA PRINCIPAL -->
     <main>
         <section class="main-header">
             <div>
                 <h2>Gestão de Equipamentos</h2>
                 <p>Cadastre, monitore e gerencie os ativos da planta</p>
             </div>
-            <button class="btn btn-primary">+ Novo Equipamento</button>
+            <button type="button" class="btn btn-primary" id="btn-novo-equipamento">+ Novo Equipamento</button>
         </section>
 
-        <!-- INDICADORES RESUMIDOS -->
         <section class="indicadores-grid">
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Total de Ativos</p>
-                    <p class="indicador-valor">128</p>
+                    <p class="indicador-valor" id="ind-total">0</p>
                     <span class="indicador-descricao">Cadastrados</span>
                 </div>
                 <div class="indicador-icone eq">EQ</div>
@@ -53,15 +51,15 @@
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Em Operação</p>
-                    <p class="indicador-valor">115</p>
-                    <span class="indicador-descricao">89.8% de disponibilidade</span>
+                    <p class="indicador-valor" id="ind-operacional">0</p>
+                    <span class="indicador-descricao" id="ind-disponibilidade">0% de disponibilidade</span>
                 </div>
                 <div class="indicador-icone pv">OP</div>
             </article>
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Em Manutenção</p>
-                    <p class="indicador-valor">8</p>
+                    <p class="indicador-valor" id="ind-manutencao">0</p>
                     <span class="indicador-descricao">Requerem atenção</span>
                 </div>
                 <div class="indicador-icone os">MN</div>
@@ -69,28 +67,23 @@
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Inativos/Parados</p>
-                    <p class="indicador-valor">5</p>
-                    <span class="indicador-descricao">Aguardando peças</span>
+                    <p class="indicador-valor" id="ind-inativo">0</p>
+                    <span class="indicador-descricao">Fora de operação</span>
                 </div>
                 <div class="indicador-icone mt">IN</div>
             </article>
         </section>
 
-        <!-- PAINEL PRINCIPAL DE CONTEÚDO -->
         <section class="card-painel">
             <div class="filtros-bar">
-                <input type="text" class="input-search" placeholder="Buscar equipamento por nome, código ou setor...">
-                <select class="select-filter">
-                    <option value="">Todos os Setores</option>
-                    <option value="usinagem">Usinagem</option>
-                    <option value="estamparia">Estamparia</option>
-                    <option value="utilidades">Utilidades</option>
-                </select>
-                <select class="select-filter">
+                <input type="text" class="input-search" id="busca"
+                    placeholder="Buscar equipamento por nome, código ou setor...">
+                <select class="select-filter" id="filtro-setor" aria-label="Filtrar por setor"></select>
+                <select class="select-filter" id="filtro-status" aria-label="Filtrar por status">
                     <option value="">Todos os Status</option>
-                    <option value="operacional">Operacional</option>
-                    <option value="manutencao">Em Manutenção</option>
-                    <option value="inativo">Inativo</option>
+                    <option>Operacional</option>
+                    <option>Em Manutenção</option>
+                    <option>Inativo</option>
                 </select>
             </div>
 
@@ -105,134 +98,126 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>EQ-001</strong></td>
-                        <td>Torno CNC - T01</td>
-                        <td>Usinagem</td>
-                        <td><span class="badge-criticidade alta">Alta</span></td>
-                        <td><span class="status status-agendada">Operacional</span></td>
-                        <td><a href="#" class="link-acao">Detalhes</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>EQ-002</strong></td>
-                        <td>Prensa Hidráulica - P03</td>
-                        <td>Estamparia</td>
-                        <td><span class="badge-criticidade alta">Alta</span></td>
-                        <td><span class="status status-pendente">Em Manutenção</span></td>
-                        <td><a href="#" class="link-acao">Detalhes</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>EQ-003</strong></td>
-                        <td>Compressor de Ar - C02</td>
-                        <td>Utilidades</td>
-                        <td><span class="badge-criticidade media">Média</span></td>
-                        <td><span class="status status-agendada">Operacional</span></td>
-                        <td><a href="#" class="link-acao">Detalhes</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>EQ-004</strong></td>
-                        <td>Ponte Rolante - PR01</td>
-                        <td>Logística</td>
-                        <td><span class="badge-criticidade baixa">Baixa</span></td>
-                        <td><span class="status status-agendada">Operacional</span></td>
-                        <td><a href="#" class="link-acao">Detalhes</a></td>
-                    </tr>
-                </tbody>
+                <tbody id="tabela-corpo"></tbody>
             </table>
         </section>
     </main>
 
-    <!-- MODAL DE DETALHES DO EQUIPAMENTO -->
-    <div id="modal-detalhes" class="modal-overlay show">
-        <div class="modal-container">
-
-            <!-- Cabeçalho do Modal -->
+    <!-- MODAL: DETALHES -->
+    <div id="modal-detalhes" class="modal-overlay" aria-hidden="true">
+        <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="det-titulo">
             <header class="modal-header">
                 <div>
-                    <span class="modal-badge-status status-agendada">Operacional</span>
-                    <h3 class="modal-titulo">Torno CNC - T01 <span class="modal-subtitulo">#EQ-001</span></h3>
+                    <span class="modal-badge-status status" id="det-status"></span>
+                    <h3 class="modal-titulo" id="det-titulo"></h3>
                 </div>
-                <button class="modal-btn-fechar"
-                    onclick="this.closest('.modal-overlay').classList.remove('show')">&times;</button>
+                <button type="button" class="modal-btn-fechar" data-fechar aria-label="Fechar">&times;</button>
             </header>
 
-            <!-- Corpo do Modal -->
             <div class="modal-body">
-
-                <!-- Linha rápida de KPIs do Equipamento -->
                 <div class="modal-kpis">
-                    <div class="modal-kpi-card">
-                        <p class="kpi-label">Disponibilidade</p>
-                        <p class="kpi-valor">94.2%</p>
-                    </div>
-                    <div class="modal-kpi-card">
-                        <p class="kpi-label">MTBF (Tempo Falhas)</p>
-                        <p class="kpi-valor">420h</p>
-                    </div>
-                    <div class="modal-kpi-card">
-                        <p class="kpi-label">Custo Acumulado</p>
-                        <p class="kpi-valor">R$ 4.250</p>
-                    </div>
+                    <div class="modal-kpi-card"><p class="kpi-label">Disponibilidade</p><p class="kpi-valor" id="det-disp"></p></div>
+                    <div class="modal-kpi-card"><p class="kpi-label">MTBF</p><p class="kpi-valor" id="det-mtbf"></p></div>
+                    <div class="modal-kpi-card"><p class="kpi-label">Custo acumulado</p><p class="kpi-valor" id="det-custo"></p></div>
                 </div>
 
-                <!-- Abas de Navegação Interna -->
-                <nav class="modal-tabs">
-                    <button class="tab-link active">Ficha Técnica</button>
-                    <button class="tab-link">Histórico de O.S.</button>
-                    <button class="tab-link">Peças & Manuais</button>
+                <nav class="modal-tabs" role="tablist">
+                    <button type="button" class="tab-link active" role="tab" data-tab="ficha">Ficha Técnica</button>
+                    <button type="button" class="tab-link" role="tab" data-tab="historico">Histórico de O.S.</button>
+                    <button type="button" class="tab-link" role="tab" data-tab="pecas">Peças &amp; Manuais</button>
                 </nav>
 
-                <!-- Conteúdo das Abas -->
-                <div class="modal-tab-content">
-
-                    <!-- Seção: Ficha Técnica -->
-                    <div class="grid-ficha-tecnica">
-                        <div class="campo-ficha">
-                            <label>Fabricante / Marca</label>
-                            <p>Romi</p>
-                        </div>
-                        <div class="campo-ficha">
-                            <label>Modelo</label>
-                            <p>D 800 New Generation</p>
-                        </div>
-                        <div class="campo-ficha">
-                            <label>Setor / Localização</label>
-                            <p>Usinagem (Linha A)</p>
-                        </div>
-                        <div class="campo-ficha">
-                            <label>Criticidade</label>
-                            <p><span class="badge-criticidade alta">Alta (Classe A)</span></p>
-                        </div>
-                        <div class="campo-ficha">
-                            <label>Tensão Elétrica</label>
-                            <p>380V Trifásico</p>
-                        </div>
-                        <div class="campo-ficha">
-                            <label>Data de Instalação</label>
-                            <p>14/03/2022</p>
-                        </div>
-                    </div>
-
-                    <!-- Seção secundária rápida dentro da ficha: Próxima Manutenção -->
-                    <div class="alerta-manutencao">
-                        <strong>Próxima Manutenção Preventiva:</strong> Agendada para 15/11/2026 (Troca de óleo
-                        hidráulico e calibração dos eixos).
-                    </div>
-
-                </div>
+                <div class="tab-panel" id="tab-ficha" role="tabpanel"></div>
+                <div class="tab-panel" id="tab-historico" role="tabpanel" hidden></div>
+                <div class="tab-panel" id="tab-pecas" role="tabpanel" hidden></div>
             </div>
 
-            <!-- Rodapé do Modal -->
             <footer class="modal-footer">
-                <button class="btn btn-secondary"
-                    onclick="this.closest('.modal-overlay').classList.remove('show')">Fechar</button>
-                <button class="btn btn-primary">Abrir Ordem de Serviço</button>
+                <button type="button" class="btn btn-secondary" data-fechar>Fechar</button>
+                <button type="button" class="btn btn-primary">Abrir Ordem de Serviço</button>
             </footer>
-
         </div>
     </div>
 
+    <!-- MODAL: CADASTRO -->
+    <div id="modal-cadastro" class="modal-overlay" aria-hidden="true">
+        <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="cad-titulo">
+            <form id="form-equipamento" class="modal-form">
+                <header class="modal-header">
+                    <h3 class="modal-titulo" id="cad-titulo">Novo equipamento</h3>
+                    <button type="button" class="modal-btn-fechar" data-fechar aria-label="Fechar">&times;</button>
+                </header>
+
+                <div class="modal-body">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="f-codigo">Código</label>
+                            <input id="f-codigo" name="codigo" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-nome">Nome do equipamento</label>
+                            <input id="f-nome" name="nome" required placeholder="Ex.: Fresadora CNC - F02">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-setor">Setor</label>
+                            <select id="f-setor" name="setor" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-localizacao">Localização</label>
+                            <input id="f-localizacao" name="localizacao" placeholder="Ex.: Usinagem (Linha A)">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-criticidade">Criticidade</label>
+                            <select id="f-criticidade" name="criticidade" required>
+                                <option>Alta</option>
+                                <option selected>Média</option>
+                                <option>Baixa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-status">Status</label>
+                            <select id="f-status" name="status" required>
+                                <option>Operacional</option>
+                                <option>Em Manutenção</option>
+                                <option>Inativo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-fabricante">Fabricante</label>
+                            <input id="f-fabricante" name="fabricante">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-modelo">Modelo</label>
+                            <input id="f-modelo" name="modelo">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-tensao">Tensão elétrica</label>
+                            <input id="f-tensao" name="tensao" placeholder="Ex.: 380V Trifásico">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-instalacao">Data de instalação</label>
+                            <input id="f-instalacao" name="dataInstalacao" type="date">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="f-proxima">Próxima manutenção preventiva</label>
+                            <input id="f-proxima" name="proximaData" type="date">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="f-proxima-desc">Descrição da manutenção</label>
+                            <input id="f-proxima-desc" name="proximaDescricao" placeholder="Ex.: Troca de óleo e calibração">
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-fechar>Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar equipamento</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>

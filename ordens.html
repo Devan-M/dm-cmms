@@ -9,11 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/equipamentos.css">
+    <link rel="stylesheet" href="css/ordens.css">
 </head>
 
 <body>
 
-    <!-- BARRA LATERAL (SIDEBAR) -->
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
@@ -30,7 +31,6 @@
         </nav>
     </header>
 
-    <!-- ÁREA PRINCIPAL -->
     <main>
         <section class="main-header">
             <div>
@@ -39,15 +39,27 @@
             </div>
         </section>
 
-        <!-- LAYOUT DE 2 COLUNAS (GRID) -->
         <div class="dashboard-grid-layout">
 
-            <!-- COLUNA ESQUERDA: LISTA DE OS -->
+            <!-- LISTA DE O.S. -->
             <div class="coluna-principal">
                 <section class="card-painel">
                     <div class="filtros-bar">
-                        <input type="text" class="input-search"
-                            placeholder="Filtrar por código, responsável ou ativo...">
+                        <input type="text" class="input-search" id="busca"
+                            placeholder="Filtrar por número, equipamento ou responsável...">
+                        <select class="select-filter" id="filtro-status" aria-label="Filtrar por status">
+                            <option value="">Todos os Status</option>
+                            <option>Em Aberto</option>
+                            <option>Em Andamento</option>
+                            <option>Concluída</option>
+                            <option>Cancelada</option>
+                        </select>
+                        <select class="select-filter" id="filtro-prioridade" aria-label="Filtrar por prioridade">
+                            <option value="">Todas as Prioridades</option>
+                            <option>Alta</option>
+                            <option>Média</option>
+                            <option>Baixa</option>
+                        </select>
                     </div>
 
                     <table class="tabela-dados">
@@ -58,63 +70,48 @@
                                 <th>Prioridade</th>
                                 <th>Abertura</th>
                                 <th>Status</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>#1045</strong></td>
-                                <td>Prensa Hidráulica - P03</td>
-                                <td><span class="badge-criticidade alta">Alta</span></td>
-                                <td>22/09/2026</td>
-                                <td><span class="status status-pendente">Em Aberto</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>#1044</strong></td>
-                                <td>Torno CNC - T01</td>
-                                <td><span class="badge-criticidade media">Média</span></td>
-                                <td>21/09/2026</td>
-                                <td><span class="status status-andamento">Em Andamento</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>#1043</strong></td>
-                                <td>Compressor C02</td>
-                                <td><span class="badge-criticidade baixa">Baixa</span></td>
-                                <td>20/09/2026</td>
-                                <td><span class="status status-agendada">Concluída</span></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="tabela-corpo"></tbody>
                     </table>
                 </section>
             </div>
 
-            <!-- COLUNA DIREIRA: FORMULÁRIO RÁPIDO DE ABERTURA -->
+            <!-- FORMULÁRIO DE ABERTURA -->
             <div class="coluna-lateral">
                 <section class="card-painel">
                     <h3>Abrir Nova O.S.</h3>
-                    <form class="form-grid">
+                    <form class="form-grid" id="form-os">
                         <div class="form-group">
-                            <label>Equipamento</label>
-                            <select class="select-filter">
-                                <option>Selecione...</option>
-                                <option>Torno CNC - T01</option>
-                                <option>Prensa Hidráulica - P03</option>
-                            </select>
+                            <label for="os-equipamento">Equipamento</label>
+                            <select id="os-equipamento" name="equipamento" class="select-filter" required></select>
                         </div>
+                        <p class="aviso-form" id="aviso-sem-equip" hidden>
+                            Nenhum equipamento cadastrado. <a href="equipamentos.html">Cadastre um equipamento</a> para abrir uma O.S.
+                        </p>
                         <div class="form-group">
-                            <label>Prioridade</label>
-                            <select class="select-filter">
+                            <label for="os-prioridade">Prioridade</label>
+                            <select id="os-prioridade" name="prioridade" class="select-filter">
                                 <option>Baixa</option>
-                                <option>Média</option>
+                                <option selected>Média</option>
                                 <option>Alta</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Descrição do Defeito/Solicitação</label>
-                            <textarea class="textarea-custom" rows="4"
+                            <label for="os-tipo">Tipo de serviço</label>
+                            <select id="os-tipo" name="tipo" class="select-filter">
+                                <option>Corretiva</option>
+                                <option>Preventiva</option>
+                                <option>Inspeção</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="os-descricao">Descrição do Defeito/Solicitação</label>
+                            <textarea id="os-descricao" name="descricao" class="textarea-custom" rows="4" required
                                 placeholder="Descreva o problema encontrado..."></textarea>
                         </div>
-                        <button type="button" class="btn btn-primary" style="width: 100%;">Criar Ordem de
-                            Serviço</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-criar-os">Criar Ordem de Serviço</button>
                     </form>
                 </section>
             </div>
@@ -122,6 +119,35 @@
         </div>
     </main>
 
+    <!-- MODAL: DETALHES DA O.S. -->
+    <div id="modal-os" class="modal-overlay" aria-hidden="true">
+        <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="os-titulo">
+            <header class="modal-header">
+                <div>
+                    <span class="modal-badge-status status" id="os-status"></span>
+                    <h3 class="modal-titulo" id="os-titulo"></h3>
+                </div>
+                <button type="button" class="modal-btn-fechar" data-fechar aria-label="Fechar">&times;</button>
+            </header>
+
+            <div class="modal-body">
+                <nav class="modal-tabs" role="tablist">
+                    <button type="button" class="tab-link active" role="tab" data-tab="resumo">Resumo</button>
+                    <button type="button" class="tab-link" role="tab" data-tab="andamento">Andamento</button>
+                    <button type="button" class="tab-link" role="tab" data-tab="equipamento">Equipamento</button>
+                </nav>
+
+                <div class="tab-panel" id="tab-resumo" role="tabpanel"></div>
+                <div class="tab-panel" id="tab-andamento" role="tabpanel" hidden></div>
+                <div class="tab-panel" id="tab-equipamento" role="tabpanel" hidden></div>
+            </div>
+
+            <footer class="modal-footer" id="os-rodape"></footer>
+        </div>
+    </div>
+
+    <script src="js/dados.js"></script>
+    <script src="js/ordens.js"></script>
 </body>
 
 </html>
