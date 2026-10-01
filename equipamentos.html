@@ -143,6 +143,96 @@
         </section>
     </main>
 
+    <!-- MODAL DE DETALHES DO EQUIPAMENTO -->
+    <div id="modal-detalhes" class="modal-overlay show">
+        <div class="modal-container">
+
+            <!-- Cabeçalho do Modal -->
+            <header class="modal-header">
+                <div>
+                    <span class="modal-badge-status status-agendada">Operacional</span>
+                    <h3 class="modal-titulo">Torno CNC - T01 <span class="modal-subtitulo">#EQ-001</span></h3>
+                </div>
+                <button class="modal-btn-fechar"
+                    onclick="this.closest('.modal-overlay').classList.remove('show')">&times;</button>
+            </header>
+
+            <!-- Corpo do Modal -->
+            <div class="modal-body">
+
+                <!-- Linha rápida de KPIs do Equipamento -->
+                <div class="modal-kpis">
+                    <div class="modal-kpi-card">
+                        <p class="kpi-label">Disponibilidade</p>
+                        <p class="kpi-valor">94.2%</p>
+                    </div>
+                    <div class="modal-kpi-card">
+                        <p class="kpi-label">MTBF (Tempo Falhas)</p>
+                        <p class="kpi-valor">420h</p>
+                    </div>
+                    <div class="modal-kpi-card">
+                        <p class="kpi-label">Custo Acumulado</p>
+                        <p class="kpi-valor">R$ 4.250</p>
+                    </div>
+                </div>
+
+                <!-- Abas de Navegação Interna -->
+                <nav class="modal-tabs">
+                    <button class="tab-link active">Ficha Técnica</button>
+                    <button class="tab-link">Histórico de O.S.</button>
+                    <button class="tab-link">Peças & Manuais</button>
+                </nav>
+
+                <!-- Conteúdo das Abas -->
+                <div class="modal-tab-content">
+
+                    <!-- Seção: Ficha Técnica -->
+                    <div class="grid-ficha-tecnica">
+                        <div class="campo-ficha">
+                            <label>Fabricante / Marca</label>
+                            <p>Romi</p>
+                        </div>
+                        <div class="campo-ficha">
+                            <label>Modelo</label>
+                            <p>D 800 New Generation</p>
+                        </div>
+                        <div class="campo-ficha">
+                            <label>Setor / Localização</label>
+                            <p>Usinagem (Linha A)</p>
+                        </div>
+                        <div class="campo-ficha">
+                            <label>Criticidade</label>
+                            <p><span class="badge-criticidade alta">Alta (Classe A)</span></p>
+                        </div>
+                        <div class="campo-ficha">
+                            <label>Tensão Elétrica</label>
+                            <p>380V Trifásico</p>
+                        </div>
+                        <div class="campo-ficha">
+                            <label>Data de Instalação</label>
+                            <p>14/03/2022</p>
+                        </div>
+                    </div>
+
+                    <!-- Seção secundária rápida dentro da ficha: Próxima Manutenção -->
+                    <div class="alerta-manutencao">
+                        <strong>Próxima Manutenção Preventiva:</strong> Agendada para 15/11/2026 (Troca de óleo
+                        hidráulico e calibração dos eixos).
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Rodapé do Modal -->
+            <footer class="modal-footer">
+                <button class="btn btn-secondary"
+                    onclick="this.closest('.modal-overlay').classList.remove('show')">Fechar</button>
+                <button class="btn btn-primary">Abrir Ordem de Serviço</button>
+            </footer>
+
+        </div>
+    </div>
+
 </body>
 
 </html>
