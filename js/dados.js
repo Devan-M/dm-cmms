@@ -156,26 +156,36 @@ function proximoCodigo(lista) {
 const CHAVE_OS = 'sgm_ordens_v1';
 
 const ordensIniciais = [
-    { numero: 1045, codigo: 'EQ-002', equipamento: 'Prensa Hidráulica - P03', prioridade: 'Alta', tipo: 'Corretiva',
-      abertura: '2026-09-22', status: 'Em Aberto', responsavel: 'Não atribuído',
-      descricao: 'Vazamento de óleo no cilindro principal durante o ciclo de prensagem.',
-      eventos: [{ data: '2026-09-22', texto: 'O.S. aberta' }] },
-    { numero: 1044, codigo: 'EQ-001', equipamento: 'Torno CNC - T01', prioridade: 'Média', tipo: 'Preventiva',
-      abertura: '2026-09-21', status: 'Em Andamento', responsavel: 'Carlos Menezes',
-      descricao: 'Lubrificação do fuso e verificação de folgas nos eixos X e Z.',
-      eventos: [{ data: '2026-09-21', texto: 'O.S. aberta' }, { data: '2026-09-22', texto: 'Atendimento iniciado' }] },
-    { numero: 1043, codigo: 'EQ-003', equipamento: 'Compressor de Ar - C02', prioridade: 'Baixa', tipo: 'Inspeção',
-      abertura: '2026-09-20', status: 'Concluída', responsavel: 'Rafael Souza',
-      descricao: 'Inspeção de rotina: pressostato, drenos e nível de óleo.',
-      eventos: [{ data: '2026-09-20', texto: 'O.S. aberta' }, { data: '2026-09-20', texto: 'Atendimento iniciado' }, { data: '2026-09-21', texto: 'O.S. concluída' }] },
-    { numero: 1042, codigo: 'EQ-005', equipamento: 'Fresadora Vertical - F01', prioridade: 'Alta', tipo: 'Corretiva',
-      abertura: '2026-09-10', status: 'Em Andamento', responsavel: 'Carlos Menezes',
-      descricao: 'Falha no servo motor do eixo Y. Aguardando chegada da peça.',
-      eventos: [{ data: '2026-09-10', texto: 'O.S. aberta' }, { data: '2026-09-11', texto: 'Atendimento iniciado' }] },
-    { numero: 1041, codigo: 'EQ-004', equipamento: 'Ponte Rolante - PR01', prioridade: 'Baixa', tipo: 'Inspeção',
-      abertura: '2026-09-02', status: 'Concluída', responsavel: 'Rafael Souza',
-      descricao: 'Inspeção periódica de cabos de aço e freios.',
-      eventos: [{ data: '2026-09-02', texto: 'O.S. aberta' }, { data: '2026-09-03', texto: 'O.S. concluída' }] }
+    {
+        numero: 1045, codigo: 'EQ-002', equipamento: 'Prensa Hidráulica - P03', prioridade: 'Alta', tipo: 'Corretiva',
+        abertura: '2026-09-22', status: 'Em Aberto', responsavel: 'Não atribuído',
+        descricao: 'Vazamento de óleo no cilindro principal durante o ciclo de prensagem.',
+        eventos: [{ data: '2026-09-22', texto: 'O.S. aberta' }]
+    },
+    {
+        numero: 1044, codigo: 'EQ-001', equipamento: 'Torno CNC - T01', prioridade: 'Média', tipo: 'Preventiva',
+        abertura: '2026-09-21', status: 'Em Andamento', responsavel: 'Carlos Menezes',
+        descricao: 'Lubrificação do fuso e verificação de folgas nos eixos X e Z.',
+        eventos: [{ data: '2026-09-21', texto: 'O.S. aberta' }, { data: '2026-09-22', texto: 'Atendimento iniciado' }]
+    },
+    {
+        numero: 1043, codigo: 'EQ-003', equipamento: 'Compressor de Ar - C02', prioridade: 'Baixa', tipo: 'Inspeção',
+        abertura: '2026-09-20', status: 'Concluída', responsavel: 'Rafael Souza',
+        descricao: 'Inspeção de rotina: pressostato, drenos e nível de óleo.',
+        eventos: [{ data: '2026-09-20', texto: 'O.S. aberta' }, { data: '2026-09-20', texto: 'Atendimento iniciado' }, { data: '2026-09-21', texto: 'O.S. concluída' }]
+    },
+    {
+        numero: 1042, codigo: 'EQ-005', equipamento: 'Fresadora Vertical - F01', prioridade: 'Alta', tipo: 'Corretiva',
+        abertura: '2026-09-10', status: 'Em Andamento', responsavel: 'Carlos Menezes',
+        descricao: 'Falha no servo motor do eixo Y. Aguardando chegada da peça.',
+        eventos: [{ data: '2026-09-10', texto: 'O.S. aberta' }, { data: '2026-09-11', texto: 'Atendimento iniciado' }]
+    },
+    {
+        numero: 1041, codigo: 'EQ-004', equipamento: 'Ponte Rolante - PR01', prioridade: 'Baixa', tipo: 'Inspeção',
+        abertura: '2026-09-02', status: 'Concluída', responsavel: 'Rafael Souza',
+        descricao: 'Inspeção periódica de cabos de aço e freios.',
+        eventos: [{ data: '2026-09-02', texto: 'O.S. aberta' }, { data: '2026-09-03', texto: 'O.S. concluída' }]
+    }
 ];
 
 function carregarOrdens() {

@@ -1,0 +1,89 @@
+/* Complementos para ordens.html — carregue depois de style.css e equipamentos.css */
+
+.coluna-lateral .card-painel h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.form-group textarea:focus {
+    border-color: var(--bg-sidebar-active);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.aviso-form {
+    font-size: 0.8rem;
+    color: #92400e;
+    background: #fffbeb;
+    border: 1px solid #fef08a;
+    border-radius: 6px;
+    padding: 8px 10px;
+}
+
+.aviso-form a {
+    color: var(--bg-sidebar-active);
+    font-weight: 600;
+}
+
+.descricao-os {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #1e293b;
+}
+
+.linha-tempo {
+    list-style: none;
+    border-left: 2px solid #e2e8f0;
+    margin-left: 6px;
+}
+
+.linha-tempo li {
+    position: relative;
+    padding: 0 0 18px 20px;
+    font-size: 0.875rem;
+    color: #1e293b;
+}
+
+.linha-tempo li:last-child {
+    padding-bottom: 0;
+}
+
+.linha-tempo li::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2563eb;
+    border: 2px solid #fff;
+}
+
+.linha-tempo time {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.btn-perigo {
+    background: #fff;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.btn-perigo:hover {
+    background: #fef2f2;
+}
+
+.link-acao.btn-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+}
