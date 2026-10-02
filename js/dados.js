@@ -208,4 +208,10 @@ function salvarOrdens(lista) {
     }
 }
 
-const hojeISO = () => new Date().toISOString().slice(0, 10);
+const agoraISO = () => {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 16); // ex.: 2026-10-02T14:35
+};
+
+const hojeISO = () => agoraISO().slice(0, 10);

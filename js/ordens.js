@@ -159,7 +159,7 @@ function alterarStatus(novoStatus) {
         'Cancelada': 'O.S. cancelada'
     };
     os.status = novoStatus;
-    os.eventos = [...(os.eventos || []), { data: hojeISO(), texto: textos[novoStatus] }];
+    os.eventos = [...(os.eventos || []), { data: agoraISO(), texto: textos[novoStatus] }];
     salvarOrdens(lista);
 
     renderizarTabela();
@@ -186,7 +186,7 @@ function criarOS(ev) {
         status: 'Em Aberto',
         responsavel: 'Não atribuído',
         descricao: f.descricao.value.trim(),
-        eventos: [{ data: hojeISO(), texto: 'O.S. aberta' }]
+        eventos: [{ data: agoraISO(), texto: 'O.S. aberta' }]
     });
     salvarOrdens(lista);
 
