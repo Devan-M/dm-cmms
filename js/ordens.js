@@ -113,7 +113,7 @@ function abrirDetalhes(numero, aba = 'resumo') {
     const eventos = os.eventos || [];
     document.getElementById('tab-andamento').innerHTML = eventos.length
         ? `<ol class="linha-tempo">${eventos.map(ev =>
-            `<li><time>${formatarData(ev.data)}</time>${esc(ev.texto)}</li>`).join('')}</ol>`
+            `<li><time>${formatarDataHora(ev.data)}</time>${esc(ev.texto)}</li>`).join('')}</ol>`
         : '<div class="vazio">Nenhum evento registrado.</div>';
 
     // Aba: Equipamento (dados vindos do cadastro de equipamentos)

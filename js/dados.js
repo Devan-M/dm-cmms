@@ -110,8 +110,15 @@ const slug = (t) => String(t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').t
 
 function formatarData(iso) {
     if (!iso) return '—';
-    const [a, m, d] = iso.split('-');
+    const [a, m, d] = String(iso).slice(0, 10).split('-');
     return `${d}/${m}/${a}`;
+}
+
+function formatarDataHora(iso) {
+    if (!iso) return '—';
+    const [data, hora] = String(iso).replace(' ', 'T').split('T');
+    const [a, m, d] = data.split('-');
+    return hora ? `${d}/${m}/${a} ${hora.slice(0, 5)}` : `${d}/${m}/${a}`;
 }
 
 const formatarMoeda = (v) => (typeof v === 'number'
