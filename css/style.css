@@ -7,7 +7,8 @@
     --bg-app: #f8fafc;
     --bg-card: #ffffff;
     --bg-sidebar: #0f172a;
-    --bg-sidebar-active: #2563eb;
+    --primary: #2563eb;
+    --bg-sidebar-active: var(--primary);
 
     /* Textos */
     --font-main: 'Inter', system-ui, -apple-system, sans-serif;
@@ -15,9 +16,12 @@
     --text-secondary: #64748b;
     --text-muted: #94a3b8;
     --text-sidebar: #94a3b8;
+    --text-body: #1e293b;
 
     /* Bordas e Sombras */
     --border-color: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --bg-muted: #f1f5f9;
     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
     --radius-card: 10px;
 
@@ -27,13 +31,25 @@
     --badge-pendente-bg: #fef3c7;
     --badge-pendente-text: #92400e;
 
+    /* Cores semânticas reutilizadas */
+    --danger: #ef4444;
+    --danger-text: #991b1b;
+    --warning: #eab308;
+    --warn-bg: #fffbeb;
+    --warn-border: #fef08a;
+    --info: #0284c7;
+    --info-bg: #e0f2fe;
+    --info-text: #075985;
+    --neutral-bg: #f3f4f6;
+    --neutral-text: #374151;
+
     /* Cores dos Ícones dos Cards */
     --card-eq-bg: #eff6ff;
     --card-eq-icon: #3b82f6;
     --card-os-bg: #fef2f2;
-    --card-os-icon: #ef4444;
+    --card-os-icon: var(--danger);
     --card-mt-bg: #fefce8;
-    --card-mt-icon: #eab308;
+    --card-mt-icon: var(--warning);
     --card-pv-bg: #f0fdf4;
     --card-pv-icon: #22c55e;
 }
@@ -47,15 +63,11 @@
 
 body {
     display: flex;
+    flex-direction: column;
     min-height: 100vh;
     background-color: var(--bg-app);
     color: var(--text-primary);
     font-family: var(--font-main);
-    flex-direction: column;
-}
-
-main {
-    flex: 1;
 }
 
 /* =========================================================
@@ -64,12 +76,11 @@ main {
 
 body>header {
     width: 240px;
+    height: 100vh;
+    position: fixed;
+    padding: 1.5rem 1rem;
     background-color: var(--bg-sidebar);
     color: var(--text-sidebar);
-    padding: 1.5rem 1rem;
-    position: fixed;
-    height: 100vh;
-    box-sizing: border-box;
 }
 
 body>header h1 {
@@ -126,10 +137,10 @@ body>footer {
    ========================================================= */
 
 main {
+    flex: 1;
     margin-left: 240px;
     width: calc(100% - 240px);
     padding: 2rem;
-    box-sizing: border-box;
 }
 
 .main-header {
@@ -230,11 +241,14 @@ main {
     gap: 1.5rem;
 }
 
-/* Estilo comum dos painéis/cards */
+/* Estilo comum dos painéis/cards
+   OBS: ".dica-seguranca .ultimas-atividades" (sem vírgula) foi mantido como
+   estava para não alterar o visual atual; veja a nota na resposta. */
 .proximas-manutencoes,
 .dica-manutencao,
 .dica-seguranca .ultimas-atividades,
-.distribuicao-manutencoes {
+.distribuicao-manutencoes,
+.card-painel {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-card);
@@ -286,7 +300,8 @@ main {
     font-weight: 600;
 }
 
-.status-agendada {
+.status-agendada,
+.status-ativo {
     background-color: var(--badge-agendada-bg);
     color: var(--badge-agendada-text);
 }
@@ -296,33 +311,30 @@ main {
     color: var(--badge-pendente-text);
 }
 
-/* Card Dica de Manutenção */
-.dica-manutencao {
-    background-color: #f0f9ff;
-    border-color: #bae6fd;
+.status-andamento {
+    background-color: var(--info-bg);
+    color: var(--info-text);
 }
 
-.dica-manutencao h4 {
-    color: #0369a1;
-    margin-bottom: 0.5rem;
+.status-inativo {
+    background-color: var(--neutral-bg);
+    color: var(--neutral-text);
 }
 
-.dica-manutencao p {
-    font-size: 0.85rem;
-    color: #0c4a6e;
-}
-
-/* Card Dica de Segurança */
+/* Cards Dica de Manutenção e de Segurança */
+.dica-manutencao,
 .dica-seguranca {
     background-color: #f0f9ff;
     border-color: #bae6fd;
 }
 
+.dica-manutencao h4,
 .dica-seguranca h2 {
     color: #0369a1;
     margin-bottom: 0.5rem;
 }
 
+.dica-manutencao p,
 .dica-seguranca p {
     font-size: 0.85rem;
     color: #0c4a6e;
@@ -366,9 +378,9 @@ main {
     height: 120px;
     border-radius: 50%;
     /* Simulação de fatias via Conic Gradient */
-    background: conic-gradient(#2563eb 0% 60%,
-            #ef4444 60% 85%,
-            #eab308 85% 100%);
+    background: conic-gradient(var(--primary) 0% 60%,
+            var(--danger) 60% 85%,
+            var(--warning) 85% 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -409,59 +421,19 @@ main {
 }
 
 .cor-preventiva {
-    background-color: #2563eb;
+    background-color: var(--primary);
 }
 
 .cor-corretiva {
-    background-color: #ef4444;
+    background-color: var(--danger);
 }
 
 .cor-inspecao {
-    background-color: #eab308;
+    background-color: var(--warning);
 }
 
 /* =========================================================
-   5. RESPONSIVIDADE (DISPOSITIVOS MÓVEIS / TABLETS)
-   ========================================================= */
-
-@media (max-width: 1024px) {
-    .indicadores-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-grid-layout {
-        grid-template-columns: 1fr;
-        /* Transforma as 2 colunas em uma única coluna */
-    }
-}
-
-@media (max-width: 640px) {
-    body {
-        flex-direction: column;
-    }
-
-    body>header {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    main {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    body>footer {
-        margin-left: 0;
-    }
-
-    .indicadores-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =========================================================
-   ESTILOS COMPLEMENTARES PARA AS DEMAIS PÁGINAS
+   5. COMPONENTES COMPARTILHADOS (BOTÕES, TABELAS, FORMULÁRIOS)
    ========================================================= */
 
 /* Botões */
@@ -487,16 +459,22 @@ main {
     background-color: #1d4ed8;
 }
 
-/* Painéis de Conteúdo e Tabelas Genéricas */
-.card-painel {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-card);
-    padding: 1.25rem;
-    box-shadow: var(--shadow-card);
-    margin-bottom: 1.5rem;
+.btn-secondary {
+    background-color: #ffffff;
+    border: 1px solid var(--border-strong);
+    color: #334155;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }
 
+.btn-secondary:hover {
+    background-color: var(--bg-muted);
+}
+
+/* Tabelas genéricas */
 .tabela-dados {
     width: 100%;
     border-collapse: collapse;
@@ -519,7 +497,7 @@ main {
     font-size: 0.85rem;
 }
 
-/* Campos de Entrada e Filtros */
+/* Campos de entrada e filtros */
 .filtros-bar {
     display: flex;
     gap: 1rem;
@@ -529,15 +507,22 @@ main {
 
 .input-search,
 .select-filter,
-.textarea-custom {
+.textarea-custom,
+.form-group input,
+.form-group select {
     padding: 0.6rem 0.8rem;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 0.85rem;
     font-family: var(--font-main);
-    outline: none;
     background-color: #fff;
     color: var(--text-primary);
+}
+
+.input-search,
+.select-filter,
+.textarea-custom {
+    outline: none;
 }
 
 .input-search {
@@ -548,6 +533,15 @@ main {
 .textarea-custom {
     width: 100%;
     resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.input-search:focus,
+.select-filter:focus {
+    border-color: var(--bg-sidebar-active);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .form-grid {
@@ -569,7 +563,12 @@ main {
     color: var(--text-secondary);
 }
 
-/* Badges e Tags Adicionais */
+fieldset {
+    border: none;
+    min-width: 0;
+}
+
+/* Badges de criticidade/prioridade */
 .badge-criticidade {
     padding: 0.15rem 0.5rem;
     border-radius: 4px;
@@ -579,22 +578,17 @@ main {
 
 .badge-criticidade.alta {
     background-color: #fee2e2;
-    color: #991b1b;
+    color: var(--danger-text);
 }
 
 .badge-criticidade.media {
-    background-color: #fef3c7;
-    color: #92400e;
+    background-color: var(--badge-pendente-bg);
+    color: var(--badge-pendente-text);
 }
 
 .badge-criticidade.baixa {
-    background-color: #f3f4f6;
-    color: #374151;
-}
-
-.status-andamento {
-    background-color: #e0f2fe;
-    color: #075985;
+    background-color: var(--neutral-bg);
+    color: var(--neutral-text);
 }
 
 .link-acao {
@@ -617,66 +611,16 @@ main {
     white-space: nowrap;
 }
 
-fieldset {
-    border: none;
-    min-width: 0;
-}
-
-/* Inputs e selects dentro dos formulários */
-.form-group input,
-.form-group select {
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-family: var(--font-main);
-    background-color: #fff;
-    color: var(--text-primary);
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.input-search:focus,
-.select-filter:focus {
-    border-color: var(--bg-sidebar-active);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* Botão secundário e status de usuário */
-.btn-secondary {
-    background-color: #e2e8f0;
-    color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-    background-color: #cbd5e1;
-}
-
-.status-ativo {
-    background-color: var(--badge-agendada-bg);
-    color: var(--badge-agendada-text);
-}
-
-.status-inativo {
-    background-color: #f3f4f6;
-    color: #374151;
-}
-
-/* ==========================================================================
-   ESTILOS DO MODAL DE DETALHES (SGM)
-   ========================================================================== */
+/* =========================================================
+   6. MODAL DE DETALHES
+   ========================================================= */
 
 /* Fundo escurecido que cobre a tela inteira */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     background-color: rgba(15, 23, 42, 0.6);
-    /* Azul escuro semi-transparente */
     backdrop-filter: blur(4px);
-    /* Suaviza o fundo do sistema */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -721,23 +665,23 @@ fieldset {
 /* Cabeçalho do modal */
 .modal-header {
     padding: 20px 24px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: #f8fafc;
+    background-color: var(--bg-app);
 }
 
 .modal-titulo {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #0f172a;
-    margin: 4px 0 0 0;
+    color: var(--text-primary);
+    margin: 4px 0 0;
 }
 
 .modal-subtitulo {
     font-size: 1rem;
-    color: #64748b;
+    color: var(--text-secondary);
     font-weight: 400;
 }
 
@@ -753,7 +697,7 @@ fieldset {
     background: none;
     border: none;
     font-size: 1.75rem;
-    color: #94a3b8;
+    color: var(--text-muted);
     cursor: pointer;
     line-height: 1;
     padding: 0 4px;
@@ -780,17 +724,16 @@ fieldset {
 }
 
 .modal-kpi-card {
-    background-color: #f1f5f9;
+    background-color: var(--bg-muted);
     padding: 12px;
     border-radius: 8px;
-    border-left: 4px solid #0284c7;
-    /* Azul destaque */
+    border-left: 4px solid var(--info);
 }
 
 .kpi-label {
     font-size: 0.75rem;
-    color: #64748b;
-    margin: 0 0 4px 0;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -798,14 +741,13 @@ fieldset {
 .kpi-valor {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #0f172a;
-    margin: 0;
+    color: var(--text-primary);
 }
 
 /* Abas de navegação */
 .modal-tabs {
     display: flex;
-    border-bottom: 2px solid #e2e8f0;
+    border-bottom: 2px solid var(--border-color);
     margin-bottom: 20px;
     gap: 8px;
 }
@@ -817,7 +759,7 @@ fieldset {
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
-    color: #64748b;
+    color: var(--text-secondary);
     cursor: pointer;
     position: relative;
     bottom: -2px;
@@ -825,12 +767,12 @@ fieldset {
 }
 
 .tab-link:hover {
-    color: #0f172a;
+    color: var(--text-primary);
 }
 
 .tab-link.active {
-    color: #0284c7;
-    border-bottom: 2px solid #0284c7;
+    color: var(--info);
+    border-bottom: 2px solid var(--info);
     font-weight: 600;
 }
 
@@ -844,23 +786,22 @@ fieldset {
 .campo-ficha label {
     display: block;
     font-size: 0.75rem;
-    color: #64748b;
+    color: var(--text-secondary);
     margin-bottom: 4px;
     text-transform: uppercase;
 }
 
 .campo-ficha p {
     font-size: 0.95rem;
-    color: #1e293b;
+    color: var(--text-body);
     font-weight: 500;
-    margin: 0;
 }
 
 /* Caixa de alerta de manutenção */
 .alerta-manutencao {
-    background-color: #fffbeb;
-    border: 1px solid #fef08a;
-    border-left: 4px solid #eab308;
+    background-color: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-left: 4px solid var(--warning);
     padding: 12px 16px;
     border-radius: 6px;
     margin-top: 24px;
@@ -872,136 +813,45 @@ fieldset {
 /* Rodapé das ações */
 .modal-footer {
     padding: 16px 24px;
-    border-top: 1px solid #e2e8f0;
-    background-color: #f8fafc;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-app);
     display: flex;
     justify-content: flex-end;
     gap: 12px;
 }
 
-/* Ajustes genéricos de botões (caso precise herdar do seu layout) */
-.btn-secondary {
-    background-color: #ffffff;
-    border: 1px solid #cbd5e1;
-    color: #334155;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-}
+/* =========================================================
+   7. RESPONSIVIDADE (DISPOSITIVOS MÓVEIS / TABLETS)
+   ========================================================= */
 
-.btn-secondary:hover {
-    background-color: #f1f5f9;
-}
+@media (max-width: 1024px) {
+    .indicadores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-/* Complementos para equipamentos.html — carregue DEPOIS de style.css */
-
-.tab-panel[hidden] {
-    display: none;
-}
-
-.tabela-modal {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-}
-
-.tabela-modal th {
-    text-align: left;
-    font-size: 0.75rem;
-    color: #64748b;
-    font-weight: 600;
-    padding: 8px 10px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.tabela-modal td {
-    padding: 10px;
-    border-bottom: 1px solid #f1f5f9;
-    color: #1e293b;
-}
-
-.tabela-modal tr:last-child td {
-    border-bottom: none;
-}
-
-.tabela-modal .num {
-    text-align: right;
-}
-
-.estoque-baixo {
-    color: #991b1b;
-    font-weight: 600;
-}
-
-.vazio {
-    padding: 28px 12px;
-    text-align: center;
-    color: #64748b;
-    font-size: 0.875rem;
-    border: 1px dashed #cbd5e1;
-    border-radius: 8px;
-}
-
-.lista-manuais {
-    list-style: none;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.lista-manuais li {
-    padding: 10px 14px;
-    background: #f1f5f9;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    color: #1e293b;
-}
-
-.subtitulo-aba {
-    font-size: 0.8rem;
-    color: #64748b;
-    font-weight: 600;
-    margin: 20px 0 8px;
-}
-
-/* Formulário em modal */
-.modal-form {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-}
-
-.form-grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 20px;
-    margin-top: 0;
-}
-
-.form-grid-2 .col-2 {
-    grid-column: 1 / -1;
-}
-
-.form-group input[readonly] {
-    background: #f1f5f9;
-    color: #64748b;
-}
-
-.sem-resultado td {
-    text-align: center;
-    color: #64748b;
-    padding: 28px 12px;
+    .dashboard-grid-layout {
+        grid-template-columns: 1fr;
+        /* Transforma as 2 colunas em uma única coluna */
+    }
 }
 
 @media (max-width: 640px) {
+    body>header {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
 
-    .form-grid-2,
-    .grid-ficha-tecnica,
-    .modal-kpis {
+    main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    body>footer {
+        margin-left: 0;
+    }
+
+    .indicadores-grid {
         grid-template-columns: 1fr;
     }
 }
