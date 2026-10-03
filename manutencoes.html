@@ -9,11 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/equipamentos.css">
+    <link rel="stylesheet" href="css/manutencoes.css">
 </head>
 
 <body>
 
-    <!-- BARRA LATERAL (SIDEBAR) -->
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
@@ -30,25 +31,76 @@
         </nav>
     </header>
 
-    <!-- ÁREA PRINCIPAL -->
     <main>
         <section class="main-header">
             <div>
                 <h2>Plano de Manutenção</h2>
                 <p>Agendamentos e execução de rotinas técnicas</p>
             </div>
-            <button class="btn btn-primary">+ Nova Rotina</button>
+            <button type="button" class="btn btn-primary" id="btn-nova">+ Nova Rotina</button>
+        </section>
+
+        <section class="indicadores-grid indicadores-cinco" aria-label="Resumo das manutenções">
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Total de Rotinas</p>
+                    <p class="indicador-valor" id="ind-total">0</p>
+                    <span class="indicador-descricao">Cadastradas</span>
+                </div>
+                <div class="indicador-icone eq">RT</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Programadas</p>
+                    <p class="indicador-valor" id="ind-programada">0</p>
+                    <span class="indicador-descricao" id="ind-programada-desc">No prazo</span>
+                </div>
+                <div class="indicador-icone and">PR</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Atrasadas</p>
+                    <p class="indicador-valor" id="ind-atrasada">0</p>
+                    <span class="indicador-descricao">Exigem atenção</span>
+                </div>
+                <div class="indicador-icone mt">AT</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Próx. 7 dias</p>
+                    <p class="indicador-valor" id="ind-semana">0</p>
+                    <span class="indicador-descricao">A executar</span>
+                </div>
+                <div class="indicador-icone pv">7D</div>
+            </article>
+            <article class="indicador-card">
+                <div>
+                    <p class="indicador-label">Concluídas</p>
+                    <p class="indicador-valor" id="ind-concluida">0</p>
+                    <span class="indicador-descricao">Executadas</span>
+                </div>
+                <div class="indicador-icone can">CO</div>
+            </article>
         </section>
 
         <section class="card-painel">
             <div class="filtros-bar">
-                <select class="select-filter">
+                <input type="text" class="input-search" id="busca" placeholder="Filtrar por tarefa, ativo ou responsável...">
+                <select class="select-filter" id="filtro-categoria" aria-label="Filtrar por categoria">
                     <option value="">Todas as Categorias</option>
-                    <option value="preventiva">Preventiva</option>
-                    <option value="corretiva">Corretiva</option>
-                    <option value="preditiva">Preditiva</option>
+                    <option value="Preventiva">Preventiva</option>
+                    <option value="Corretiva">Corretiva</option>
+                    <option value="Preditiva">Preditiva</option>
                 </select>
-                <input type="date" class="input-search" style="max-width: 200px;">
+                <select class="select-filter" id="filtro-status" aria-label="Filtrar por status">
+                    <option value="">Todos os Status</option>
+                    <option>Programada</option>
+                    <option>Atrasada</option>
+                    <option>Concluída</option>
+                </select>
+                <input type="date" class="input-search" id="filtro-data" style="max-width: 200px;"
+                    aria-label="Próxima data até">
+                <button type="button" class="btn" id="btn-limpar">Limpar</button>
             </div>
 
             <table class="tabela-dados">
@@ -56,42 +108,75 @@
                     <tr>
                         <th>Tarefa / Plano</th>
                         <th>Ativo</th>
+                        <th>Categoria</th>
                         <th>Frequência</th>
                         <th>Próxima Data</th>
                         <th>Responsável</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Troca de óleo e filtros</td>
-                        <td>Compressor de Ar - C02</td>
-                        <td>Mensal</td>
-                        <td>26/10/2026</td>
-                        <td>Carlos Silva</td>
-                        <td><span class="status status-agendada">Programada</span></td>
-                    </tr>
-                    <tr>
-                        <td>Alinhamento e calibragem</td>
-                        <td>Torno CNC - T01</td>
-                        <td>Trimestral</td>
-                        <td>28/10/2026</td>
-                        <td>Equipe Externa</td>
-                        <td><span class="status status-agendada">Programada</span></td>
-                    </tr>
-                    <tr>
-                        <td>Revisão do sistema hidráulico</td>
-                        <td>Prensa Hidráulica - P03</td>
-                        <td>Quinzenal</td>
-                        <td>25/10/2026</td>
-                        <td>Roberto Lima</td>
-                        <td><span class="status status-pendente">Atrasada</span></td>
-                    </tr>
-                </tbody>
+                <tbody id="tabela-corpo"></tbody>
             </table>
         </section>
     </main>
 
+    <!-- MODAL: NOVA / EDITAR ROTINA -->
+    <div id="modal-rotina" class="mm-overlay" aria-hidden="true">
+        <div class="mm-container" role="dialog" aria-modal="true" aria-labelledby="mm-titulo">
+            <header class="mm-header">
+                <h3 id="mm-titulo">Nova Rotina</h3>
+                <button type="button" class="mm-fechar" data-fechar aria-label="Fechar">&times;</button>
+            </header>
+            <form id="form-rotina" class="mm-body">
+                <div class="form-group mm-full">
+                    <label for="f-tarefa">Tarefa / Plano</label>
+                    <input type="text" id="f-tarefa" class="input-search" required>
+                </div>
+                <div class="form-group mm-full">
+                    <label for="f-ativo">Ativo</label>
+                    <select id="f-ativo" class="select-filter" required></select>
+                    <p class="aviso-form" id="aviso-sem-equip" hidden>
+                        Nenhum equipamento cadastrado. <a href="equipamentos.html">Cadastre um equipamento</a> para criar uma rotina.
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="f-categoria">Categoria</label>
+                    <select id="f-categoria" class="select-filter">
+                        <option>Preventiva</option>
+                        <option>Corretiva</option>
+                        <option>Preditiva</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-frequencia">Frequência</label>
+                    <select id="f-frequencia" class="select-filter">
+                        <option>Semanal</option>
+                        <option>Quinzenal</option>
+                        <option selected>Mensal</option>
+                        <option>Trimestral</option>
+                        <option>Semestral</option>
+                        <option>Anual</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-data">Próxima data</label>
+                    <input type="date" id="f-data" class="input-search" required>
+                </div>
+                <div class="form-group">
+                    <label for="f-responsavel">Responsável</label>
+                    <input type="text" id="f-responsavel" class="input-search" required>
+                </div>
+                <footer class="mm-footer mm-full">
+                    <button type="button" class="btn" data-fechar>Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/dados.js"></script>
+    <script src="js/manutencoes.js"></script>
 </body>
 
 </html>
