@@ -4,178 +4,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Controle - Manutenção</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <title>SGM — Dashboard</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
 </head>
 
 <body>
-
-    <!-- BARRA LATERAL (SIDEBAR) -->
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
 
-        <nav>
+        <nav aria-label="Navegação principal">
             <ul>
-                <li><a href="index.html" aria-current="page">Dashboard</a></li>
-                <li><a href="equipamentos.html">Equipamentos</a></li>
-                <li><a href="ordens.html">Ordens de Serviço</a></li>
-                <li><a href="manutencoes.html">Manutenções</a></li>
-                <li><a href="historico.html">Histórico</a></li>
-                <li><a href="relatorios.html">Relatórios</a></li>
-                <li><a href="usuarios.html">Usuários</a></li>
+                <li>
+                    <a href="index.html" aria-current="page">Dashboard</a>
+                </li>
+                <li>
+                    <a href="equipamentos.html">Equipamentos</a>
+                </li>
+                <li>
+                    <a href="ordens.html">Ordens de Serviço</a>
+                </li>
+                <li>
+                    <a href="manutencoes.html">Manutenções</a>
+                </li>
+                <li>
+                    <a href="historico.html">Histórico</a>
+                </li>
+                <li>
+                    <a href="relatorios.html">Relatórios</a>
+                </li>
+                <li>
+                    <a href="usuarios.html">Usuários</a>
+                </li>
             </ul>
         </nav>
     </header>
 
-    <!-- ÁREA PRINCIPAL -->
     <main>
-        <!-- Cabeçalho Superior -->
-        <section class="main-header">
+        <section class="main-header dashboard-cabecalho">
             <div>
                 <h2>Dashboard</h2>
                 <p>Visão geral do sistema de manutenção</p>
             </div>
-            <aside class="data-atual">
-                <p>Última atualização: <strong>Hoje, 14:30</strong></p>
-            </aside>
+
+            <div class="dashboard-atualizacao">
+                Atualizado em <strong id="ultima-atualizacao">—</strong>
+            </div>
         </section>
 
-        <!-- CARDS DE INDICADORES (4 Colunas) -->
-        <section class="indicadores-grid" aria-label="Indicadores principais">
+        <section class="indicadores-grid" aria-label="Indicadores do dashboard">
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Total Equipamentos</p>
-                    <p class="indicador-valor">128</p>
+                    <p class="indicador-valor" id="ind-equipamentos">0</p>
                     <span class="indicador-descricao">Ativos no sistema</span>
                 </div>
-                <div class="indicador-icone eq">EQ</div>
+
+                <span class="indicador-icone eq">EQ</span>
             </article>
 
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">OS Abertas</p>
-                    <p class="indicador-valor">12</p>
+                    <p class="indicador-valor" id="ind-os-abertas">0</p>
                     <span class="indicador-descricao">Requerem atenção</span>
                 </div>
-                <div class="indicador-icone os">OS</div>
+
+                <span class="indicador-icone os">OS</span>
             </article>
 
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Manutenções Hoje</p>
-                    <p class="indicador-valor">5</p>
+                    <p class="indicador-valor" id="ind-manutencoes">0</p>
                     <span class="indicador-descricao">Programadas</span>
                 </div>
-                <div class="indicador-icone mt">MT</div>
+
+                <span class="indicador-icone mt">MT</span>
             </article>
 
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Preventivas Mês</p>
-                    <p class="indicador-valor">45</p>
+                    <p class="indicador-valor" id="ind-preventivas">0</p>
                     <span class="indicador-descricao">Concluídas</span>
                 </div>
-                <div class="indicador-icone pv">PV</div>
+
+                <span class="indicador-icone pv">PV</span>
             </article>
         </section>
 
-        <!-- GRID DE DUAS COLUNAS (CONTEÚDO PRINCIPAL E LATERAL) -->
-        <div class="dashboard-grid-layout">
+        <section class="dashboard-grid-layout dashboard-grid-principal">
+            <div>
+                <article class="card-painel painel-proximas">
+                    <div class="painel-cabecalho">
+                        <div>
+                            <h3>Próximas Manutenções</h3>
+                            <p>Rotinas programadas para os próximos dias</p>
+                        </div>
 
-            <!-- COLUNA ESQUERDA (Tabela + Dica) -->
-            <div class="coluna-principal">
-                <section class="proximas-manutencoes">
-                    <h3>Próximas Manutenções</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Equipamento</th>
-                                <th>Tipo</th>
-                                <th>Data</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Torno CNC - T01</td>
-                                <td>Preventiva</td>
-                                <td>24/10/2026</td>
-                                <td><span class="status status-agendada">Agendada</span></td>
-                            </tr>
-                            <tr>
-                                <td>Prensa Hidráulica - P03</td>
-                                <td>Corretiva</td>
-                                <td>25/10/2026</td>
-                                <td><span class="status status-pendente">Pendente</span></td>
-                            </tr>
-                            <tr>
-                                <td>Compressor de Ar - C02</td>
-                                <td>Preventiva</td>
-                                <td>26/10/2026</td>
-                                <td><span class="status status-agendada">Agendada</span></td>
-                            </tr>
-                            <tr>
-                                <td>Ponte Rolante - PR01</td>
-                                <td>Inspeção</td>
-                                <td>28/10/2026</td>
-                                <td><span class="status status-agendada">Agendada</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
+                        <a class="link-acao" href="manutencoes.html">
+                            Ver plano completo
+                        </a>
+                    </div>
 
-                <aside class="dica-manutencao">
-                    <h4>💡 Dica de Manutenção</h4>
-                    <p>A realização das inspeções diárias previne até 80% das paradas não planejadas nos equipamentos
-                        CNC.</p>
-                </aside>
+                    <div class="tabela-responsiva">
+                        <table class="tabela-dashboard">
+                            <thead>
+                                <tr>
+                                    <th>Equipamento</th>
+                                    <th>Tipo</th>
+                                    <th>Data</th>
+                                    <th>Responsável</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-proximas-manutencoes">
+                                <tr>
+                                    <td colspan="5" class="dashboard-vazio">
+                                        Carregando informações...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="card-painel painel-alerta">
+                    <div class="alerta-icone">!</div>
+                    <div>
+                        <h3>Atenção à manutenção preventiva</h3>
+                        <p>
+                            A realização das inspeções e rotinas preventivas ajuda a reduzir
+                            paradas não planejadas e aumenta a disponibilidade dos equipamentos.
+                        </p>
+                    </div>
+                </article>
             </div>
 
-            <!-- COLUNA DIREITA (Atividades + Gráfico) -->
-            <div class="coluna-lateral">
-                <section class="ultimas-atividades">
-                    <h3>Últimas Atividades</h3>
-                    <ul class="lista-atividades">
-                        <li>
-                            <p><strong>OS #1042 Concluída</strong></p>
-                            <span>Torno CNC - T01 • Há 2 horas</span>
-                        </li>
-                        <li>
-                            <p><strong>Nova OS Aberta</strong></p>
-                            <span>Prensa Hidráulica - P03 • Há 4 horas</span>
-                        </li>
-                        <li>
-                            <p><strong>Manutenção Agendada</strong></p>
-                            <span>Compressor C02 • Há 1 dia</span>
-                        </li>
-                    </ul>
-                </section>
+            <aside class="dashboard-coluna-lateral">
+                <article class="card-painel">
+                    <div class="painel-cabecalho">
+                        <div>
+                            <h3>Últimas Atividades</h3>
+                            <p>Movimentações recentes do sistema</p>
+                        </div>
+                    </div>
 
-                <section class="distribuicao-manutencoes">
-                    <h3>Distribuição por Tipo</h3>
-                    <div class="grafico-container">
-                        <!-- Representação visual do gráfico de rosca (donut) -->
-                        <div class="donut-chart">
+                    <ul class="lista-atividades dashboard-atividades" id="lista-atividades">
+                        <li>Carregando informações...</li>
+                    </ul>
+                </article>
+
+                <article class="card-painel">
+                    <div class="painel-cabecalho">
+                        <div>
+                            <h3>Distribuição por Tipo</h3>
+                            <p>Ordens de serviço registradas</p>
+                        </div>
+                    </div>
+
+                    <div class="grafico-dashboard">
+                        <div class="donut-chart" id="grafico-tipos">
                             <div class="donut-hole">
-                                <span>100%</span>
+                                <span id="total-tipos">0</span>
                             </div>
                         </div>
-                        <ul class="legenda-grafico">
-                            <li><span class="cor-preventiva"></span> Preventiva (60%)</li>
-                            <li><span class="cor-corretiva"></span> Corretiva (25%)</li>
-                            <li><span class="cor-inspecao"></span> Inspeção (15%)</li>
+
+                        <ul class="legenda-grafico legenda-dashboard">
+                            <li>
+                                <span class="cor-preventiva"></span>
+                                Preventiva
+                                <strong id="pct-preventiva">0%</strong>
+                            </li>
+                            <li>
+                                <span class="cor-corretiva"></span>
+                                Corretiva
+                                <strong id="pct-corretiva">0%</strong>
+                            </li>
+                            <li>
+                                <span class="cor-inspecao"></span>
+                                Inspeção
+                                <strong id="pct-inspecao">0%</strong>
+                            </li>
                         </ul>
                     </div>
-                </section>
-            </div>
-
-        </div>
+                </article>
+            </aside>
+        </section>
     </main>
 
+    <footer>
+        SGM — Sistema de Gestão de Manutenção
+    </footer>
+
+    <script src="./js/dados.js"></script>
+    <script src="./js/dashboard.js"></script>
 </body>
 
 </html>
