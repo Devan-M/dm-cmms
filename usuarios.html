@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/usuarios.css">
 </head>
 
 <body>
@@ -33,149 +34,72 @@
     </header>
 
 
-    <!-- Conteúdo principal da área de gerenciamento dos usuários -->
+    <!-- Conteúdo principal: aviso de funcionalidade em desenvolvimento -->
     <main>
 
-        <!-- Seção inicial com apresentação da página -->
         <section class="main-header">
-            <header>
+            <div>
                 <h2>Usuários</h2>
-
-                <p>
-                    Gerenciamento dos usuários e dos níveis de acesso
-                    ao sistema de manutenção.
-                </p>
-            </header>
+                <p>Gerenciamento dos usuários e dos níveis de acesso ao sistema de manutenção</p>
+            </div>
         </section>
 
 
-        <!-- Resumo dos principais indicadores de usuários -->
-        <section>
-            <header>
-                <h2>Resumo dos usuários</h2>
-            </header>
+        <!-- Aviso principal -->
+        <section class="card-painel em-breve" aria-labelledby="titulo-em-breve">
+            <div class="indicador-icone eq em-breve-icone" aria-hidden="true">US</div>
 
-            <section class="indicadores-grid" aria-label="Indicadores Princpais">
-                <article class="indicador-card">
-                    <div>
-                        <p class="indicador-label">Total de Usuários</p>
-                        <p class="indicador-valor">8</p>
-                    </div>
-                    <div class="indicador-icone eq">TU</div>
-                </article>
+            <span class="status status-andamento">Em desenvolvimento</span>
 
-                <article class="indicador-card">
-                    <div>
-                        <p class="indicador-label">Usuários ativos</p>
-                        <p class="indicador-valor">7</p>
-                    </div>
-                    <div class="indicador-icone pv">AT</div>
-                </article>
-
-                <article class="indicador-card">
-                    <div>
-                        <p class="indicador-label">Administradores</p>
-                        <p class="indicador-valor">2</p>
-                    </div>
-                    <div class="indicador-icone os">ADM</div>
-                </article>
-
-                <article class="indicador-card">
-                    <div>
-                        <p class="indicador-label">Técnicos</p>
-                        <p class="indicador-valor">4</p>
-                    </div>
-                    <div class="indicador-icone mt">TEC</div>
-                </article>
-            </section>
-        </section>
-
-
-        <!-- Pesquisa e consulta dos usuários cadastrados -->
-        <section>
-            <header>
-                <h2>Lista de usuários</h2>
-                <p>
-                    Consulte os usuários cadastrados e seus
-                    respectivos níveis de acesso.
-                </p>
-            </header>
-
-            <!-- Formulário de pesquisa e filtragem dos usuários -->
-            <form action="#" method="get">
-                <fieldset class="filtros-bar">
-                    <legend class="sr-only">Pesquisar usuários</legend>
-
-                    <input class="input-search" type="search" id="busca" name="busca"
-                        placeholder="Buscar por nome ou e-mail" aria-label="Buscar por nome ou e-mail">
-
-                    <select class="select-filter" id="perfil" name="perfil" aria-label="Perfil">
-                        <option value="">Todos os perfis</option>
-                        <option value="administrador">Administrador</option>
-                        <!-- ... -->
-                    </select>
-
-                    <select class="select-filter" id="status" name="status" aria-label="Status">
-                        <option value="">Todos os status</option>
-                        <option value="ativo">Ativo</option>
-                        <option value="inativo">Inativo</option>
-                    </select>
-
-                    <button class="btn btn-primary" type="submit">Pesquisar</button>
-                    <button class="btn btn-secondary" type="reset">Limpar</button>
-                </fieldset>
-            </form>
-
-            <!-- Tabela com os usuários cadastrados no sistema -->
-            <table class="tabela-dados">
-                <!-- ... -->
-                <td><span class="status status-ativo">Ativo</span></td>
-                <!-- ... -->
-                <td><a class="link-acao" href="#usuario-001">Visualizar</a></td>
-            </table>
-        </section>
-
-        <!-- Formulário para cadastrar um novo usuário -->
-        <section class="card-painel">
-
-            <header>
-                <h2>Cadastrar usuário</h2>
-
-                <p>
-                    Preencha os dados abaixo para cadastrar
-                    um novo usuário no sistema.
-                </p>
-            </header>
-
-
-            <!-- Formulário de cadastro do usuário -->
-            <form class="form-grid" action="#" method="post">
-                <fieldset class="form-grid">
-                    <legend>Dados pessoais</legend>
-
-                    <p class="form-group">
-                        <label for="nome">Nome completo:</label>
-                        <input type="text" id="nome" name="nome" required>
-                    </p>
-                    <!-- demais campos com class="form-group" -->
-                </fieldset>
-
-                <button class="btn btn-primary" type="submit">Cadastrar usuário</button>
-            </form>
-
-        </section>
-
-
-        <!-- Orientação sobre o gerenciamento dos usuários -->
-        <aside class="dica-seguranca">
-            <header>
-                <h2>Importante</h2>
-            </header>
+            <h3 id="titulo-em-breve">Esta página estará disponível em breve</h3>
 
             <p>
-                Conceda aos usuários somente as permissões
-                necessárias para a realização de suas atividades
-                no sistema.
+                Estamos finalizando o módulo de usuários. Em breve você poderá
+                cadastrar pessoas, definir perfis e controlar os níveis de acesso
+                ao sistema.
+            </p>
+
+            <a class="btn btn-primary btn-voltar" href="index.html">Voltar ao Dashboard</a>
+        </section>
+
+
+        <!-- O que será disponibilizado -->
+        <section class="card-painel">
+            <h3 class="titulo-secao">O que está por vir</h3>
+
+            <ul class="lista-atividades">
+                <li>
+                    <strong>Cadastro de usuários</strong>
+                    <br>
+                    <span>Inclusão de novos usuários com nome, e-mail e perfil</span>
+                </li>
+                <li>
+                    <strong>Perfis de acesso</strong>
+                    <br>
+                    <span>Administrador, técnico e demais níveis de permissão</span>
+                </li>
+                <li>
+                    <strong>Controle de status</strong>
+                    <br>
+                    <span>Ativação e inativação de usuários</span>
+                </li>
+                <li>
+                    <strong>Busca e filtros</strong>
+                    <br>
+                    <span>Consulta por nome, e-mail, perfil e status</span>
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Orientação ao usuário -->
+        <aside class="dica-manutencao">
+            <h4>Precisa de acesso agora?</h4>
+
+            <p>
+                Enquanto o módulo não é liberado, as demais áreas do sistema
+                continuam funcionando normalmente. Em caso de dúvidas sobre
+                permissões, procure o administrador do sistema.
             </p>
         </aside>
 

@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/usuarios.css">
 </head>
 
 <body>
@@ -17,7 +18,8 @@
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
-        <nav>
+
+        <nav aria-label="Navegação principal">
             <ul>
                 <li><a href="index.html">Dashboard</a></li>
                 <li><a href="equipamentos.html">Equipamentos</a></li>
@@ -30,40 +32,100 @@
         </nav>
     </header>
 
-    <!-- ÁREA PRINCIPAL -->
+
+    <!-- ÁREA PRINCIPAL: aviso de funcionalidade em desenvolvimento -->
     <main>
+
         <section class="main-header">
             <div>
                 <h2>Relatórios e Indicadores</h2>
                 <p>Análise de KPIs operacionais (MTBF, MTTR e custos)</p>
             </div>
-            <button class="btn btn-primary">Exportar Relatório (PDF)</button>
         </section>
 
-        <!-- LAYOUT GRID -->
-        <div class="dashboard-grid-layout">
-            <div class="coluna-principal">
-                <section class="card-painel">
-                    <h3>Desempenho Geral do Mês</h3>
-                    <div style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-                        <p><strong>MTBF (Tempo Médio Entre Falhas):</strong> 142 Horas (+8%)</p>
-                        <p style="margin-top: 0.5rem;"><strong>MTTR (Tempo Médio para Reparo):</strong> 2.4 Horas (-12%)
-                        </p>
-                    </div>
-                </section>
-            </div>
-            <div class="coluna-lateral">
-                <section class="card-painel">
-                    <h3>Opções de Exportação</h3>
-                    <ul class="lista-atividades">
-                        <li>Relatório Mensal de Custos</li>
-                        <li>Análise da Criticidade dos Ativos</li>
-                        <li>Desempenho da Equipe Técnica</li>
-                    </ul>
-                </section>
-            </div>
-        </div>
+
+        <!-- Aviso principal -->
+        <section class="card-painel em-breve" aria-labelledby="titulo-em-breve">
+            <div class="indicador-icone pv em-breve-icone" aria-hidden="true">RL</div>
+
+            <span class="status status-andamento">Em desenvolvimento</span>
+
+            <h3 id="titulo-em-breve">Esta página estará disponível em breve</h3>
+
+            <p>
+                Estamos finalizando o módulo de relatórios. Em breve você poderá
+                acompanhar os indicadores de desempenho da manutenção e exportar
+                relatórios completos do sistema.
+            </p>
+
+            <a class="btn btn-primary btn-voltar" href="index.html">Voltar ao Dashboard</a>
+        </section>
+
+
+        <!-- O que será disponibilizado -->
+        <section class="card-painel">
+            <h3 class="titulo-secao">O que está por vir</h3>
+
+            <ul class="lista-atividades">
+                <li>
+                    <strong>Indicadores de desempenho</strong>
+                    <br>
+                    <span>MTBF (tempo médio entre falhas) e MTTR (tempo médio para reparo)</span>
+                </li>
+                <li>
+                    <strong>Relatório mensal de custos</strong>
+                    <br>
+                    <span>Custos de manutenção acumulados por equipamento e por período</span>
+                </li>
+                <li>
+                    <strong>Análise da criticidade dos ativos</strong>
+                    <br>
+                    <span>Visão dos equipamentos por nível de criticidade e disponibilidade</span>
+                </li>
+                <li>
+                    <strong>Desempenho da equipe técnica</strong>
+                    <br>
+                    <span>Acompanhamento das atividades executadas por responsável</span>
+                </li>
+                <li>
+                    <strong>Exportação em PDF</strong>
+                    <br>
+                    <span>Geração de relatórios prontos para impressão e compartilhamento</span>
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Orientação ao usuário -->
+        <aside class="dica-manutencao">
+            <h4>Precisa de dados agora?</h4>
+
+            <p>
+                Enquanto o módulo não é liberado, você pode consultar as informações
+                de cada equipamento em <a class="link-acao" href="equipamentos.html">Equipamentos</a>
+                e o andamento dos serviços em
+                <a class="link-acao" href="ordens.html">Ordens de Serviço</a>.
+            </p>
+        </aside>
+
     </main>
+
+
+    <footer>
+        <p>
+            DM-SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+
+        <p>
+            <a href="https://www.linkedin.com/in/devan-m/" target="_blank" rel="noopener noreferrer">
+                LinkedIn de Devan M.
+            </a>
+        </p>
+    </footer>
 
 </body>
 

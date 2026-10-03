@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/usuarios.css">
 </head>
+
 <body>
 
     <!-- BARRA LATERAL (SIDEBAR) -->
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
-        <nav>
+
+        <nav aria-label="Navegação principal">
             <ul>
                 <li><a href="index.html">Dashboard</a></li>
                 <li><a href="equipamentos.html">Equipamentos</a></li>
@@ -28,8 +32,10 @@
         </nav>
     </header>
 
-    <!-- ÁREA PRINCIPAL -->
+
+    <!-- ÁREA PRINCIPAL: aviso de funcionalidade em desenvolvimento -->
     <main>
+
         <section class="main-header">
             <div>
                 <h2>Histórico de Intervenções</h2>
@@ -37,43 +43,85 @@
             </div>
         </section>
 
-        <section class="card-painel">
-            <div class="filtros-bar">
-                <input type="text" class="input-search" placeholder="Pesquisar registro no histórico...">
-            </div>
 
-            <table class="tabela-dados">
-                <thead>
-                    <tr>
-                        <th>Concluído em</th>
-                        <th>OS / Código</th>
-                        <th>Equipamento</th>
-                        <th>Tipo de Intervenção</th>
-                        <th>Técnico</th>
-                        <th>Custo total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>20/09/2026 - 16:00</td>
-                        <td><strong>#1040</strong></td>
-                        <td>Ponte Rolante - PR01</td>
-                        <td>Preventiva</td>
-                        <td>Marcos Souza</td>
-                        <td>R$ 450,00</td>
-                    </tr>
-                    <tr>
-                        <td>18/09/2026 - 11:30</td>
-                        <td><strong>#1038</strong></td>
-                        <td>Torno CNC - T01</td>
-                        <td>Corretiva (Troca de Rolamento)</td>
-                        <td>Carlos Silva</td>
-                        <td>R$ 1.200,00</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Aviso principal -->
+        <section class="card-painel em-breve" aria-labelledby="titulo-em-breve">
+            <div class="indicador-icone mt em-breve-icone" aria-hidden="true">HI</div>
+
+            <span class="status status-andamento">Em desenvolvimento</span>
+
+            <h3 id="titulo-em-breve">Esta página estará disponível em breve</h3>
+
+            <p>
+                Estamos finalizando o módulo de histórico. Em breve você poderá
+                consultar todas as intervenções concluídas, com técnico responsável,
+                tipo de serviço e custo total, para fins de auditoria.
+            </p>
+
+            <a class="btn btn-primary btn-voltar" href="index.html">Voltar ao Dashboard</a>
         </section>
+
+
+        <!-- O que será disponibilizado -->
+        <section class="card-painel">
+            <h3 class="titulo-secao">O que está por vir</h3>
+
+            <ul class="lista-atividades">
+                <li>
+                    <strong>Registro de intervenções concluídas</strong>
+                    <br>
+                    <span>Data e hora de conclusão, número da O.S. e equipamento atendido</span>
+                </li>
+                <li>
+                    <strong>Tipo de intervenção</strong>
+                    <br>
+                    <span>Identificação de serviços preventivos, corretivos e inspeções</span>
+                </li>
+                <li>
+                    <strong>Técnico responsável e custo total</strong>
+                    <br>
+                    <span>Acompanhamento de quem executou cada serviço e quanto custou</span>
+                </li>
+                <li>
+                    <strong>Pesquisa no histórico</strong>
+                    <br>
+                    <span>Busca rápida por registros, equipamentos, técnicos ou número da O.S.</span>
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Orientação ao usuário -->
+        <aside class="dica-manutencao">
+            <h4>Precisa consultar um serviço agora?</h4>
+
+            <p>
+                Enquanto o módulo não é liberado, acompanhe os serviços em
+                <a class="link-acao" href="ordens.html">Ordens de Serviço</a>
+                e as rotinas programadas em
+                <a class="link-acao" href="manutencoes.html">Manutenções</a>.
+            </p>
+        </aside>
+
     </main>
 
+
+    <footer>
+        <p>
+            DM-SGM - Sistema de Gerenciamento de Manutenção
+        </p>
+
+        <p>
+            Versão 1.0
+        </p>
+
+        <p>
+            <a href="https://www.linkedin.com/in/devan-m/" target="_blank" rel="noopener noreferrer">
+                LinkedIn de Devan M.
+            </a>
+        </p>
+    </footer>
+
 </body>
+
 </html>
