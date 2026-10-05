@@ -15,6 +15,9 @@
     const TIMEOUT_MS = 10000;
     const INTERVALO_ATUALIZACAO_MS = 30 * 60 * 1000;
     const CAMINHO_ICONES = "./weather_icons/";
+    const CHAVE_GPS = "sgm_clima_gps";             // cache da localização automática
+    const TIMEOUT_GPS_MS = 8000;                   // tempo máximo esperando o navegador
+    const VALIDADE_GPS_MS = 6 * 60 * 60 * 1000;    // reaproveita a posição por 6h
 
     // Códigos WMO -> descrição + ícone
     const CODIGOS_CLIMA = {
@@ -99,6 +102,7 @@
         chuva: document.getElementById("clima-chuva"),
         aviso: document.getElementById("clima-aviso"),
         dias: document.getElementById("clima-dias"),
+        botaoGps: document.getElementById("clima-usar-gps"),
     };
 
     if (!el.local) return;
@@ -152,14 +156,18 @@
         return data.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "");
     }
 
-    function carregarLocal() {
+    function lerStorage(chave) {
         try {
-            const salvo = JSON.parse(localStorage.getItem(CHAVE_STORAGE));
-            if (salvo && salvo.latitude && salvo.longitude) return salvo;
+            return JSON.parse(localStorage.getItem(chave));
         } catch (e) {
-            /* ignora */
+            return null;
         }
-        return LOCAL_PADRAO;
+    }
+
+    // Cidade escolhida manualmente pelo usuário (se houver)
+    function carregarLocalManual() {
+        const salvo = lerStorage(CHAVE_STORAGE);
+        return salvo && salvo.latitude && salvo.longitude ? salvo : null;
     }
 
     function salvarLocal(local) {
@@ -204,6 +212,81 @@
         });
 
         return fetchJSON("https://api.open-meteo.com/v1/forecast?" + params.toString());
+    }
+
+    // Pede a posição ao navegador. Resolve null se negar, der timeout ou não houver suporte.
+    function posicaoDoNavegador() {
+        return new Promise((resolve) => {
+            if (!("geolocation" in navigator)) {
+                resolve(null);
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (p) => resolve({
+                    latitude: p.coords.latitude,
+                    longitude: p.coords.longitude,
+                }),
+                () => resolve(null),
+                { enableHighAccuracy: false, timeout: TIMEOUT_GPS_MS, maximumAge: 600000 }
+            );
+        });
+    }
+
+    // Converte coordenadas em nome de cidade (API gratuita, sem chave)
+    async function nomeDasCoordenadas(latitude, longitude) {
+        try {
+            const url =
+                "https://api.bigdatacloud.net/data/reverse-geocode-client" +
+                "?latitude=" + latitude +
+                "&longitude=" + longitude +
+                "&localityLanguage=pt";
+
+            const dados = await fetchJSON(url);
+
+            return {
+                nome: dados.city || dados.locality || "Sua localização",
+                regiao: (dados.principalSubdivisionCode || "").split("-")[1] || "",
+            };
+        } catch (e) {
+            return { nome: "Sua localização", regiao: "" };
+        }
+    }
+
+    // Localização automática, com cache para não pedir/consultar a cada visita
+    async function localizacaoAutomatica() {
+        const cache = lerStorage(CHAVE_GPS);
+
+        if (cache && cache.local && Date.now() - cache.ts < VALIDADE_GPS_MS) {
+            return cache.local;
+        }
+
+        const posicao = await posicaoDoNavegador();
+        if (!posicao) return null;
+
+        const lugar = await nomeDasCoordenadas(posicao.latitude, posicao.longitude);
+        const local = { ...lugar, ...posicao };
+
+        try {
+            localStorage.setItem(CHAVE_GPS, JSON.stringify({ local, ts: Date.now() }));
+        } catch (e) {
+            /* ignora */
+        }
+
+        return local;
+    }
+
+    // Define qual local usar ao abrir a página
+    async function definirLocalInicial() {
+        const manual = carregarLocalManual();
+        if (manual) return manual;
+
+        el.local.classList.remove("clima-erro");
+        el.local.textContent = "Obtendo sua localização...";
+        mostrarLoader(true);
+
+        const automatico = await localizacaoAutomatica();
+        return automatico || LOCAL_PADRAO;
     }
 
     // ===== Renderização =====
@@ -304,8 +387,12 @@
     }
 
     // ===== Fluxo principal =====
-    // silencioso = true: atualização automática, sem loader nem texto de carregamento
+
+    let localAtual = LOCAL_PADRAO;
+
     async function atualizarClima(local, silencioso = false) {
+        localAtual = local;
+
         if (!silencioso) {
             el.local.classList.remove("clima-erro");
             el.local.textContent = "Carregando previsão...";
@@ -358,7 +445,23 @@
         });
     }
 
-    atualizarClima(carregarLocal());
+    async function iniciar() {
+        const local = await definirLocalInicial();
+        await atualizarClima(local);
+    }
 
-    setInterval(() => atualizarClima(carregarLocal(), true), INTERVALO_ATUALIZACAO_MS);
+    if (el.botaoGps) {
+        el.botaoGps.addEventListener("click", async () => {
+            localStorage.removeItem(CHAVE_STORAGE);
+            localStorage.removeItem(CHAVE_GPS);
+
+            const local = await definirLocalInicial();
+            await atualizarClima(local);
+        });
+    }
+
+    iniciar();
+
+    // A atualização automática usa o local já definido, sem pedir permissão de novo
+    setInterval(() => atualizarClima(localAtual, true), INTERVALO_ATUALIZACAO_MS);
 })();

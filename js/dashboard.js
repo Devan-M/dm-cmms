@@ -1,87 +1,26 @@
 (function () {
     "use strict";
 
-    const CHAVE_OS = "sgm_ordens_v1";
-    const CHAVE_MANUTENCOES = "sgm_manutencoes";
+    // Requer: dados.js (e graficos.js) carregados ANTES deste arquivo.
+    // Reutiliza de dados.js: esc, formatarData, hojeISO, agoraISO,
+    // percentuaisInteiros, carregarEquipamentos, carregarOrdens,
+    // carregarManutencoes.
 
     const $ = (id) => document.getElementById(id);
 
-    const escapar = (valor) =>
-        String(valor ?? "").replace(/[&<>"']/g, (caractere) => ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        }[caractere]));
+    const definirTexto = (id, valor) => {
+        const elemento = $(id);
 
-    function hojeISO() {
-        const data = new Date();
-
-        data.setMinutes(
-            data.getMinutes() - data.getTimezoneOffset()
-        );
-
-        return data.toISOString().slice(0, 10);
-    }
-
-    function formatarData(iso) {
-        if (!iso) {
-            return "—";
+        if (elemento) {
+            elemento.textContent = valor;
         }
-
-        const partes = String(iso)
-            .slice(0, 10)
-            .split("-");
-
-        if (partes.length !== 3) {
-            return "—";
-        }
-
-        return `${partes[2]}/${partes[1]}/${partes[0]}`;
-    }
+    };
 
     function formatarHoraAtual() {
         return new Date().toLocaleString("pt-BR", {
             dateStyle: "short",
             timeStyle: "short"
         });
-    }
-
-    function carregarOrdensDashboard() {
-        try {
-            const dados = JSON.parse(
-                localStorage.getItem(CHAVE_OS)
-            );
-
-            return Array.isArray(dados) ? dados : [];
-
-        } catch (erro) {
-            console.error(
-                "Erro ao carregar ordens no dashboard:",
-                erro
-            );
-
-            return [];
-        }
-    }
-
-    function carregarManutencoesDashboard() {
-        try {
-            const dados = JSON.parse(
-                localStorage.getItem(CHAVE_MANUTENCOES)
-            );
-
-            return Array.isArray(dados) ? dados : [];
-
-        } catch (erro) {
-            console.error(
-                "Erro ao carregar manutenções no dashboard:",
-                erro
-            );
-
-            return [];
-        }
     }
 
     function nomeDoEquipamento(ordem, equipamentos) {
@@ -94,12 +33,16 @@
             : ordem.equipamento || "Equipamento não identificado";
     }
 
+    function manutencaoAtrasada(rotina) {
+        return !rotina.concluida && String(rotina.data) < hojeISO();
+    }
+
     function classeStatusManutencao(rotina) {
         if (rotina.concluida) {
             return "status-concluida";
         }
 
-        return rotina.data < hojeISO()
+        return manutencaoAtrasada(rotina)
             ? "status-atrasada"
             : "status-agendada";
     }
@@ -109,16 +52,12 @@
             return "Concluída";
         }
 
-        return rotina.data < hojeISO()
+        return manutencaoAtrasada(rotina)
             ? "Atrasada"
             : "Programada";
     }
 
-    function atualizarIndicadores(
-        equipamentos,
-        ordens,
-        manutencoes
-    ) {
+    function atualizarIndicadores(equipamentos, ordens, manutencoes) {
         const ordensAbertas = ordens.filter(
             (ordem) =>
                 ordem.status === "Em Aberto" ||
@@ -137,42 +76,14 @@
                 String(rotina.data || "").slice(0, 7) === mesAtual
         );
 
-        const indicadorEquipamentos = $("ind-equipamentos");
-        const indicadorOsAbertas = $("ind-os-abertas");
-        const indicadorManutencoes = $("ind-manutencoes");
-        const indicadorPreventivas = $("ind-preventivas");
-        const ultimaAtualizacao = $("ultima-atualizacao");
-
-        if (indicadorEquipamentos) {
-            indicadorEquipamentos.textContent =
-                equipamentos.length;
-        }
-
-        if (indicadorOsAbertas) {
-            indicadorOsAbertas.textContent =
-                ordensAbertas.length;
-        }
-
-        if (indicadorManutencoes) {
-            indicadorManutencoes.textContent =
-                manutencoesPendentes.length;
-        }
-
-        if (indicadorPreventivas) {
-            indicadorPreventivas.textContent =
-                preventivasMes.length;
-        }
-
-        if (ultimaAtualizacao) {
-            ultimaAtualizacao.textContent =
-                formatarHoraAtual();
-        }
+        definirTexto("ind-equipamentos", equipamentos.length);
+        definirTexto("ind-os-abertas", ordensAbertas.length);
+        definirTexto("ind-manutencoes", manutencoesPendentes.length);
+        definirTexto("ind-preventivas", preventivasMes.length);
+        definirTexto("ultima-atualizacao", formatarHoraAtual());
     }
 
-    function renderizarProximasManutencoes(
-        manutencoes,
-        equipamentos
-    ) {
+    function renderizarProximasManutencoes(manutencoes, equipamentos) {
         const corpo = $("tabela-proximas-manutencoes");
 
         if (!corpo) {
@@ -181,11 +92,7 @@
 
         const lista = manutencoes
             .filter((rotina) => !rotina.concluida)
-            .sort((a, b) =>
-                String(a.data).localeCompare(
-                    String(b.data)
-                )
-            )
+            .sort((a, b) => String(a.data).localeCompare(String(b.data)))
             .slice(0, 5);
 
         if (!lista.length) {
@@ -208,51 +115,21 @@
 
                 const nome = equipamento
                     ? equipamento.nome
-                    : rotina.ativo ||
-                    "Equipamento não identificado";
+                    : rotina.ativo || "Equipamento não identificado";
 
-                const status =
-                    textoStatusManutencao(rotina);
-
-                const classe =
-                    classeStatusManutencao(rotina);
+                const subtexto = rotina.codigo
+                    ? `<small class="dashboard-subtexto">${esc(rotina.codigo)}</small>`
+                    : "";
 
                 return `
                     <tr>
+                        <td>${esc(nome)} ${subtexto}</td>
+                        <td>${esc(rotina.categoria || "Preventiva")}</td>
+                        <td>${formatarData(rotina.data)}</td>
+                        <td>${esc(rotina.responsavel || "Não atribuído")}</td>
                         <td>
-                            ${escapar(nome)}
-
-                            ${rotina.codigo
-                        ? `
-                                        <small class="dashboard-subtexto">
-                                            ${escapar(rotina.codigo)}
-                                        </small>
-                                    `
-                        : ""
-                    }
-                        </td>
-
-                        <td>
-                            ${escapar(
-                        rotina.categoria ||
-                        "Preventiva"
-                    )}
-                        </td>
-
-                        <td>
-                            ${formatarData(rotina.data)}
-                        </td>
-
-                        <td>
-                            ${escapar(
-                        rotina.responsavel ||
-                        "Não atribuído"
-                    )}
-                        </td>
-
-                        <td>
-                            <span class="status ${classe}">
-                                ${status}
+                            <span class="status ${classeStatusManutencao(rotina)}">
+                                ${textoStatusManutencao(rotina)}
                             </span>
                         </td>
                     </tr>
@@ -261,10 +138,14 @@
             .join("");
     }
 
-    function renderizarAtividades(
-        ordens,
-        equipamentos
-    ) {
+    const TITULOS_ATIVIDADE = {
+        "Em Aberto": "Nova O.S. aberta",
+        "Em Andamento": "O.S. em andamento",
+        "Concluída": "O.S. concluída",
+        "Cancelada": "O.S. cancelada"
+    };
+
+    function renderizarAtividades(ordens, equipamentos) {
         const lista = $("lista-atividades");
 
         if (!lista) {
@@ -272,11 +153,7 @@
         }
 
         const atividades = [...ordens]
-            .sort((a, b) =>
-                String(b.abertura).localeCompare(
-                    String(a.abertura)
-                )
-            )
+            .sort((a, b) => String(b.abertura).localeCompare(String(a.abertura)))
             .slice(0, 4);
 
         if (!atividades.length) {
@@ -291,39 +168,13 @@
 
         lista.innerHTML = atividades
             .map((ordem) => {
-                const equipamento =
-                    nomeDoEquipamento(
-                        ordem,
-                        equipamentos
-                    );
-
-                let titulo = "O.S. registrada";
-
-                if (ordem.status === "Em Aberto") {
-                    titulo = "Nova O.S. aberta";
-                }
-
-                if (ordem.status === "Em Andamento") {
-                    titulo = "O.S. em andamento";
-                }
-
-                if (ordem.status === "Concluída") {
-                    titulo = "O.S. concluída";
-                }
-
-                if (ordem.status === "Cancelada") {
-                    titulo = "O.S. cancelada";
-                }
+                const titulo = TITULOS_ATIVIDADE[ordem.status] || "O.S. registrada";
 
                 return `
                     <li>
-                        <strong>
-                            ${escapar(titulo)}
-                            #${escapar(ordem.numero)}
-                        </strong>
-
+                        <strong>${esc(titulo)} #${esc(ordem.numero)}</strong>
                         <span>
-                            ${escapar(equipamento)}
+                            ${esc(nomeDoEquipamento(ordem, equipamentos))}
                             ·
                             ${formatarData(ordem.abertura)}
                         </span>
@@ -334,138 +185,55 @@
     }
 
     function renderizarDistribuicao(ordens) {
-        const total = ordens.length;
+        const contar = (tipo) =>
+            ordens.filter((ordem) => ordem.tipo === tipo).length;
 
-        const quantidadePreventiva = ordens.filter(
-            (ordem) =>
-                ordem.tipo === "Preventiva"
-        ).length;
+        // Percentuais inteiros que sempre somam 100% (ou 0% sem ordens).
+        const [preventiva, corretiva, inspecao] = percentuaisInteiros([
+            contar("Preventiva"),
+            contar("Corretiva"),
+            contar("Inspeção")
+        ]);
 
-        const quantidadeCorretiva = ordens.filter(
-            (ordem) =>
-                ordem.tipo === "Corretiva"
-        ).length;
+        definirTexto("pct-preventiva", `${preventiva}%`);
+        definirTexto("pct-corretiva", `${corretiva}%`);
+        definirTexto("pct-inspecao", `${inspecao}%`);
 
-        const quantidadeInspecao = ordens.filter(
-            (ordem) =>
-                ordem.tipo === "Inspeção"
-        ).length;
-
-        const percentual = (quantidade) =>
-            total
-                ? Math.round(
-                    (quantidade / total) * 100
-                )
-                : 0;
-
-        const preventiva =
-            percentual(quantidadePreventiva);
-
-        const corretiva =
-            percentual(quantidadeCorretiva);
-
-        const inspecao =
-            percentual(quantidadeInspecao);
-
-        /*
-         * Os elementos de percentual são opcionais.
-         * Caso existam no HTML, serão atualizados.
-         */
-        const percentualPreventiva =
-            $("pct-preventiva");
-
-        const percentualCorretiva =
-            $("pct-corretiva");
-
-        const percentualInspecao =
-            $("pct-inspecao");
-
-        if (percentualPreventiva) {
-            percentualPreventiva.textContent =
-                `${preventiva}%`;
-        }
-
-        if (percentualCorretiva) {
-            percentualCorretiva.textContent =
-                `${corretiva}%`;
-        }
-
-        if (percentualInspecao) {
-            percentualInspecao.textContent =
-                `${inspecao}%`;
-        }
-
-        if (
-            typeof window.atualizarGraficoTipos ===
-            "function"
-        ) {
-            window.atualizarGraficoTipos(
-                quantidadePreventiva,
-                quantidadeCorretiva,
-                quantidadeInspecao
-            );
+        if (window.atualizarGraficoComDados) {
+            window.atualizarGraficoComDados();
         }
     }
 
     function renderizarDashboard() {
-        const equipamentos =
-            typeof carregarEquipamentos === "function"
-                ? carregarEquipamentos()
-                : [];
+        const equipamentos = carregarEquipamentos();
+        const ordens = carregarOrdens();
+        const manutencoes = carregarManutencoes();
 
-        const ordens =
-            carregarOrdensDashboard();
-
-        const manutencoes =
-            carregarManutencoesDashboard();
-
-        atualizarIndicadores(
-            equipamentos,
-            ordens,
-            manutencoes
-        );
-
-        renderizarProximasManutencoes(
-            manutencoes,
-            equipamentos
-        );
-
-        renderizarAtividades(
-            ordens,
-            equipamentos
-        );
-
+        atualizarIndicadores(equipamentos, ordens, manutencoes);
+        renderizarProximasManutencoes(manutencoes, equipamentos);
+        renderizarAtividades(ordens, equipamentos);
         renderizarDistribuicao(ordens);
     }
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        () => {
-            renderizarDashboard();
+    document.addEventListener("DOMContentLoaded", () => {
+        renderizarDashboard();
 
-            window.addEventListener(
-                "storage",
-                renderizarDashboard
-            );
+        // Disparado quando outra aba altera o localStorage.
+        window.addEventListener("storage", renderizarDashboard);
 
-            window.addEventListener(
-                "pageshow",
-                (evento) => {
-                    if (evento.persisted) {
-                        renderizarDashboard();
-                    }
-                }
-            );
+        // Volta pelo botão "voltar" do navegador (cache de página).
+        window.addEventListener("pageshow", (evento) => {
+            if (evento.persisted) {
+                renderizarDashboard();
+            }
+        });
 
-            document.addEventListener(
-                "visibilitychange",
-                () => {
-                    if (!document.hidden) {
-                        renderizarDashboard();
-                    }
-                }
-            );
-        }
-    );
+        // Ao voltar para a aba.
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                renderizarDashboard();
+            }
+        });
+    });
 
 })();

@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="./css/dashboard.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="./js/grafico.js" defer></script>
     <script src="./js/dados.js" defer></script>
+    <script src="./js/grafico.js" defer></script>
     <script src="./js/dashboard.js" defer></script>
     <script src="./js/weather.js" defer></script>
 </head>
@@ -189,16 +189,12 @@
                                 Buscar cidade
                             </label>
 
-                            <input
-                                type="search"
-                                id="clima-cidade"
-                                placeholder="Buscar cidade..."
-                                required
-                            >
+                            <input type="search" id="clima-cidade" placeholder="Buscar cidade..." required>
 
                             <button type="submit">
                                 Buscar
                             </button>
+                            <button type="button" id="clima-usar-gps">Meu Local</button>
 
                         </form>
 
@@ -245,11 +241,7 @@
 
                     </div>
 
-                    <div
-                        class="clima-aviso"
-                        id="clima-aviso"
-                        role="status"
-                        hidden>
+                    <div class="clima-aviso" id="clima-aviso" role="status" hidden>
                     </div>
 
                     <ul class="clima-dias" id="clima-dias"></ul>
@@ -258,9 +250,7 @@
 
             </div>
 
-            <aside
-                class="dashboard-coluna-lateral"
-                aria-label="Informações complementares">
+            <aside class="dashboard-coluna-lateral" aria-label="Informações complementares">
 
                 <article class="card-painel">
 
@@ -273,9 +263,7 @@
 
                     </div>
 
-                    <ul
-                        class="lista-atividades dashboard-atividades"
-                        id="lista-atividades">
+                    <ul class="lista-atividades dashboard-atividades" id="lista-atividades">
 
                         <li>
                             Carregando informações...
@@ -297,9 +285,7 @@
                     </div>
 
                     <div class="grafico-dashboard">
-                        <canvas
-                            id="grafico-tipos"
-                            style="max-width: 100%; max-height: 300px;">
+                        <canvas id="grafico-tipos" style="max-width: 100%; max-height: 300px;">
                         </canvas>
                     </div>
 

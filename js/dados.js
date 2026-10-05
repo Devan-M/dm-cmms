@@ -3,6 +3,8 @@
 // =========================================================
 
 const CHAVE = 'sgm_equipamentos_v2';
+const CHAVE_OS = 'sgm_ordens_v1';
+const CHAVE_MANUTENCOES = 'sgm_manutencoes';
 const SETORES = ['Usinagem', 'Estamparia', 'Utilidades', 'Logística', 'Moldagem'];
 
 // --- Dados iniciais -------------------------------------------------------
@@ -110,7 +112,9 @@ const slug = (t) => String(t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').t
 
 function formatarData(iso) {
     if (!iso) return '—';
-    const [a, m, d] = String(iso).slice(0, 10).split('-');
+    const partes = String(iso).slice(0, 10).split('-');
+    if (partes.length !== 3) return '—';
+    const [a, m, d] = partes;
     return `${d}/${m}/${a}`;
 }
 
@@ -132,7 +136,33 @@ const classeStatusOS = (s) => ({
     'Pendente': 'status-pendente', 'Em Aberto': 'status-pendente'
 }[s] || 'status-inativo');
 
-// --- localStorage ---------------------------------------------------------
+const agoraISO = () => {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 16); // ex.: 2026-10-02T14:35
+};
+
+const hojeISO = () => agoraISO().slice(0, 10);
+
+// Calcula percentuais inteiros cuja soma é sempre 100 (maior resto).
+function percentuaisInteiros(quantidades) {
+    const total = quantidades.reduce((a, b) => a + b, 0);
+    if (!total) return quantidades.map(() => 0);
+
+    const exatos = quantidades.map(q => (q / total) * 100);
+    const pisos = exatos.map(Math.floor);
+    const restante = 100 - pisos.reduce((a, b) => a + b, 0);
+
+    exatos
+        .map((valor, i) => ({ i, resto: valor - pisos[i] }))
+        .sort((a, b) => b.resto - a.resto)
+        .slice(0, restante)
+        .forEach(({ i }) => pisos[i]++);
+
+    return pisos;
+}
+
+// --- Equipamentos (localStorage) -----------------------------------------
 function carregarEquipamentos() {
     try {
         const salvo = localStorage.getItem(CHAVE);
@@ -158,10 +188,7 @@ function proximoCodigo(lista) {
     return `EQ-${String(maior + 1).padStart(3, '0')}`;
 }
 
-
 // --- Ordens de serviço ----------------------------------------------------
-const CHAVE_OS = 'sgm_ordens_v1';
-
 const ordensIniciais = [
     {
         numero: 1045, codigo: 'EQ-002', equipamento: 'Prensa Hidráulica - P03', prioridade: 'Alta', tipo: 'Corretiva',
@@ -198,7 +225,10 @@ const ordensIniciais = [
 function carregarOrdens() {
     try {
         const salvo = localStorage.getItem(CHAVE_OS);
-        if (salvo) return JSON.parse(salvo);
+        if (salvo) {
+            const dados = JSON.parse(salvo);
+            if (Array.isArray(dados)) return dados;
+        }
     } catch (e) {
         console.error('Erro ao ler ordens:', e);
     }
@@ -215,10 +245,37 @@ function salvarOrdens(lista) {
     }
 }
 
-const agoraISO = () => {
-    const d = new Date();
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    return d.toISOString().slice(0, 16); // ex.: 2026-10-02T14:35
-};
+// --- Manutenções programadas ---------------------------------------------
+// Formato: { codigo, ativo, categoria, data, responsavel, concluida }
+// Obs.: se a sua página de manutenções já grava 'sgm_manutencoes' com outro
+// formato, ajuste os campos abaixo para ficarem iguais aos dela.
+const manutencoesIniciais = [
+    { codigo: 'EQ-001', ativo: 'Torno CNC - T01', categoria: 'Preventiva', data: '2026-10-20', responsavel: 'Carlos Menezes', concluida: false },
+    { codigo: 'EQ-006', ativo: 'Injetora - INJ01', categoria: 'Preventiva', data: '2026-12-05', responsavel: 'Rafael Souza', concluida: false },
+    { codigo: 'EQ-003', ativo: 'Compressor de Ar - C02', categoria: 'Preventiva', data: '2026-12-20', responsavel: 'Rafael Souza', concluida: false },
+    { codigo: 'EQ-004', ativo: 'Ponte Rolante - PR01', categoria: 'Inspeção', data: '2027-01-10', responsavel: 'Carlos Menezes', concluida: false },
+    { codigo: 'EQ-001', ativo: 'Torno CNC - T01', categoria: 'Preventiva', data: '2026-08-02', responsavel: 'Carlos Menezes', concluida: true }
+];
 
-const hojeISO = () => agoraISO().slice(0, 10);
+function carregarManutencoes() {
+    try {
+        const salvo = localStorage.getItem(CHAVE_MANUTENCOES);
+        if (salvo) {
+            const dados = JSON.parse(salvo);
+            if (Array.isArray(dados)) return dados;
+        }
+    } catch (e) {
+        console.error('Erro ao ler manutenções:', e);
+    }
+    salvarManutencoes(manutencoesIniciais);
+    return manutencoesIniciais;
+}
+
+function salvarManutencoes(lista) {
+    try {
+        localStorage.setItem(CHAVE_MANUTENCOES, JSON.stringify(lista));
+    } catch (e) {
+        console.error('Erro ao salvar manutenções:', e);
+        alert('Não foi possível salvar os dados neste navegador.');
+    }
+}
