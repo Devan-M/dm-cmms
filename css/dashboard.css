@@ -586,3 +586,14 @@
         animation-duration: 4s;
     }
 }
+
+.grafico-dashboard {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.grafico-dashboard canvas {
+    max-width: 100%;
+    height: auto;
+}

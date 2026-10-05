@@ -6,35 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="SGM — Sistema de Gestão de Manutenção: visão geral de equipamentos, ordens de serviço e manutenções.">
+
     <title>SGM — Dashboard</title>
 
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/dashboard.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="./js/grafico.js" defer></script>
     <script src="./js/dados.js" defer></script>
     <script src="./js/dashboard.js" defer></script>
     <script src="./js/weather.js" defer></script>
 </head>
 
 <body>
+
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
 
         <nav aria-label="Navegação principal">
             <ul>
-                <li><a href="index.html" aria-current="page">Dashboard</a></li>
-                <li><a href="equipamentos.html">Equipamentos</a></li>
-                <li><a href="ordens.html">Ordens de Serviço</a></li>
-                <li><a href="manutencoes.html">Manutenções</a></li>
-                <li><a href="historico.html">Histórico</a></li>
-                <li><a href="relatorios.html">Relatórios</a></li>
-                <li><a href="usuarios.html">Usuários</a></li>
+                <li>
+                    <a href="index.html" aria-current="page">Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="equipamentos.html">Equipamentos</a>
+                </li>
+
+                <li>
+                    <a href="ordens.html">Ordens de Serviço</a>
+                </li>
+
+                <li>
+                    <a href="manutencoes.html">Manutenções</a>
+                </li>
+
+                <li>
+                    <a href="historico.html">Histórico</a>
+                </li>
+
+                <li>
+                    <a href="relatorios.html">Relatórios</a>
+                </li>
+
+                <li>
+                    <a href="usuarios.html">Usuários</a>
+                </li>
             </ul>
         </nav>
     </header>
 
     <main>
+
         <section class="main-header dashboard-cabecalho">
             <div>
                 <h2>Dashboard</h2>
@@ -42,17 +67,20 @@
             </div>
 
             <p class="dashboard-atualizacao">
-                Atualizado em <strong id="ultima-atualizacao">—</strong>
+                Atualizado em
+                <strong id="ultima-atualizacao">—</strong>
             </p>
         </section>
 
         <section class="indicadores-grid" aria-label="Indicadores do dashboard">
+
             <article class="indicador-card">
                 <div>
                     <p class="indicador-label">Total Equipamentos</p>
                     <p class="indicador-valor" id="ind-equipamentos">0</p>
                     <span class="indicador-descricao">Ativos no sistema</span>
                 </div>
+
                 <span class="indicador-icone eq" aria-hidden="true">EQ</span>
             </article>
 
@@ -62,6 +90,7 @@
                     <p class="indicador-valor" id="ind-os-abertas">0</p>
                     <span class="indicador-descricao">Requerem atenção</span>
                 </div>
+
                 <span class="indicador-icone os" aria-hidden="true">OS</span>
             </article>
 
@@ -71,6 +100,7 @@
                     <p class="indicador-valor" id="ind-manutencoes">0</p>
                     <span class="indicador-descricao">Programadas</span>
                 </div>
+
                 <span class="indicador-icone mt" aria-hidden="true">MT</span>
             </article>
 
@@ -80,23 +110,32 @@
                     <p class="indicador-valor" id="ind-preventivas">0</p>
                     <span class="indicador-descricao">Concluídas</span>
                 </div>
+
                 <span class="indicador-icone pv" aria-hidden="true">PV</span>
             </article>
+
         </section>
 
         <section class="dashboard-grid-layout dashboard-grid-principal">
+
             <div>
+
                 <article class="card-painel painel-proximas">
+
                     <div class="painel-cabecalho">
                         <div>
                             <h3>Próximas Manutenções</h3>
                             <p>Rotinas programadas para os próximos dias</p>
                         </div>
-                        <a class="link-acao" href="manutencoes.html">Ver plano completo</a>
+
+                        <a class="link-acao" href="manutencoes.html">
+                            Ver plano completo
+                        </a>
                     </div>
 
                     <div class="tabela-responsiva">
                         <table class="tabela-dashboard">
+
                             <thead>
                                 <tr>
                                     <th scope="col">Equipamento</th>
@@ -106,120 +145,176 @@
                                     <th scope="col">Status</th>
                                 </tr>
                             </thead>
+
                             <tbody id="tabela-proximas-manutencoes">
                                 <tr>
-                                    <td colspan="5" class="dashboard-vazio">Carregando informações...</td>
+                                    <td colspan="5" class="dashboard-vazio">
+                                        Carregando informações...
+                                    </td>
                                 </tr>
                             </tbody>
+
                         </table>
                     </div>
+
                 </article>
 
                 <article class="card-painel painel-alerta" role="note">
+
                     <div class="alerta-icone" aria-hidden="true">!</div>
+
                     <div>
                         <h3>Atenção à manutenção preventiva</h3>
+
                         <p>
                             A realização das inspeções e rotinas preventivas ajuda a reduzir
                             paradas não planejadas e aumenta a disponibilidade dos equipamentos.
                         </p>
                     </div>
+
                 </article>
 
                 <article class="card-painel painel-clima" id="painel-clima">
+
                     <div class="painel-cabecalho">
+
                         <div>
                             <h3>Previsão do Tempo</h3>
                             <p>Condições para planejar serviços externos</p>
                         </div>
 
                         <form class="clima-busca" id="clima-form" autocomplete="off">
-                            <label for="clima-cidade" class="sr-only">Buscar cidade</label>
-                            <input type="search" id="clima-cidade" placeholder="Buscar cidade..." required>
-                            <button type="submit">Buscar</button>
+
+                            <label for="clima-cidade" class="sr-only">
+                                Buscar cidade
+                            </label>
+
+                            <input
+                                type="search"
+                                id="clima-cidade"
+                                placeholder="Buscar cidade..."
+                                required
+                            >
+
+                            <button type="submit">
+                                Buscar
+                            </button>
+
                         </form>
+
                     </div>
 
-                    <p class="clima-local" id="clima-local" aria-live="polite">Carregando...</p>
+                    <p class="clima-local" id="clima-local" aria-live="polite">
+                        Carregando...
+                    </p>
 
                     <div class="clima-atual">
+
                         <p class="clima-temp">
-                            <span id="clima-temperatura">--</span><small>°C</small>
+                            <span id="clima-temperatura">--</span>
+                            <small>°C</small>
                         </p>
 
                         <div class="clima-detalhes">
+
                             <p id="clima-descricao">—</p>
+
                             <ul>
-                                <li>Sensação: <strong id="clima-sensacao">--</strong></li>
-                                <li>Umidade: <strong id="clima-umidade">--</strong></li>
-                                <li>Vento: <strong id="clima-vento">--</strong></li>
-                                <li>Chuva: <strong id="clima-chuva">--</strong></li>
+                                <li>
+                                    Sensação:
+                                    <strong id="clima-sensacao">--</strong>
+                                </li>
+
+                                <li>
+                                    Umidade:
+                                    <strong id="clima-umidade">--</strong>
+                                </li>
+
+                                <li>
+                                    Vento:
+                                    <strong id="clima-vento">--</strong>
+                                </li>
+
+                                <li>
+                                    Chuva:
+                                    <strong id="clima-chuva">--</strong>
+                                </li>
                             </ul>
+
                         </div>
+
                     </div>
 
-                    <div class="clima-aviso" id="clima-aviso" role="status" hidden></div>
+                    <div
+                        class="clima-aviso"
+                        id="clima-aviso"
+                        role="status"
+                        hidden>
+                    </div>
 
                     <ul class="clima-dias" id="clima-dias"></ul>
+
                 </article>
+
             </div>
 
-            <aside class="dashboard-coluna-lateral" aria-label="Informações complementares">
+            <aside
+                class="dashboard-coluna-lateral"
+                aria-label="Informações complementares">
+
                 <article class="card-painel">
+
                     <div class="painel-cabecalho">
+
                         <div>
                             <h3>Últimas Atividades</h3>
                             <p>Movimentações recentes do sistema</p>
                         </div>
+
                     </div>
 
-                    <ul class="lista-atividades dashboard-atividades" id="lista-atividades">
-                        <li>Carregando informações...</li>
+                    <ul
+                        class="lista-atividades dashboard-atividades"
+                        id="lista-atividades">
+
+                        <li>
+                            Carregando informações...
+                        </li>
+
                     </ul>
+
                 </article>
 
                 <article class="card-painel">
+
                     <div class="painel-cabecalho">
+
                         <div>
                             <h3>Distribuição por Tipo</h3>
                             <p>Ordens de serviço registradas</p>
                         </div>
+
                     </div>
 
                     <div class="grafico-dashboard">
-                        <div class="donut-chart" id="grafico-tipos" role="img"
-                            aria-label="Gráfico de distribuição das ordens de serviço por tipo">
-                            <div class="donut-hole">
-                                <span id="total-tipos">0</span>
-                            </div>
-                        </div>
-
-                        <ul class="legenda-grafico legenda-dashboard">
-                            <li>
-                                <span class="cor-preventiva" aria-hidden="true"></span>
-                                Preventiva
-                                <strong id="pct-preventiva">0%</strong>
-                            </li>
-                            <li>
-                                <span class="cor-corretiva" aria-hidden="true"></span>
-                                Corretiva
-                                <strong id="pct-corretiva">0%</strong>
-                            </li>
-                            <li>
-                                <span class="cor-inspecao" aria-hidden="true"></span>
-                                Inspeção
-                                <strong id="pct-inspecao">0%</strong>
-                            </li>
-                        </ul>
+                        <canvas
+                            id="grafico-tipos"
+                            style="max-width: 100%; max-height: 300px;">
+                        </canvas>
                     </div>
+
                 </article>
+
             </aside>
+
         </section>
+
     </main>
 
     <footer>
         <p>SGM — Sistema de Gestão de Manutenção</p>
     </footer>
+
 </body>
 
 </html>
