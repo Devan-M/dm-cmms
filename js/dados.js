@@ -222,3 +222,51 @@ const agoraISO = () => {
 };
 
 const hojeISO = () => agoraISO().slice(0, 10);
+
+// =========================================================================
+// INTEGRAÇÃO: WeatherAPI (Plano Gratuito)
+// =========================================================================
+
+// Configurações obrigatórias da API
+// IMPORTANTE: Cadastre-se em weatherapi.com para obter sua própria API_KEY gratuita
+const WEATHER_CONFIG = {
+    apiKey: 'SUA_CHAVE_API_AQUI', 
+    cidade: 'Curitiba', // Você pode passar o nome da cidade ou coordenadas como 'lat,lon'
+    idioma: 'pt' // Retorna as descrições textuais diretamente em português
+};
+
+/**
+ * Busca as condições climáticas atuais através da WeatherAPI.
+ * @returns {Promise<{temp: number, condicao: string, icone: string, vento: number, umidade: number}>}
+ */
+async function buscarClimaWeatherAPI() {
+    // Validação inicial para evitar requisições sem chave configurada
+    if (WEATHER_CONFIG.apiKey === 'SUA_CHAVE_API_AQUI') {
+        console.warn('WeatherAPI: Adicione uma chave válida para carregar os dados.');
+        return null;
+    }
+
+    const url = `https://weatherapi.com{WEATHER_CONFIG.apiKey}&q=${WEATHER_CONFIG.cidade}&lang=${WEATHER_CONFIG.idioma}`;
+
+    try {
+        const resposta = await fetch(url);
+        if (!resposta.ok) {
+            const erroDados = await resposta.json();
+            throw new Error(erroDados.error?.message || 'Erro na requisição');
+        }
+
+        const dados = await resposta.json();
+        
+        // Mapeia e retorna apenas os dados relevantes para o SGM
+        return {
+            temp: dados.current.temp_c,
+            condicao: dados.current.condition.text,
+            icone: dados.current.condition.icon, // Retorna a URL da imagem (Ex: //://weatherapi.com...)
+            vento: dados.current.wind_kph,
+            umidade: dados.current.humidity
+        };
+    } catch (erro) {
+        console.error('Erro ao conectar com a WeatherAPI:', erro);
+        return null;
+    }
+}
