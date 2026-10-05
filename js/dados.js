@@ -224,49 +224,92 @@ const agoraISO = () => {
 const hojeISO = () => agoraISO().slice(0, 10);
 
 // =========================================================================
-// INTEGRAÇÃO: WeatherAPI (Plano Gratuito)
+// INTEGRAÇÃO SEGURA: Open-Meteo API (Sem chaves expostas no GitHub)
 // =========================================================================
 
-// Configurações obrigatórias da API
-// IMPORTANTE: Cadastre-se em weatherapi.com para obter sua própria API_KEY gratuita
-const WEATHER_CONFIG = {
-    apiKey: 'SUA_CHAVE_API_AQUI', 
-    cidade: 'Curitiba', // Você pode passar o nome da cidade ou coordenadas como 'lat,lon'
-    idioma: 'pt' // Retorna as descrições textuais diretamente em português
+const CLIMA_CONFIG = {
+    lat: -25.4284, // Coordenadas da sua planta (Ex: Curitiba)
+    lon: -49.2733
 };
 
 /**
- * Busca as condições climáticas atuais através da WeatherAPI.
- * @returns {Promise<{temp: number, condicao: string, icone: string, vento: number, umidade: number}>}
+ * Mapeia o código WMO do Open-Meteo para textos em PT-BR e caminhos de ícones estruturados.
  */
-async function buscarClimaWeatherAPI() {
-    // Validação inicial para evitar requisições sem chave configurada
-    if (WEATHER_CONFIG.apiKey === 'SUA_CHAVE_API_AQUI') {
-        console.warn('WeatherAPI: Adicione uma chave válida para carregar os dados.');
-        return null;
-    }
+function mapearCodigoClima(codigo) {
+    // Dicionário de estados baseado nos códigos padrão WMO
+    const tabela = {
+        0:  { texto: 'Céu Limpo', icone: '113.png' },
+        1:  { texto: 'Majoritariamente Limpo', icone: '116.png' },
+        2:  { texto: 'Parcialmente Nublado', icone: '116.png' },
+        3:  { texto: 'Encoberto', icone: '122.png' },
+        45: { texto: 'Nevoeiro', icone: '143.png' },
+        48: { texto: 'Nevoeiro com Gelo', icone: '143.png' },
+        51: { texto: 'Garoa Leve', icone: '266.png' },
+        53: { texto: 'Garoa Moderada', icone: '266.png' },
+        55: { texto: 'Garoa Densa', icone: '266.png' },
+        61: { texto: 'Chuva Fraca', icone: '296.png' },
+        63: { texto: 'Chuva Moderada', icone: '302.png' },
+        65: { texto: 'Chuva Forte', icone: '308.png' },
+        80: { texto: 'Pancadas de Chuva Leves', icone: '353.png' },
+        81: { texto: 'Pancadas de Chuva Moderadas', icone: '356.png' },
+        82: { texto: 'Pancadas de Chuva Violentas', icone: '359.png' },
+        95: { texto: 'Tempestade Fraca/Moderada', icone: '389.png' },
+        96: { texto: 'Tempestade com Granizo Leve', icone: '392.png' },
+        99: { texto: 'Tempestade com Granizo Forte', icone: '395.png' }
+    };
 
-    const url = `https://weatherapi.com{WEATHER_CONFIG.apiKey}&q=${WEATHER_CONFIG.cidade}&lang=${WEATHER_CONFIG.idioma}`;
+    // Retorna a condição mapeada ou uma genérica de "Nublado" caso o código seja desconhecido
+    const condicao = tabela[codigo] || { texto: 'Tempo Nublado', icone: '116.png' };
+    
+    // Aproveita o CDN público e estável de ícones visuais (estilo WeatherAPI dia)
+    return {
+        texto: condicao.texto,
+        urlIcone: `https://weatherapi.com{condicao.icone}`
+    };
+}
+
+/**
+ * Busca as condições climáticas atuais direto do Open-Meteo.
+ * @returns {Promise<{temp: number, condicao: string, icone: string, vento: number}>}
+ */
+async function buscarClimaOpenMeteo() {
+    const url = `https://open-meteo.com{CLIMA_CONFIG.lat}&longitude=${CLIMA_CONFIG.lon}&current_weather=true`;
 
     try {
         const resposta = await fetch(url);
-        if (!resposta.ok) {
-            const erroDados = await resposta.json();
-            throw new Error(erroDados.error?.message || 'Erro na requisição');
-        }
-
-        const dados = await resposta.json();
+        if (!resposta.ok) throw new Error('Falha ao conectar com o serviço de meteorologia.');
         
-        // Mapeia e retorna apenas os dados relevantes para o SGM
+        const dados = await resposta.json();
+        const infoVisual = mapearCodigoClima(dados.current_weather.weathercode);
+        
         return {
-            temp: dados.current.temp_c,
-            condicao: dados.current.condition.text,
-            icone: dados.current.condition.icon, // Retorna a URL da imagem (Ex: //://weatherapi.com...)
-            vento: dados.current.wind_kph,
-            umidade: dados.current.humidity
+            temp: dados.current_weather.temperature,
+            condicao: infoVisual.texto,
+            icone: infoVisual.urlIcone,
+            vento: dados.current_weather.windspeed
         };
     } catch (erro) {
-        console.error('Erro ao conectar com a WeatherAPI:', erro);
+        console.error('Erro na API de Clima:', erro);
         return null;
     }
 }
+
+async function inicializarWidgetClima() {
+    const dadosClima = await buscarClimaOpenMeteo();
+    
+    if (dadosClima) {
+        document.getElementById('clima-status').innerText = dadosClima.condicao;
+        document.getElementById('clima-temp').innerText = `${dadosClima.temp}°C`;
+        document.getElementById('clima-vento').innerText = `${dadosClima.vento} km/h`;
+        document.getElementById('clima-icone').src = dadosClima.icone;
+            
+        // Exibe o painel de clima que estava oculto
+        document.getElementById('bloco-clima').style.display = 'block';
+    }
+}
+
+// Inicializador padrão do sistema
+document.addEventListener('DOMContentLoaded', () => {
+    carregarEquipamentos(); 
+    inicializarWidgetClima(); 
+});
