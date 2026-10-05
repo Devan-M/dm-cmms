@@ -4,10 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SGM — Sistema de Gestão de Manutenção: visão geral de equipamentos, ordens de serviço e manutenções.">
     <title>SGM — Dashboard</title>
 
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/dashboard.css">
+
+    <script src="./js/dados.js" defer></script>
+    <script src="./js/dashboard.js" defer></script>
+    <script src="./js/weather.js" defer></script>
 </head>
 
 <body>
@@ -17,27 +23,13 @@
 
         <nav aria-label="Navegação principal">
             <ul>
-                <li>
-                    <a href="index.html" aria-current="page">Dashboard</a>
-                </li>
-                <li>
-                    <a href="equipamentos.html">Equipamentos</a>
-                </li>
-                <li>
-                    <a href="ordens.html">Ordens de Serviço</a>
-                </li>
-                <li>
-                    <a href="manutencoes.html">Manutenções</a>
-                </li>
-                <li>
-                    <a href="historico.html">Histórico</a>
-                </li>
-                <li>
-                    <a href="relatorios.html">Relatórios</a>
-                </li>
-                <li>
-                    <a href="usuarios.html">Usuários</a>
-                </li>
+                <li><a href="index.html" aria-current="page">Dashboard</a></li>
+                <li><a href="equipamentos.html">Equipamentos</a></li>
+                <li><a href="ordens.html">Ordens de Serviço</a></li>
+                <li><a href="manutencoes.html">Manutenções</a></li>
+                <li><a href="historico.html">Histórico</a></li>
+                <li><a href="relatorios.html">Relatórios</a></li>
+                <li><a href="usuarios.html">Usuários</a></li>
             </ul>
         </nav>
     </header>
@@ -49,9 +41,9 @@
                 <p>Visão geral do sistema de manutenção</p>
             </div>
 
-            <div class="dashboard-atualizacao">
+            <p class="dashboard-atualizacao">
                 Atualizado em <strong id="ultima-atualizacao">—</strong>
-            </div>
+            </p>
         </section>
 
         <section class="indicadores-grid" aria-label="Indicadores do dashboard">
@@ -61,8 +53,7 @@
                     <p class="indicador-valor" id="ind-equipamentos">0</p>
                     <span class="indicador-descricao">Ativos no sistema</span>
                 </div>
-
-                <span class="indicador-icone eq">EQ</span>
+                <span class="indicador-icone eq" aria-hidden="true">EQ</span>
             </article>
 
             <article class="indicador-card">
@@ -71,8 +62,7 @@
                     <p class="indicador-valor" id="ind-os-abertas">0</p>
                     <span class="indicador-descricao">Requerem atenção</span>
                 </div>
-
-                <span class="indicador-icone os">OS</span>
+                <span class="indicador-icone os" aria-hidden="true">OS</span>
             </article>
 
             <article class="indicador-card">
@@ -81,8 +71,7 @@
                     <p class="indicador-valor" id="ind-manutencoes">0</p>
                     <span class="indicador-descricao">Programadas</span>
                 </div>
-
-                <span class="indicador-icone mt">MT</span>
+                <span class="indicador-icone mt" aria-hidden="true">MT</span>
             </article>
 
             <article class="indicador-card">
@@ -91,8 +80,7 @@
                     <p class="indicador-valor" id="ind-preventivas">0</p>
                     <span class="indicador-descricao">Concluídas</span>
                 </div>
-
-                <span class="indicador-icone pv">PV</span>
+                <span class="indicador-icone pv" aria-hidden="true">PV</span>
             </article>
         </section>
 
@@ -104,36 +92,31 @@
                             <h3>Próximas Manutenções</h3>
                             <p>Rotinas programadas para os próximos dias</p>
                         </div>
-
-                        <a class="link-acao" href="manutencoes.html">
-                            Ver plano completo
-                        </a>
+                        <a class="link-acao" href="manutencoes.html">Ver plano completo</a>
                     </div>
 
                     <div class="tabela-responsiva">
                         <table class="tabela-dashboard">
                             <thead>
                                 <tr>
-                                    <th>Equipamento</th>
-                                    <th>Tipo</th>
-                                    <th>Data</th>
-                                    <th>Responsável</th>
-                                    <th>Status</th>
+                                    <th scope="col">Equipamento</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Responsável</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-proximas-manutencoes">
                                 <tr>
-                                    <td colspan="5" class="dashboard-vazio">
-                                        Carregando informações...
-                                    </td>
+                                    <td colspan="5" class="dashboard-vazio">Carregando informações...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </article>
 
-                <article class="card-painel painel-alerta">
-                    <div class="alerta-icone">!</div>
+                <article class="card-painel painel-alerta" role="note">
+                    <div class="alerta-icone" aria-hidden="true">!</div>
                     <div>
                         <h3>Atenção à manutenção preventiva</h3>
                         <p>
@@ -152,17 +135,17 @@
 
                         <form class="clima-busca" id="clima-form" autocomplete="off">
                             <label for="clima-cidade" class="sr-only">Buscar cidade</label>
-                            <input type="text" id="clima-cidade" placeholder="Buscar cidade..." required>
+                            <input type="search" id="clima-cidade" placeholder="Buscar cidade..." required>
                             <button type="submit">Buscar</button>
                         </form>
                     </div>
 
-                    <p class="clima-local" id="clima-local">Carregando...</p>
+                    <p class="clima-local" id="clima-local" aria-live="polite">Carregando...</p>
 
                     <div class="clima-atual">
-                        <div class="clima-temp">
+                        <p class="clima-temp">
                             <span id="clima-temperatura">--</span><small>°C</small>
-                        </div>
+                        </p>
 
                         <div class="clima-detalhes">
                             <p id="clima-descricao">—</p>
@@ -175,14 +158,13 @@
                         </div>
                     </div>
 
-                    <div class="clima-aviso" id="clima-aviso" hidden></div>
+                    <div class="clima-aviso" id="clima-aviso" role="status" hidden></div>
 
                     <ul class="clima-dias" id="clima-dias"></ul>
                 </article>
-
             </div>
 
-            <aside class="dashboard-coluna-lateral">
+            <aside class="dashboard-coluna-lateral" aria-label="Informações complementares">
                 <article class="card-painel">
                     <div class="painel-cabecalho">
                         <div>
@@ -205,7 +187,8 @@
                     </div>
 
                     <div class="grafico-dashboard">
-                        <div class="donut-chart" id="grafico-tipos">
+                        <div class="donut-chart" id="grafico-tipos" role="img"
+                            aria-label="Gráfico de distribuição das ordens de serviço por tipo">
                             <div class="donut-hole">
                                 <span id="total-tipos">0</span>
                             </div>
@@ -213,17 +196,17 @@
 
                         <ul class="legenda-grafico legenda-dashboard">
                             <li>
-                                <span class="cor-preventiva"></span>
+                                <span class="cor-preventiva" aria-hidden="true"></span>
                                 Preventiva
                                 <strong id="pct-preventiva">0%</strong>
                             </li>
                             <li>
-                                <span class="cor-corretiva"></span>
+                                <span class="cor-corretiva" aria-hidden="true"></span>
                                 Corretiva
                                 <strong id="pct-corretiva">0%</strong>
                             </li>
                             <li>
-                                <span class="cor-inspecao"></span>
+                                <span class="cor-inspecao" aria-hidden="true"></span>
                                 Inspeção
                                 <strong id="pct-inspecao">0%</strong>
                             </li>
@@ -235,12 +218,8 @@
     </main>
 
     <footer>
-        SGM — Sistema de Gestão de Manutenção
+        <p>SGM — Sistema de Gestão de Manutenção</p>
     </footer>
-
-    <script src="./js/dados.js"></script>
-    <script src="./js/dashboard.js"></script>
-    <script src="./js/wheather.js"></script>
 </body>
 
 </html>

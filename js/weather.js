@@ -3,17 +3,18 @@
 
     // ===== Configuração =====
     const LOCAL_PADRAO = {
-        nome: "São Paulo",
-        regiao: "SP",
-        latitude: -23.5505,
-        longitude: -46.6333,
+        nome: "Curitiba",
+        regiao: "PR",
+        latitude: -25.4284,
+        longitude: -49.2733,
     };
 
     const CHAVE_STORAGE = "sgm_clima_local";
     const LIMITE_CHUVA_AVISO = 60;
     const LIMITE_VENTO_AVISO = 40;
     const TIMEOUT_MS = 10000;
-    const CAMINHO_ICONES = "./weather_icons/"; // Ajuste se necessário
+    const INTERVALO_ATUALIZACAO_MS = 30 * 60 * 1000;
+    const CAMINHO_ICONES = "./weather_icons/";
 
     // Códigos WMO -> descrição + ícone
     const CODIGOS_CLIMA = {
@@ -47,6 +48,44 @@
         99: { desc: "Tempestade com granizo forte", icone: "thunder.svg" },
     };
 
+    // ===== Loader (SVG animado) =====
+    const LOADER_HTML = `
+<svg id="cloud" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <filter id="roundness">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"></feGaussianBlur>
+      <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -10"></feColorMatrix>
+    </filter>
+    <mask id="shapes">
+      <g fill="white">
+        <polygon points="50 37.5 80 75 20 75 50 37.5"></polygon>
+        <circle cx="20" cy="60" r="15"></circle>
+        <circle cx="80" cy="60" r="15"></circle>
+        <g>
+          <circle cx="20" cy="60" r="15"></circle>
+          <circle cx="20" cy="60" r="15"></circle>
+          <circle cx="20" cy="60" r="15"></circle>
+        </g>
+      </g>
+    </mask>
+    <mask id="clipping" clipPathUnits="userSpaceOnUse">
+      <g id="lines" filter="url(#roundness)">
+        <g mask="url(#shapes)" stroke="white">
+          ${Array.from({ length: 21 }, (_, i) => {
+        const y = -40 + i * 9;
+        return `<line x1="-50" y1="${y}" x2="150" y2="${y}"></line>`;
+    }).join("")}
+        </g>
+      </g>
+    </mask>
+  </defs>
+  <rect x="0" y="0" width="100" height="100" rx="0" ry="0" mask="url(#clipping)"></rect>
+  <g>
+    <path d="M33.52,68.12 C35.02,62.8 39.03,58.52 44.24,56.69 C49.26,54.93 54.68,55.61 59.04,58.4 C59.04,58.4 56.24,60.53 56.24,60.53 C55.45,61.13 55.68,62.37 56.63,62.64 C56.63,62.64 67.21,65.66 67.21,65.66 C67.98,65.88 68.75,65.3 68.74,64.5 C68.74,64.5 68.68,53.5 68.68,53.5 C68.67,52.51 67.54,51.95 66.75,52.55 C66.75,52.55 64.04,54.61 64.04,54.61 C57.88,49.79 49.73,48.4 42.25,51.03 C35.2,53.51 29.78,59.29 27.74,66.49 C27.29,68.08 28.22,69.74 29.81,70.19 C30.09,70.27 30.36,70.31 30.63,70.31 C31.94,70.31 33.14,69.44 33.52,68.12Z"></path>
+    <path d="M69.95,74.85 C68.35,74.4 66.7,75.32 66.25,76.92 C64.74,82.24 60.73,86.51 55.52,88.35 C50.51,90.11 45.09,89.43 40.73,86.63 C40.73,86.63 43.53,84.51 43.53,84.51 C44.31,83.91 44.08,82.67 43.13,82.4 C43.13,82.4 32.55,79.38 32.55,79.38 C31.78,79.16 31.02,79.74 31.02,80.54 C31.02,80.54 31.09,91.54 31.09,91.54 C31.09,92.53 32.22,93.09 33.01,92.49 C33.01,92.49 35.72,90.43 35.72,90.43 C39.81,93.63 44.77,95.32 49.84,95.32 C52.41,95.32 55,94.89 57.51,94.01 C64.56,91.53 69.99,85.75 72.02,78.55 C72.47,76.95 71.54,75.3 69.95,74.85Z"></path>
+  </g>
+</svg>`;
+
     // ===== Elementos =====
     const el = {
         form: document.getElementById("clima-form"),
@@ -63,6 +102,23 @@
     };
 
     if (!el.local) return;
+
+    // Painel que contém o clima (o loader fica centralizado nele)
+    const painel = el.local.closest(".painel-clima") || el.local.parentElement;
+
+    const loader = document.createElement("div");
+    loader.className = "loader";
+    loader.hidden = true;
+    loader.setAttribute("role", "status");
+    loader.setAttribute("aria-label", "Carregando previsão do tempo");
+    loader.innerHTML = LOADER_HTML;
+    painel.appendChild(loader);
+
+    function mostrarLoader(visivel) {
+        loader.hidden = !visivel;
+        painel.classList.toggle("clima-carregando", visivel);
+        painel.setAttribute("aria-busy", String(visivel));
+    }
 
     // ===== Utilidades =====
     async function fetchJSON(url) {
@@ -107,7 +163,11 @@
     }
 
     function salvarLocal(local) {
-        localStorage.setItem(CHAVE_STORAGE, JSON.stringify(local));
+        try {
+            localStorage.setItem(CHAVE_STORAGE, JSON.stringify(local));
+        } catch (e) {
+            /* ignora (modo privado, storage cheio etc.) */
+        }
     }
 
     // ===== API =====
@@ -166,18 +226,13 @@
         el.chuva.textContent =
             formatarNumero(atual.precipitation, 1) + " " + unidades.precipitation;
 
-        // Adiciona ícone na temperatura
-        const iconePath = CAMINHO_ICONES + clima.icone;
+        // Ícone ao lado da temperatura (tamanho vem do CSS: .clima-temp img)
         let img = document.querySelector(".clima-temp img");
         if (!img) {
             img = document.createElement("img");
-            img.alt = clima.desc;
-            img.style.width = "80px";
-            img.style.height = "80px";
-            img.style.marginRight = "1rem";
             el.temperatura.parentElement.insertBefore(img, el.temperatura);
         }
-        img.src = iconePath;
+        img.src = CAMINHO_ICONES + clima.icone;
         img.alt = clima.desc;
     }
 
@@ -193,12 +248,10 @@
             nome.className = "dia-nome";
             nome.textContent = nomeDiaSemana(data, i);
 
+            // Tamanho e margem vêm do CSS: .clima-dias img
             const img = document.createElement("img");
             img.src = CAMINHO_ICONES + clima.icone;
             img.alt = clima.desc;
-            img.style.width = "48px";
-            img.style.height = "48px";
-            img.style.margin = "0.5rem auto";
 
             const desc = document.createElement("span");
             desc.className = "dia-desc";
@@ -251,9 +304,13 @@
     }
 
     // ===== Fluxo principal =====
-    async function atualizarClima(local) {
-        el.local.classList.remove("clima-erro");
-        el.local.textContent = "Carregando previsão...";
+    // silencioso = true: atualização automática, sem loader nem texto de carregamento
+    async function atualizarClima(local, silencioso = false) {
+        if (!silencioso) {
+            el.local.classList.remove("clima-erro");
+            el.local.textContent = "Carregando previsão...";
+            mostrarLoader(true);
+        }
 
         try {
             const dados = await buscarPrevisao(local.latitude, local.longitude);
@@ -262,7 +319,11 @@
             renderizarAviso(dados);
         } catch (erro) {
             console.error("Erro ao carregar previsão:", erro);
-            renderizarErro("Não foi possível carregar a previsão do tempo.");
+            if (!silencioso) {
+                renderizarErro("Não foi possível carregar a previsão do tempo.");
+            }
+        } finally {
+            mostrarLoader(false);
         }
     }
 
@@ -275,6 +336,7 @@
 
             el.local.classList.remove("clima-erro");
             el.local.textContent = "Buscando cidade...";
+            mostrarLoader(true);
 
             try {
                 const local = await buscarCidade(termo);
@@ -290,11 +352,13 @@
             } catch (erro) {
                 console.error("Erro ao buscar cidade:", erro);
                 renderizarErro("Não foi possível buscar a cidade.");
+            } finally {
+                mostrarLoader(false);
             }
         });
     }
 
     atualizarClima(carregarLocal());
 
-    setInterval(() => atualizarClima(carregarLocal()), 30 * 60 * 1000);
+    setInterval(() => atualizarClima(carregarLocal(), true), INTERVALO_ATUALIZACAO_MS);
 })();
