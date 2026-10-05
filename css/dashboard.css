@@ -245,3 +245,183 @@
         padding: 1rem;
     }
 }
+
+/* ===== Previsão do tempo ===== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.painel-clima {
+    margin-top: 1.5rem;
+}
+
+.clima-busca {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.clima-busca input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    min-width: 0;
+}
+
+.clima-busca button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.clima-busca button:hover {
+    background: #1d4ed8;
+}
+
+.clima-local {
+    margin: 0.5rem 0 1rem;
+    font-weight: 600;
+    color: #475467;
+}
+
+.clima-atual {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.clima-temp {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #101828;
+}
+
+.clima-temp small {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-left: 0.15rem;
+}
+
+.clima-detalhes p {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.clima-detalhes ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 0.25rem 1.5rem;
+    font-size: 0.9rem;
+    color: #475467;
+}
+
+.clima-aviso {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid #f59e0b;
+    background: #fffbeb;
+    color: #92400e;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.clima-dias {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.75rem;
+}
+
+.clima-dias li {
+    padding: 0.75rem;
+    border: 1px solid #eaecf0;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.clima-dias .dia-nome {
+    display: block;
+    font-weight: 700;
+    text-transform: capitalize;
+    margin-bottom: 0.25rem;
+}
+
+.clima-dias .dia-desc {
+    display: block;
+    min-height: 2.4em;
+    color: #475467;
+}
+
+.clima-dias .dia-temp {
+    display: block;
+    margin-top: 0.4rem;
+    font-weight: 600;
+}
+
+.clima-dias .dia-chuva {
+    display: block;
+    color: #2563eb;
+    margin-top: 0.15rem;
+}
+
+.clima-erro {
+    color: #b42318;
+}
+
+.clima-temp {
+    display: flex;
+    align-items: center;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #101828;
+}
+
+.clima-temp img {
+    width: 80px;
+    height: 80px;
+    margin-right: 1rem;
+    object-fit: contain;
+}
+
+.clima-temp small {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-left: 0.15rem;
+}
+
+.clima-dias li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid #eaecf0;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.clima-dias img {
+    width: 48px;
+    height: 48px;
+    margin: 0.5rem auto;
+    object-fit: contain;
+}

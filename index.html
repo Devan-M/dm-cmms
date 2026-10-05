@@ -143,6 +143,43 @@
                     </div>
                 </article>
 
+                <article class="card-painel painel-clima" id="painel-clima">
+                    <div class="painel-cabecalho">
+                        <div>
+                            <h3>Previsão do Tempo</h3>
+                            <p>Condições para planejar serviços externos</p>
+                        </div>
+
+                        <form class="clima-busca" id="clima-form" autocomplete="off">
+                            <label for="clima-cidade" class="sr-only">Buscar cidade</label>
+                            <input type="text" id="clima-cidade" placeholder="Buscar cidade..." required>
+                            <button type="submit">Buscar</button>
+                        </form>
+                    </div>
+
+                    <p class="clima-local" id="clima-local">Carregando...</p>
+
+                    <div class="clima-atual">
+                        <div class="clima-temp">
+                            <span id="clima-temperatura">--</span><small>°C</small>
+                        </div>
+
+                        <div class="clima-detalhes">
+                            <p id="clima-descricao">—</p>
+                            <ul>
+                                <li>Sensação: <strong id="clima-sensacao">--</strong></li>
+                                <li>Umidade: <strong id="clima-umidade">--</strong></li>
+                                <li>Vento: <strong id="clima-vento">--</strong></li>
+                                <li>Chuva: <strong id="clima-chuva">--</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clima-aviso" id="clima-aviso" hidden></div>
+
+                    <ul class="clima-dias" id="clima-dias"></ul>
+                </article>
+
             </div>
 
             <aside class="dashboard-coluna-lateral">
@@ -203,6 +240,7 @@
 
     <script src="./js/dados.js"></script>
     <script src="./js/dashboard.js"></script>
+    <script src="./js/wheather.js"></script>
 </body>
 
 </html>
