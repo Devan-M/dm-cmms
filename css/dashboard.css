@@ -3,6 +3,7 @@
    Carregar depois de style.css
    ========================================================= */
 
+/* ===== Cabeçalho ===== */
 .dashboard-cabecalho {
     align-items: flex-end;
 }
@@ -17,10 +18,21 @@
     color: var(--text-primary);
 }
 
+/* ===== Layout ===== */
 .dashboard-grid-principal {
     align-items: start;
 }
 
+.painel-proximas,
+.dashboard-coluna-lateral {
+    min-width: 0;
+}
+
+.dashboard-coluna-lateral .card-painel {
+    margin-bottom: 1.5rem;
+}
+
+/* ===== Painéis ===== */
 .card-painel {
     overflow: hidden;
 }
@@ -42,10 +54,7 @@
     font-size: 0.78rem;
 }
 
-.painel-proximas {
-    min-width: 0;
-}
-
+/* ===== Tabela ===== */
 .tabela-responsiva {
     width: 100%;
     overflow-x: auto;
@@ -57,9 +66,13 @@
     border-collapse: collapse;
 }
 
+.tabela-dashboard th,
+.tabela-dashboard td {
+    border-bottom: 1px solid var(--border-color);
+}
+
 .tabela-dashboard th {
     padding: 0.75rem 0.5rem;
-    border-bottom: 1px solid var(--border-color);
     color: var(--text-muted);
     font-size: 0.7rem;
     text-align: left;
@@ -69,25 +82,25 @@
 
 .tabela-dashboard td {
     padding: 0.85rem 0.5rem;
-    border-bottom: 1px solid var(--border-color);
     color: var(--text-body);
     font-size: 0.82rem;
     vertical-align: middle;
-}
-
-.tabela-dashboard tbody tr:last-child td {
-    border-bottom: none;
 }
 
 .tabela-dashboard td:first-child {
     font-weight: 600;
 }
 
-.dashboard-vazio {
-    padding: 2rem 1rem !important;
-    color: var(--text-secondary) !important;
+.tabela-dashboard tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Maior especificidade no lugar de !important */
+.tabela-dashboard td.dashboard-vazio {
+    padding: 2rem 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
     text-align: center;
-    font-weight: 400 !important;
 }
 
 .dashboard-subtexto {
@@ -98,6 +111,7 @@
     font-weight: 400;
 }
 
+/* ===== Alerta ===== */
 .painel-alerta {
     display: flex;
     align-items: flex-start;
@@ -106,45 +120,41 @@
     border-color: #bae6fd;
 }
 
+.painel-alerta h3,
+.painel-alerta p {
+    color: var(--info-text);
+}
+
 .painel-alerta h3 {
     margin-bottom: 0.35rem;
-    color: var(--info-text);
     font-size: 0.95rem;
 }
 
 .painel-alerta p {
-    color: var(--info-text);
     font-size: 0.82rem;
     line-height: 1.5;
 }
 
 .alerta-icone {
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: center;
-    flex: 0 0 auto;
     width: 28px;
     height: 28px;
     border-radius: 50%;
     background: var(--info);
-    color: #ffffff;
+    color: #fff;
     font-weight: 700;
 }
 
-.dashboard-coluna-lateral {
-    min-width: 0;
-}
-
-.dashboard-coluna-lateral .card-painel {
-    margin-bottom: 1.5rem;
-}
-
+/* ===== Atividades ===== */
 .dashboard-atividades {
     gap: 0;
 }
 
 .dashboard-atividades li {
-    padding: 0.8rem 0;
+    padding-block: 0.8rem;
     font-size: 0.82rem;
     line-height: 1.4;
 }
@@ -157,13 +167,16 @@
     padding-bottom: 0;
 }
 
-.dashboard-atividades strong {
+.dashboard-atividades strong,
+.dashboard-atividades span {
     display: block;
+}
+
+.dashboard-atividades strong {
     color: var(--text-primary);
 }
 
 .dashboard-atividades span {
-    display: block;
     margin-top: 0.2rem;
     color: var(--text-secondary);
     font-size: 0.73rem;
@@ -174,7 +187,12 @@
     font-size: 0.82rem;
 }
 
+/* ===== Gráfico ===== */
 .grafico-dashboard {
+    --graf-1: var(--primary);
+    --graf-2: var(--danger);
+    --graf-3: var(--warning);
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -182,10 +200,21 @@
 }
 
 .grafico-dashboard .donut-chart {
+    /* Pontos finais acumulados; o JS sobrescreve esses valores */
+    --seg1: 33.33%;
+    --seg2: 66.66%;
+
     flex-shrink: 0;
-    background: conic-gradient(var(--primary) 0% 33.33%,
-            var(--danger) 33.33% 66.66%,
-            var(--warning) 66.66% 100%);
+    background: conic-gradient(
+        var(--graf-1) 0 var(--seg1),
+        var(--graf-2) var(--seg1) var(--seg2),
+        var(--graf-3) var(--seg2) 100%
+    );
+}
+
+/* Sem dados: anel neutro em vez de um gráfico enganoso */
+.grafico-dashboard .donut-chart.donut-vazio {
+    background: var(--border-color);
 }
 
 .legenda-dashboard {
@@ -195,8 +224,8 @@
 .legenda-dashboard li {
     display: grid;
     grid-template-columns: 10px 1fr auto;
-    gap: 0.5rem;
     align-items: center;
+    gap: 0.5rem;
     color: var(--text-body);
 }
 
@@ -205,20 +234,212 @@
     font-size: 0.75rem;
 }
 
+/* Ajuste ".ponto" para a classe real do marcador da legenda.
+   Se o style.css já define essas cores, remova estas três linhas. */
+.legenda-dashboard li:nth-child(1) .ponto { background: var(--graf-1); }
+.legenda-dashboard li:nth-child(2) .ponto { background: var(--graf-2); }
+.legenda-dashboard li:nth-child(3) .ponto { background: var(--graf-3); }
+
+/* ===== Status ===== */
 .status-concluida {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--success-bg, #dcfce7);
+    color: var(--success-text, #166534);
 }
 
 .status-atrasada {
-    background: #fee2e2;
+    background: var(--danger-bg, #fee2e2);
     color: var(--danger-text);
 }
 
+/* ===== Acessibilidade ===== */
+/* Remova se .sr-only já existir no style.css */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ===== Previsão do tempo ===== */
+.painel-clima {
+    --clima-azul: var(--primary, #2563eb);
+    --clima-azul-hover: var(--primary-hover, #1d4ed8);
+    --clima-texto: var(--text-primary, #101828);
+    --clima-texto-suave: var(--text-secondary, #475467);
+    --clima-borda: var(--border-color, #eaecf0);
+    --clima-borda-campo: var(--border-strong, #d0d5dd);
+    --clima-erro: var(--danger-text, #b42318);
+    --clima-aviso-borda: var(--warning, #f59e0b);
+    --clima-aviso-bg: var(--warning-bg, #fffbeb);
+    --clima-aviso-texto: var(--warning-text, #92400e);
+
+    margin-top: 1.5rem;
+}
+
+.clima-busca {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.clima-busca input {
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--clima-borda-campo);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.clima-busca button {
+    padding: 0.5rem 1rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--clima-azul);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.clima-busca button:hover {
+    background: var(--clima-azul-hover);
+}
+
+/* Foco visível para teclado */
+.clima-busca input:focus-visible,
+.clima-busca button:focus-visible {
+    outline: 2px solid var(--clima-azul);
+    outline-offset: 2px;
+}
+
+.clima-local {
+    margin: 0.5rem 0 1rem;
+    color: var(--clima-texto-suave);
+    font-weight: 600;
+}
+
+.clima-atual {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.clima-temp {
+    display: flex;
+    align-items: center;
+    color: var(--clima-texto);
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.clima-temp img {
+    width: 80px;
+    height: 80px;
+    margin-right: 1rem;
+    object-fit: contain;
+}
+
+.clima-temp small {
+    margin-left: 0.15rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.clima-detalhes p {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.clima-detalhes ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--clima-texto-suave);
+    font-size: 0.9rem;
+}
+
+.clima-aviso {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--clima-aviso-borda);
+    border-radius: 6px;
+    background: var(--clima-aviso-bg);
+    color: var(--clima-aviso-texto);
+    font-size: 0.9rem;
+}
+
+.clima-erro {
+    color: var(--clima-erro);
+}
+
+/* Previsão por dia */
+.clima-dias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.75rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.clima-dias li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--clima-borda);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.clima-dias img {
+    width: 48px;
+    height: 48px;
+    margin: 0.5rem auto;
+    object-fit: contain;
+}
+
+.clima-dias .dia-nome,
+.clima-dias .dia-desc,
+.clima-dias .dia-temp,
+.clima-dias .dia-chuva {
+    display: block;
+}
+
+.clima-dias .dia-nome {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.clima-dias .dia-desc {
+    min-height: 2.4em;
+    color: var(--clima-texto-suave);
+}
+
+.clima-dias .dia-temp {
+    margin-top: 0.4rem;
+    font-weight: 600;
+}
+
+.clima-dias .dia-chuva {
+    margin-top: 0.15rem;
+    color: var(--clima-azul);
+}
+
+/* ===== Responsivo ===== */
 @media (max-width: 760px) {
     .dashboard-cabecalho {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
         gap: 0.5rem;
     }
 
@@ -240,188 +461,7 @@
 }
 
 @media (max-width: 640px) {
-
     .painel-alerta {
         padding: 1rem;
     }
-}
-
-/* ===== Previsão do tempo ===== */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-}
-
-.painel-clima {
-    margin-top: 1.5rem;
-}
-
-.clima-busca {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.clima-busca input {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #d0d5dd;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    min-width: 0;
-}
-
-.clima-busca button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.clima-busca button:hover {
-    background: #1d4ed8;
-}
-
-.clima-local {
-    margin: 0.5rem 0 1rem;
-    font-weight: 600;
-    color: #475467;
-}
-
-.clima-atual {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.clima-temp {
-    font-size: 3.5rem;
-    font-weight: 700;
-    line-height: 1;
-    color: #101828;
-}
-
-.clima-temp small {
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin-left: 0.15rem;
-}
-
-.clima-detalhes p {
-    margin: 0 0 0.5rem;
-    font-size: 1.05rem;
-    font-weight: 600;
-}
-
-.clima-detalhes ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
-    gap: 0.25rem 1.5rem;
-    font-size: 0.9rem;
-    color: #475467;
-}
-
-.clima-aviso {
-    margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    border-left: 4px solid #f59e0b;
-    background: #fffbeb;
-    color: #92400e;
-    border-radius: 6px;
-    font-size: 0.9rem;
-}
-
-.clima-dias {
-    list-style: none;
-    margin: 1.25rem 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 0.75rem;
-}
-
-.clima-dias li {
-    padding: 0.75rem;
-    border: 1px solid #eaecf0;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 0.85rem;
-}
-
-.clima-dias .dia-nome {
-    display: block;
-    font-weight: 700;
-    text-transform: capitalize;
-    margin-bottom: 0.25rem;
-}
-
-.clima-dias .dia-desc {
-    display: block;
-    min-height: 2.4em;
-    color: #475467;
-}
-
-.clima-dias .dia-temp {
-    display: block;
-    margin-top: 0.4rem;
-    font-weight: 600;
-}
-
-.clima-dias .dia-chuva {
-    display: block;
-    color: #2563eb;
-    margin-top: 0.15rem;
-}
-
-.clima-erro {
-    color: #b42318;
-}
-
-.clima-temp {
-    display: flex;
-    align-items: center;
-    font-size: 3.5rem;
-    font-weight: 700;
-    line-height: 1;
-    color: #101828;
-}
-
-.clima-temp img {
-    width: 80px;
-    height: 80px;
-    margin-right: 1rem;
-    object-fit: contain;
-}
-
-.clima-temp small {
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin-left: 0.15rem;
-}
-
-.clima-dias li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.75rem;
-    border: 1px solid #eaecf0;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 0.85rem;
-}
-
-.clima-dias img {
-    width: 48px;
-    height: 48px;
-    margin: 0.5rem auto;
-    object-fit: contain;
 }
