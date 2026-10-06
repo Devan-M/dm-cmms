@@ -250,11 +250,11 @@ function salvarOrdens(lista) {
 // Obs.: se a sua página de manutenções já grava 'sgm_manutencoes' com outro
 // formato, ajuste os campos abaixo para ficarem iguais aos dela.
 const manutencoesIniciais = [
-    { codigo: 'EQ-001', ativo: 'Torno CNC - T01', categoria: 'Preventiva', data: '2026-10-20', responsavel: 'Carlos Menezes', concluida: false },
-    { codigo: 'EQ-006', ativo: 'Injetora - INJ01', categoria: 'Preventiva', data: '2026-12-05', responsavel: 'Rafael Souza', concluida: false },
-    { codigo: 'EQ-003', ativo: 'Compressor de Ar - C02', categoria: 'Preventiva', data: '2026-12-20', responsavel: 'Rafael Souza', concluida: false },
-    { codigo: 'EQ-004', ativo: 'Ponte Rolante - PR01', categoria: 'Inspeção', data: '2027-01-10', responsavel: 'Carlos Menezes', concluida: false },
-    { codigo: 'EQ-001', ativo: 'Torno CNC - T01', categoria: 'Preventiva', data: '2026-08-02', responsavel: 'Carlos Menezes', concluida: true }
+    { id: 1, tarefa: 'Lubrificação geral e inspeção de eixos', codigo: 'EQ-001', ativo: 'Torno CNC - T01', categoria: 'Preventiva', frequencia: 'Trimestral', data: '2026-10-20', responsavel: 'Carlos Menezes', concluida: false },
+    { id: 2, tarefa: 'Limpeza do canhão e troca de resistências', codigo: 'EQ-006', ativo: 'Injetora - INJ01', categoria: 'Preventiva', frequencia: 'Semestral', data: '2026-12-05', responsavel: 'Rafael Souza', concluida: false },
+    { id: 3, tarefa: 'Troca de filtros', codigo: 'EQ-003', ativo: 'Compressor de Ar - C02', categoria: 'Preventiva', frequencia: 'Semestral', data: '2026-12-20', responsavel: 'Rafael Souza', concluida: false },
+    { id: 4, tarefa: 'Inspeção estrutural de cabos', codigo: 'EQ-004', ativo: 'Ponte Rolante - PR01', categoria: 'Inspeção', frequencia: 'Anual', data: '2027-01-10', responsavel: 'Carlos Menezes', concluida: false },
+    { id: 5, tarefa: 'Lubrificação geral e inspeção de eixos', codigo: 'EQ-001', ativo: 'Torno CNC - T01', categoria: 'Preventiva', frequencia: 'Trimestral', data: '2026-08-02', responsavel: 'Carlos Menezes', concluida: true, dataConclusao: '2026-08-02', reagendada: true }
 ];
 
 function carregarManutencoes() {

@@ -32,23 +32,29 @@
             const salvo = JSON.parse(localStorage.getItem(CHAVE));
             if (Array.isArray(salvo)) return salvo;
         } catch (e) { /* ignora */ }
-        return seed();
+        const inicial = seed();
+        try { localStorage.setItem(CHAVE, JSON.stringify(inicial)); } catch (e) { /* ignora */ }
+        return inicial;
     }
+
     function salvar() {
         try { localStorage.setItem(CHAVE, JSON.stringify(rotinas)); } catch (e) { /* ignora */ }
     }
 
     // Equipamentos: mesma fonte da página equipamentos.html (js/dados.js)
     function listaEquip() {
-        try { return typeof carregarEquipamentos === 'function' ? carregarEquipamentos() : []; }
-        catch (e) { return []; }
+        try {
+            return typeof carregarEquipamentos === 'function' ? carregarEquipamentos() : [];
+        } catch (e) {
+            console.error('Erro ao carregar equipamentos:', e);
+            return [];
+        }
     }
     let mapaEq = {};
     function atualizarMapaEq() {
         mapaEq = {};
         listaEquip().forEach((e) => { mapaEq[e.codigo] = e; });
     }
-    // Nome atual do equipamento (acompanha renomeações); cai no texto salvo se não achar
     const ativoDe = (r) => (r.codigo && mapaEq[r.codigo] ? mapaEq[r.codigo].nome : r.ativo);
 
     function popularAtivos(r) {
@@ -56,33 +62,60 @@
         const sel = $('f-ativo');
         let html = eq.map((e) => `<option value="${esc(e.codigo)}">${esc(e.codigo)} — ${esc(e.nome)}</option>`).join('');
         let escolhido = '';
-        if (r) {
-            const porCodigo = r.codigo && eq.find((e) => e.codigo === r.codigo);
-            const porNome = eq.find((e) => e.nome === r.ativo);
-            if (porCodigo || porNome) {
-                escolhido = (porCodigo || porNome).codigo;
+
+        if (r && r.codigo) {
+            const porCodigo = eq.find((e) => e.codigo === r.codigo);
+            if (porCodigo) {
+                escolhido = porCodigo.codigo;
             } else {
                 html = `<option value="__legado">${esc(r.ativo)} (não cadastrado)</option>` + html;
                 escolhido = '__legado';
             }
+        } else if (r && r.ativo) {
+            // Rotina antiga sem código (ex.: os dados de seed)
+            html = `<option value="__legado">${esc(r.ativo)} (não cadastrado)</option>` + html;
+            escolhido = '__legado';
         }
+
         sel.innerHTML = html;
         if (escolhido) sel.value = escolhido;
-        $('aviso-sem-equip').hidden = eq.length > 0;
-    }
-
-    function resolverAtivo() {
-        const val = $('f-ativo').value;
-        if (val === '__legado') {
-            const r0 = rotinas.find((x) => x.id === editandoId);
-            return r0 ? { ativo: r0.ativo, codigo: r0.codigo } : null;
-        }
-        const e = listaEquip().find((x) => x.codigo === val);
-        return e ? { ativo: e.nome, codigo: e.codigo } : null;
+        $('aviso-sem-equip').hidden = eq.length > 0 || !!escolhido;
     }
 
     let rotinas = carregar();
     let editandoId = null;
+
+    function vincularCodigos() {
+        const eq = listaEquip();
+        let mudou = false;
+        rotinas.forEach((r) => {
+            if (r.codigo || !r.ativo) return;
+            const m = eq.find((e) =>
+                r.ativo === e.nome ||
+                r.ativo.endsWith(' - ' + e.codigo) ||
+                r.ativo.includes(e.codigo)
+            );
+            if (m) {
+                r.codigo = m.codigo;
+                r.ativo = m.nome;
+                mudou = true;
+            }
+        });
+        if (mudou) salvar();
+    }
+
+    function resolverAtivo() {
+        const val = $('f-ativo').value;
+        if (!val) return null;
+
+        if (val === '__legado') {
+            const r0 = rotinas.find((x) => x.id === editandoId);
+            return r0 ? { ativo: r0.ativo, codigo: r0.codigo } : null;
+        }
+
+        const e = listaEquip().find((x) => x.codigo === val);
+        return e ? { ativo: e.nome, codigo: e.codigo } : null;
+    }
 
     function statusDe(r) {
         if (r.concluida) return 'Concluída';
@@ -134,8 +167,10 @@
                     <td>${esc(r.responsavel)}</td>
                     <td><span class="status ${CLASSE[st]}">${st}</span>${r.concluida && r.dataConclusao ? `<small class="data-conclusao">em ${fmtData(r.dataConclusao)}</small>` : ''}</td>
                     <td><div class="acoes-linha">
-                        ${r.concluida ? (r.reagendada ? '' : `<button type="button" class="btn-link" data-acao="reagendar" data-id="${r.id}">Reagendar</button>`) : `<button type="button" class="btn-link" data-acao="concluir" data-id="${r.id}">Concluir</button>
-                        <button type="button" class="btn-link" data-acao="editar" data-id="${r.id}">Editar</button>`}
+                        ${r.concluida
+                        ? (r.reagendada ? '' : `<button type="button" class="btn-link" data-acao="reagendar" data-id="${r.id}">Reagendar</button>`)
+                        : `<button type="button" class="btn-link" data-acao="concluir" data-id="${r.id}">Concluir</button>
+                               <button type="button" class="btn-link" data-acao="editar" data-id="${r.id}">Editar</button>`}
                         <button type="button" class="btn-link perigo" data-acao="excluir" data-id="${r.id}">Excluir</button>
                     </div></td>
                 </tr>`;
@@ -144,7 +179,7 @@
         renderIndicadores();
     }
 
-    // Modal
+    // ---------- Modal ----------
     function abrirModal(r) {
         editandoId = r ? r.id : null;
         $('mm-titulo').textContent = r ? 'Editar Rotina' : 'Nova Rotina';
@@ -169,10 +204,21 @@
     });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharModal(); });
 
+    // ---------- Submit do formulário ----------
     $('form-rotina').addEventListener('submit', (e) => {
         e.preventDefault();
+
+        if (!$('f-tarefa').value.trim()) {
+            alert('Preencha a tarefa.');
+            return;
+        }
+
         const at = resolverAtivo();
-        if (!at) return;
+        if (!at) {
+            alert('Selecione um equipamento válido.');
+            return;
+        }
+
         const dados = {
             tarefa: $('f-tarefa').value.trim(),
             ativo: at.ativo,
@@ -182,6 +228,7 @@
             data: $('f-data').value,
             responsavel: $('f-responsavel').value.trim()
         };
+
         if (editandoId) {
             const r = rotinas.find((x) => x.id === editandoId);
             Object.assign(r, dados, { concluida: false });
@@ -191,7 +238,7 @@
         salvar(); fecharModal(); renderTabela();
     });
 
-    // Ações da tabela
+    // ---------- Ações da tabela ----------
     $('tabela-corpo').addEventListener('click', (e) => {
         const btn = e.target.closest('[data-acao]');
         if (!btn) return;
@@ -200,6 +247,7 @@
         if (!r) return;
 
         if (btn.dataset.acao === 'editar') return abrirModal(r);
+
         if (btn.dataset.acao === 'excluir') {
             if (!confirm(`Excluir a rotina "${r.tarefa}"?`)) return;
             rotinas = rotinas.filter((x) => x.id !== id);
@@ -210,7 +258,6 @@
         }
         if (btn.dataset.acao === 'reagendar') {
             if (r.reagendada) return;
-            // Mantém a concluída como está e cria uma nova rotina para o próximo ciclo
             const base = r.dataConclusao || hojeISO();
             r.reagendada = true;
             rotinas.push({
@@ -229,7 +276,7 @@
         salvar(); renderTabela();
     });
 
-    // Filtros
+    // ---------- Filtros ----------
     ['busca', 'filtro-categoria', 'filtro-status', 'filtro-data'].forEach((id) => {
         $(id).addEventListener('input', renderTabela);
     });
@@ -238,5 +285,7 @@
         renderTabela();
     });
 
+    // ---------- Início ----------
+    vincularCodigos();
     renderTabela();
 })();
