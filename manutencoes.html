@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,9 +16,7 @@
     <script src="./js/weather.js" defer></script>
     <script src="./js/manutencoes.js" defer></script>
 </head>
-
 <body>
-
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
@@ -35,7 +32,6 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <section class="main-header">
             <div>
@@ -44,7 +40,6 @@
             </div>
             <button type="button" class="btn btn-primary" id="btn-nova">+ Nova Rotina</button>
         </section>
-
         <section class="indicadores-grid indicadores-cinco" aria-label="Resumo das manutenções">
             <article class="indicador-card">
                 <div>
@@ -87,7 +82,6 @@
                 <div class="indicador-icone can">CO</div>
             </article>
         </section>
-
         <section class="card-painel">
             <div class="filtros-bar">
                 <input type="text" class="input-search" id="busca" placeholder="Filtrar por tarefa, ativo ou responsável...">
@@ -107,7 +101,6 @@
                     aria-label="Próxima data até">
                 <button type="button" class="btn" id="btn-limpar">Limpar</button>
             </div>
-
             <table class="tabela-dados">
                 <thead>
                     <tr>
@@ -125,7 +118,6 @@
             </table>
         </section>
     </main>
-
     <!-- MODAL: NOVA / EDITAR ROTINA -->
     <div id="modal-rotina" class="mm-overlay" aria-hidden="true">
         <div class="mm-container" role="dialog" aria-modal="true" aria-labelledby="mm-titulo">
@@ -180,5 +172,4 @@
         </div>
     </div>
 </body>
-
 </html>

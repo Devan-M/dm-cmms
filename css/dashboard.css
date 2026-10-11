@@ -2,7 +2,6 @@
    SGM — Complementos visuais do Dashboard
    Carregar depois de style.css
    ========================================================= */
-
 /* ===== Cabeçalho ===== */
 .dashboard-cabecalho {
     align-items: flex-end;
@@ -192,7 +191,6 @@
     --graf-1: var(--primary);
     --graf-2: var(--danger);
     --graf-3: var(--warning);
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -203,14 +201,12 @@
     /* Pontos finais acumulados; o JS sobrescreve esses valores */
     --seg1: 33.33%;
     --seg2: 66.66%;
-
     flex-shrink: 0;
     background: conic-gradient(var(--graf-1) 0 var(--seg1),
             var(--graf-2) var(--seg1) var(--seg2),
             var(--graf-3) var(--seg2) 100%);
 }
 
-/* Sem dados: anel neutro em vez de um gráfico enganoso */
 .grafico-dashboard .donut-chart.donut-vazio {
     background: var(--border-color);
 }
@@ -232,8 +228,6 @@
     font-size: 0.75rem;
 }
 
-/* Ajuste ".ponto" para a classe real do marcador da legenda.
-   Se o style.css já define essas cores, remova estas três linhas. */
 .legenda-dashboard li:nth-child(1) .ponto {
     background: var(--graf-1);
 }
@@ -258,7 +252,6 @@
 }
 
 /* ===== Acessibilidade ===== */
-/* Remova se .sr-only já existir no style.css */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -281,7 +274,6 @@
     --clima-aviso-borda: var(--warning, #f59e0b);
     --clima-aviso-bg: var(--warning-bg, #fffbeb);
     --clima-aviso-texto: var(--warning-text, #92400e);
-
     position: relative;
     margin-top: 1.5rem;
 }
@@ -313,7 +305,6 @@
     background: var(--clima-azul-hover);
 }
 
-/* Foco visível para teclado */
 .clima-busca input:focus-visible,
 .clima-busca button:focus-visible {
     outline: 2px solid var(--clima-azul);
@@ -478,7 +469,6 @@
     --cloud-color: var(--primary, #4387f4);
     --arrows-color: #80b1ff;
     --time-animation: 1s;
-
     position: absolute;
     inset: 0;
     z-index: 10;

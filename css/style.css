@@ -1,7 +1,6 @@
 /* =========================================================
    VARIÁVEIS DE DESIGN E CORES
    ========================================================= */
-
 :root {
     /* Cores Globais */
     --bg-app: #f8fafc;
@@ -9,7 +8,6 @@
     --bg-sidebar: #0f172a;
     --primary: #2563eb;
     --bg-sidebar-active: var(--primary);
-
     /* Textos */
     --font-main: 'Inter', system-ui, -apple-system, sans-serif;
     --text-primary: #0f172a;
@@ -17,20 +15,17 @@
     --text-muted: #94a3b8;
     --text-sidebar: #94a3b8;
     --text-body: #1e293b;
-
     /* Bordas e Sombras */
     --border-color: #e2e8f0;
     --border-strong: #cbd5e1;
     --bg-muted: #f1f5f9;
     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
     --radius-card: 10px;
-
     /* Cores dos Status */
     --badge-agendada-bg: #dcfce7;
     --badge-agendada-text: #166534;
     --badge-pendente-bg: #fef3c7;
     --badge-pendente-text: #92400e;
-
     /* Cores semânticas reutilizadas */
     --danger: #ef4444;
     --danger-text: #991b1b;
@@ -42,7 +37,6 @@
     --info-text: #075985;
     --neutral-bg: #f3f4f6;
     --neutral-text: #374151;
-
     /* Cores dos Ícones dos Cards */
     --card-eq-bg: #eff6ff;
     --card-eq-icon: #3b82f6;
@@ -73,7 +67,6 @@ body {
 /* =========================================================
    1. SIDEBAR LATERAL FIXA
    ========================================================= */
-
 body>header {
     width: 240px;
     height: 100vh;
@@ -135,7 +128,6 @@ body>footer {
 /* =========================================================
    2. ÁREA PRINCIPAL DE CONTEÚDO (MAIN)
    ========================================================= */
-
 main {
     flex: 1;
     margin-left: 240px;
@@ -163,7 +155,6 @@ main {
 /* =========================================================
    3. CARDS DE INDICADORES (GRID DE 4 COLUNAS)
    ========================================================= */
-
 .indicadores-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -233,7 +224,6 @@ main {
 /* =========================================================
    4. LAYOUT EM 2 COLUNAS (GRID DO DASHBOARD)
    ========================================================= */
-
 .dashboard-grid-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -241,9 +231,7 @@ main {
     gap: 1.5rem;
 }
 
-/* Estilo comum dos painéis/cards
-   OBS: ".dica-seguranca .ultimas-atividades" (sem vírgula) foi mantido como
-   estava para não alterar o visual atual; veja a nota na resposta. */
+/* Estilo comum dos painéis/cards */
 .proximas-manutencoes,
 .dica-manutencao,
 .dica-seguranca .ultimas-atividades,
@@ -341,7 +329,6 @@ main {
 }
 
 /* --- COLUNA LATERAL (ATIVIDADES & GRÁFICO) --- */
-
 /* Lista de Atividades */
 .lista-atividades {
     list-style: none;
@@ -435,7 +422,6 @@ main {
 /* =========================================================
    5. COMPONENTES COMPARTILHADOS (BOTÕES, TABELAS, FORMULÁRIOS)
    ========================================================= */
-
 /* Botões */
 .btn {
     display: inline-flex;
@@ -614,7 +600,6 @@ fieldset {
 /* =========================================================
    6. MODAL DE DETALHES
    ========================================================= */
-
 /* Fundo escurecido que cobre a tela inteira */
 .modal-overlay {
     position: fixed;
@@ -823,7 +808,6 @@ fieldset {
 /* =========================================================
    7. RESPONSIVIDADE (DISPOSITIVOS MÓVEIS / TABLETS)
    ========================================================= */
-
 @media (max-width: 1024px) {
     .indicadores-grid {
         grid-template-columns: repeat(2, 1fr);

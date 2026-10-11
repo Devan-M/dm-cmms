@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +17,7 @@
     <script src="./js/manutencoes.js" defer></script>
     <script src="./js/ordens.js" defer></script>
 </head>
-
 <body>
-
     <header>
         <h1>SGM</h1>
         <p>Gestão de Manutenção</p>
@@ -36,7 +33,6 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <section class="main-header">
             <div>
@@ -44,7 +40,6 @@
                 <p>Acompanhe e gerencie a abertura de chamados técnicos</p>
             </div>
         </section>
-
         <!-- INDICADORES RESUMIDOS -->
         <section class="indicadores-grid indicadores-cinco" aria-label="Resumo das ordens de serviço">
             <article class="indicador-card">
@@ -88,9 +83,7 @@
                 <div class="indicador-icone can">CA</div>
             </article>
         </section>
-
         <div class="dashboard-grid-layout">
-
             <!-- LISTA DE O.S. -->
             <div class="coluna-principal">
                 <section class="card-painel">
@@ -111,7 +104,6 @@
                             <option>Baixa</option>
                         </select>
                     </div>
-
                     <table class="tabela-dados">
                         <thead>
                             <tr>
@@ -127,7 +119,6 @@
                     </table>
                 </section>
             </div>
-
             <!-- FORMULÁRIO DE ABERTURA -->
             <div class="coluna-lateral">
                 <section class="card-painel">
@@ -167,10 +158,8 @@
                     </form>
                 </section>
             </div>
-
         </div>
     </main>
-
     <!-- MODAL: DETALHES DA O.S. -->
     <div id="modal-os" class="modal-overlay" aria-hidden="true">
         <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="os-titulo">
@@ -181,22 +170,18 @@
                 </div>
                 <button type="button" class="modal-btn-fechar" data-fechar aria-label="Fechar">&times;</button>
             </header>
-
             <div class="modal-body">
                 <nav class="modal-tabs" role="tablist">
                     <button type="button" class="tab-link active" role="tab" data-tab="resumo">Resumo</button>
                     <button type="button" class="tab-link" role="tab" data-tab="andamento">Andamento</button>
                     <button type="button" class="tab-link" role="tab" data-tab="equipamento">Equipamento</button>
                 </nav>
-
                 <div class="tab-panel" id="tab-resumo" role="tabpanel"></div>
                 <div class="tab-panel" id="tab-andamento" role="tabpanel" hidden></div>
                 <div class="tab-panel" id="tab-equipamento" role="tabpanel" hidden></div>
             </div>
-
             <footer class="modal-footer" id="os-rodape"></footer>
         </div>
     </div>
 </body>
-
 </html>
