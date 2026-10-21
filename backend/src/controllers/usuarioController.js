@@ -1,7 +1,8 @@
-const Usuario = require('../models/Usuario');
 const UsuarioRepository = require('../models/UsuarioRepository');
+const UsuarioService = require('../services/UsuarioService');
 
 const repo = new UsuarioRepository();
+const usuarioService = new UsuarioService(repo);
 
 // Dados iniciais para teste
 repo.criar('Admin Sistema', '1990-05-15', 'admin@dmcmms.com', 'Admin@123', 'admin');
@@ -19,7 +20,7 @@ const criarUsuario = (req, res) => {
       });
     }
 
-    const usuario = repo.criar(nome, dataNascimento, email, senha, perfil);
+    const usuario = usuarioService.criar(nome, dataNascimento, email, senha, perfil);
 
     res.status(201).json({
       sucesso: true,
@@ -36,7 +37,7 @@ const criarUsuario = (req, res) => {
 
 const listarUsuarios = (req, res) => {
   try {
-    const usuarios = repo.listar();
+    const usuarios = usuarioService.listar();
     res.json({
       sucesso: true,
       total: usuarios.length,
