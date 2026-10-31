@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest"
+    "test": "node test/integration/usuario.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -14,6 +14,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "mongoose": "^8.20.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

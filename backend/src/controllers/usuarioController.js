@@ -1,15 +1,23 @@
-const UsuarioRepository = require('../repositories/UsuarioRepository');
-const UsuarioService = require('../services/UsuarioService');
+const jwt = require('jsonwebtoken');
+const Usuario = require('../models/Usuario');
 
-const repo = new UsuarioRepository();
-const usuarioService = new UsuarioService(repo);
+const gerarToken = (usuario) => {
+  const secret = process.env.JWT_SECRET || 'dm_cmms_jwt_secret_key_2026';
+  const expiresIn = process.env.JWT_EXPIRES_IN || '1d';
 
-// Dados iniciais para teste
-repo.criar('Admin Sistema', '1990-05-15', 'admin@dmcmms.com', 'Admin@123', 'admin');
-repo.criar('Carlos Menezes', '1985-08-22', 'carlos@dmcmms.com', 'Carlos@123', 'tecnico');
-repo.criar('Rafael Souza', '1992-03-10', 'rafael@dmcmms.com', 'Rafael@123', 'tecnico');
+  return jwt.sign(
+    {
+      id: usuario._id,
+      email: usuario.email,
+      perfil: usuario.perfil
+    },
+    secret,
+    { expiresIn }
+  );
+};
 
-const criarUsuario = (req, res) => {
+// POST - Criar novo usuário (Público / Registro)
+const criarUsuario = async (req, res) => {
   try {
     const { nome, dataNascimento, email, senha, perfil } = req.body;
 
@@ -20,113 +28,40 @@ const criarUsuario = (req, res) => {
       });
     }
 
-    const usuario = usuarioService.criar(nome, dataNascimento, email, senha, perfil);
+    const usuarioExistente = await Usuario.findOne({ email });
+    if (usuarioExistente) {
+      return res.status(400).json({
+        sucesso: false,
+        mensagem: 'Email já cadastrado'
+      });
+    }
 
-    res.status(201).json({
+    const usuario = await Usuario.create({
+      nome,
+      dataNascimento,
+      email,
+      senha,
+      perfil
+    });
+
+    const token = gerarToken(usuario);
+
+    return res.status(201).json({
       sucesso: true,
       mensagem: 'Usuário criado com sucesso',
-      usuario: usuario.toJSON()
+      usuario: usuario.toJSON(),
+      token
     });
   } catch (erro) {
-    res.status(400).json({
+    return res.status(400).json({
       sucesso: false,
       mensagem: erro.message
     });
   }
 };
 
-const listarUsuarios = (req, res) => {
-  try {
-    const usuarios = usuarioService.listar();
-    res.json({
-      sucesso: true,
-      total: usuarios.length,
-      usuarios
-    });
-  } catch (erro) {
-    res.status(500).json({
-      sucesso: false,
-      mensagem: erro.message
-    });
-  }
-};
-
-const obterUsuario = (req, res) => {
-  try {
-    const { id } = req.params;
-    const usuario = repo.encontrarPorId(id);
-
-    if (!usuario) {
-      return res.status(404).json({
-        sucesso: false,
-        mensagem: 'Usuário não encontrado'
-      });
-    }
-
-    res.json({
-      sucesso: true,
-      usuario: usuario.toJSON()
-    });
-  } catch (erro) {
-    res.status(500).json({
-      sucesso: false,
-      mensagem: erro.message
-    });
-  }
-};
-
-const atualizarUsuario = (req, res) => {
-  try {
-    const { id } = req.params;
-    const dados = req.body;
-
-    const usuario = repo.atualizar(id, dados);
-
-    if (!usuario) {
-      return res.status(404).json({
-        sucesso: false,
-        mensagem: 'Usuário não encontrado'
-      });
-    }
-
-    res.json({
-      sucesso: true,
-      mensagem: 'Usuário atualizado com sucesso',
-      usuario: usuario.toJSON()
-    });
-  } catch (erro) {
-    res.status(400).json({
-      sucesso: false,
-      mensagem: erro.message
-    });
-  }
-};
-
-const deletarUsuario = (req, res) => {
-  try {
-    const { id } = req.params;
-    const deletado = repo.deletar(id);
-
-    if (!deletado) {
-      return res.status(404).json({
-        sucesso: false,
-        mensagem: 'Usuário não encontrado'
-      });
-    }
-
-    res.json({
-      sucesso: true,
-      mensagem: 'Usuário deletado com sucesso'
-    });
-  } catch (erro) {
-    res.status(500).json({
-      sucesso: false,
-      mensagem: erro.message
-    });
-  }
-};
-
-const autenticar = (req, res) => {
+// POST - Login / Autenticação (Gera Token JWT)
+const autenticar = async (req, res) => {
   try {
     const { email, senha } = req.body;
 
@@ -137,62 +72,161 @@ const autenticar = (req, res) => {
       });
     }
 
-    const resultado = repo.autenticar(email, senha);
+    const usuario = await Usuario.findOne({ email });
 
-    if (!resultado.sucesso) {
+    if (!usuario) {
       return res.status(401).json({
         sucesso: false,
-        mensagem: resultado.mensagem
+        mensagem: 'Credenciais inválidas'
       });
     }
 
-    res.json({
+    if (usuario.bloqueado) {
+      return res.status(403).json({
+        sucesso: false,
+        mensagem: 'Usuário bloqueado por múltiplas tentativas'
+      });
+    }
+
+    if (!usuario.ativo) {
+      return res.status(403).json({
+        sucesso: false,
+        mensagem: 'Usuário inativo'
+      });
+    }
+
+    const senhaValida = await usuario.validarSenha(senha);
+
+    if (!senhaValida) {
+      await usuario.registrarTentativaFalha();
+      return res.status(401).json({
+        sucesso: false,
+        mensagem: 'Credenciais inválidas'
+      });
+    }
+
+    await usuario.registrarAcesso();
+    const token = gerarToken(usuario);
+
+    return res.json({
       sucesso: true,
-      mensagem: resultado.mensagem,
-      usuario: resultado.usuario.toJSON()
+      mensagem: 'Autenticação bem-sucedida',
+      token,
+      usuario: usuario.toJSON()
     });
   } catch (erro) {
-    res.status(500).json({
+    return res.status(500).json({
       sucesso: false,
       mensagem: erro.message
     });
   }
 };
 
-const alterarSenha = (req, res) => {
+// GET - Listar todos os usuários (Protegido por JWT)
+const listarUsuarios = async (req, res) => {
+  try {
+    const usuarios = await Usuario.find();
+    return res.json({
+      sucesso: true,
+      total: usuarios.length,
+      usuarios: usuarios.map(u => u.toJSON())
+    });
+  } catch (erro) {
+    return res.status(500).json({
+      sucesso: false,
+      mensagem: erro.message
+    });
+  }
+};
+
+// GET - Obter usuário por ID (Protegido por JWT)
+const obterUsuario = async (req, res) => {
   try {
     const { id } = req.params;
-    const { senhaAtual, novaSenha } = req.body;
+    const usuario = await Usuario.findById(id);
 
-    if (!senhaAtual || !novaSenha) {
-      return res.status(400).json({
+    if (!usuario) {
+      return res.status(404).json({
         sucesso: false,
-        mensagem: 'Senha atual e nova senha são obrigatórias'
+        mensagem: 'Usuário não encontrado'
       });
     }
 
-    const resultado = repo.alterarSenha(id, senhaAtual, novaSenha);
+    return res.json({
+      sucesso: true,
+      usuario: usuario.toJSON()
+    });
+  } catch (erro) {
+    return res.status(400).json({
+      sucesso: false,
+      mensagem: 'ID inválido ou erro na busca'
+    });
+  }
+};
 
-    if (!resultado.sucesso) {
-      return res.status(400).json(resultado);
+// PUT - Atualizar usuário (Protegido por JWT)
+const atualizarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const dados = req.body;
+
+    delete dados.senha; // Atualização de senha deve ter rota própria
+
+    const usuario = await Usuario.findByIdAndUpdate(id, dados, {
+      returnDocument: 'after',
+      runValidators: true
+    });
+
+    if (!usuario) {
+      return res.status(404).json({
+        sucesso: false,
+        mensagem: 'Usuário não encontrado'
+      });
     }
 
-    res.json(resultado);
+    return res.json({
+      sucesso: true,
+      mensagem: 'Usuário atualizado com sucesso',
+      usuario: usuario.toJSON()
+    });
   } catch (erro) {
-    res.status(500).json({
+    return res.status(400).json({
       sucesso: false,
       mensagem: erro.message
+    });
+  }
+};
+
+// DELETE - Deletar usuário (Protegido por JWT)
+const deletarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuario = await Usuario.findByIdAndDelete(id);
+
+    if (!usuario) {
+      return res.status(404).json({
+        sucesso: false,
+        mensagem: 'Usuário não encontrado'
+      });
+    }
+
+    return res.json({
+      sucesso: true,
+      mensagem: 'Usuário deletado com sucesso'
+    });
+  } catch (erro) {
+    return res.status(400).json({
+      sucesso: false,
+      mensagem: 'ID inválido ou erro ao deletar'
     });
   }
 };
 
 module.exports = {
   criarUsuario,
+  autenticar,
   listarUsuarios,
   obterUsuario,
   atualizarUsuario,
-  deletarUsuario,
-  autenticar,
-  alterarSenha,
-  repo // Exporta o repositório para testes
+  deletarUsuario
 };

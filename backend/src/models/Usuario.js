@@ -1,145 +1,95 @@
-const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-class Usuario {
-  constructor(nome, dataNascimento, email, senha, perfil = 'tecnico') {
-    this.id = uuidv4();
-    this.nome = nome;
-    this.dataNascimento = dataNascimento; // formato: YYYY-MM-DD
-    this.email = email;
-    this.senhaHash = null; // será definida pelo setter
-    this.perfil = perfil; // 'admin', 'tecnico', 'supervisor'
-    this.ativo = true;
-    this.dataCriacao = new Date().toISOString();
-    this.dataUltimoAcesso = null;
-    this.tentativasLogin = 0;
-    this.bloqueado = false;
-  }
-
-  /**
-   * Define a senha com hash bcrypt
-   * @param {string} senha - Senha em texto plano
-   */
-  setSenha(senha) {
-    if (!senha || senha.length < 6) {
-      throw new Error('Senha deve ter no mínimo 6 caracteres');
+const usuarioSchema = new mongoose.Schema(
+  {
+    nome: {
+      type: String,
+      required: [true, 'Nome é obrigatório'],
+      trim: true,
+      minlength: [3, 'Nome deve ter no mínimo 3 caracteres']
+    },
+    dataNascimento: {
+      type: String,
+      required: [true, 'Data de nascimento é obrigatória']
+    },
+    email: {
+      type: String,
+      required: [true, 'Email é obrigatório'],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Email inválido']
+    },
+    senha: {
+      type: String,
+      required: [true, 'Senha é obrigatória'],
+      minlength: [6, 'Senha deve ter no mínimo 6 caracteres']
+    },
+    perfil: {
+      type: String,
+      enum: ['admin', 'tecnico', 'supervisor'],
+      default: 'tecnico'
+    },
+    ativo: {
+      type: Boolean,
+      default: true
+    },
+    tentativasLogin: {
+      type: Number,
+      default: 0
+    },
+    bloqueado: {
+      type: Boolean,
+      default: false
+    },
+    dataUltimoAcesso: {
+      type: Date,
+      default: null
     }
-    const salt = bcrypt.genSaltSync(10);
-    this.senhaHash = bcrypt.hashSync(senha, salt);
-  }
-
-  /**
-   * Valida a senha contra o hash armazenado
-   * @param {string} senha - Senha em texto plano
-   * @returns {boolean}
-   */
-  validarSenha(senha) {
-    return bcrypt.compareSync(senha, this.senhaHash);
-  }
-
-  /**
-   * Obtém a idade do usuário
-   * @returns {number}
-   */
-  obterIdade() {
-    const hoje = new Date();
-    const nascimento = new Date(this.dataNascimento);
-    let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mes = hoje.getMonth() - nascimento.getMonth();
-
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
-      idade--;
-    }
-
-    return idade;
-  }
-
-  /**
-   * Registra um acesso bem-sucedido
-   */
-  registrarAcesso() {
-    this.dataUltimoAcesso = new Date().toISOString();
-    this.tentativasLogin = 0;
-    this.bloqueado = false;
-  }
-
-  /**
-   * Registra uma tentativa de login falha
-   * Bloqueia após 5 tentativas
-   */
-  registrarTentativaFalha() {
-    this.tentativasLogin++;
-    if (this.tentativasLogin >= 5) {
-      this.bloqueado = true;
-    }
-  }
-
-  /**
-   * Desbloqueia o usuário
-   */
-  desbloquear() {
-    this.bloqueado = false;
-    this.tentativasLogin = 0;
-  }
-
-  /**
-   * Retorna os dados do usuário sem a senha
-   * @returns {object}
-   */
-  toJSON() {
-    const { senhaHash, ...dados } = this;
-    return dados;
-  }
-
-  /**
-   * Valida os dados obrigatórios
-   * @returns {object} { valido: boolean, erros: array }
-   */
-  validar() {
-    const erros = [];
-
-    if (!this.nome || this.nome.trim().length < 3) {
-      erros.push('Nome deve ter no mínimo 3 caracteres');
-    }
-
-    if (!this.dataNascimento || isNaN(new Date(this.dataNascimento).getTime())) {
-      erros.push('Data de nascimento inválida (use YYYY-MM-DD)');
-    }
-
-    if (!this.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
-      erros.push('Email inválido');
-    }
-
-    if (this.obterIdade() < 18) {
-      erros.push('Usuário deve ter no mínimo 18 anos');
-    }
-
-    return {
-      valido: erros.length === 0,
-      erros
-    };
-  }
-
-  /**
-   * Atualiza dados do usuário (exceto senha e ID)
-   * @param {object} dados
-   */
-  atualizar(dados) {
-    const camposPermitidos = ['nome', 'dataNascimento', 'email', 'perfil', 'ativo'];
-
-    camposPermitidos.forEach(campo => {
-      if (dados[campo] !== undefined) {
-        this[campo] = dados[campo];
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      transform: function (doc, ret) {
+        ret.id = ret._id.toString();
+        delete ret.senha;
+        delete ret.__v;
+        return ret;
       }
-    });
+    }
   }
+);
 
-  /**
-   * Inativa o usuário
-   */
-  inativar() {
-    this.ativo = false;
+// Middleware assíncrono pré-salvamento: criptografa a senha se modificada
+usuarioSchema.pre('save', async function () {
+  if (!this.isModified('senha')) return;
+  const salt = await bcrypt.genSalt(10);
+  this.senha = await bcrypt.hash(this.senha, salt);
+});
+
+// Método para validar senha
+usuarioSchema.methods.validarSenha = async function (senhaTexto) {
+  return bcrypt.compare(senhaTexto, this.senha);
+};
+
+// Registra acesso bem-sucedido
+usuarioSchema.methods.registrarAcesso = async function () {
+  this.dataUltimoAcesso = new Date();
+  this.tentativasLogin = 0;
+  this.bloqueado = false;
+  return this.save();
+};
+
+// Registra tentativa falha de login
+usuarioSchema.methods.registrarTentativaFalha = async function () {
+  this.tentativasLogin += 1;
+  if (this.tentativasLogin >= 5) {
+    this.bloqueado = true;
   }
-}
+  return this.save();
+};
+
+const Usuario = mongoose.model('Usuario', usuarioSchema);
 
 module.exports = Usuario;
