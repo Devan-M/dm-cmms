@@ -14,9 +14,6 @@ class Usuario {
     this.dataUltimoAcesso = null;
     this.tentativasLogin = 0;
     this.bloqueado = false;
-
-    // Define a senha (com hash)
-    this.setSenha(senha);
   }
 
   /**
@@ -135,6 +132,13 @@ class Usuario {
         this[campo] = dados[campo];
       }
     });
+  }
+
+  /**
+   * Inativa o usuário
+   */
+  inativar() {
+    this.ativo = false;
   }
 }
 
