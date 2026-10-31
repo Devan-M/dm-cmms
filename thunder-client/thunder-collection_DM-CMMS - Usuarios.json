@@ -1,170 +1,233 @@
 {
-  "clientName": "Thunder Client",
-  "collectionName": "DM-CMMS - Sistema Completo",
-  "collectionId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-  "dateExported": "2026-10-31T20:26:00.000Z",
-  "version": "1.4",
-  "folders": [
-    {
-      "_id": "fld-auth",
-      "name": "1. Autenticação e Usuários",
-      "containerId": "",
-      "created": "2026-10-31T20:26:00.000Z",
-      "sortNum": 10000
-    },
-    {
-      "_id": "fld-equipamentos",
-      "name": "2. Equipamentos (CRUD)",
-      "containerId": "",
-      "created": "2026-10-31T20:26:00.000Z",
-      "sortNum": 20000
-    },
-    {
-      "_id": "fld-ordens",
-      "name": "3. Ordens de Serviço (CRUD)",
-      "containerId": "",
-      "created": "2026-10-31T20:26:00.000Z",
-      "sortNum": 30000
-    },
-    {
-      "_id": "fld-dashboard",
-      "name": "4. Dashboard & Métricas",
-      "containerId": "",
-      "created": "2026-10-31T20:26:00.000Z",
-      "sortNum": 40000
-    }
-  ],
-  "requests": [
-    {
-      "_id": "req-login",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-auth",
-      "name": "Login (Gerar JWT)",
-      "url": "http://localhost:3000/api/usuarios/auth/login",
-      "method": "POST",
-      "sortNum": 10000,
-      "headers": [],
-      "body": {
-        "type": "json",
-        "raw": "{\n  \"email\": \"joao@email.com\",\n  \"senha\": \"SenhaForte123\"\n}",
-        "form": []
-      }
-    },
-    {
-      "_id": "req-criar-usuario",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-auth",
-      "name": "Cadastrar Usuário",
-      "url": "http://localhost:3000/api/usuarios",
-      "method": "POST",
-      "sortNum": 20000,
-      "headers": [],
-      "body": {
-        "type": "json",
-        "raw": "{\n  \"nome\": \"Devan Marçal\",\n  \"dataNascimento\": \"1995-04-12\",\n  \"email\": \"devan.cmms@empresa.com\",\n  \"senha\": \"SenhaForte123\",\n  \"perfil\": \"admin\"\n}",
-        "form": []
-      }
-    },
-    {
-      "_id": "req-listar-usuarios",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-auth",
-      "name": "Listar Usuários",
-      "url": "http://localhost:3000/api/usuarios",
-      "method": "GET",
-      "sortNum": 30000,
-      "headers": [
+    "clientName": "Thunder Client",
+    "collectionName": "DM-CMMS - Usuarios",
+    "collectionId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+    "dateExported": "2026-10-31T20:40:20.816Z",
+    "version": "1.4",
+    "folders": [],
+    "requests": [
         {
-          "name": "Authorization",
-          "value": "Bearer {{TOKEN_JWT}}"
-        }
-      ]
-    },
-    {
-      "_id": "req-criar-equipamento",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-equipamentos",
-      "name": "Criar Equipamento",
-      "url": "http://localhost:3000/api/equipamentos",
-      "method": "POST",
-      "sortNum": 10000,
-      "headers": [
+            "_id": "974849cb-3cdb-4a58-b53b-f1e4e8854bae",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Deletar Usuário",
+            "url": "http://localhost:3000/api/usuarios/a98ed939-968d-4cb0-802e-ea7306599ae4",
+            "method": "DELETE",
+            "sortNum": 10000,
+            "created": "2026-10-31T20:01:18.448Z",
+            "modified": "2026-10-31T20:01:18.448Z",
+            "headers": []
+        },
         {
-          "name": "Authorization",
-          "value": "Bearer {{TOKEN_JWT}}"
-        }
-      ],
-      "body": {
-        "type": "json",
-        "raw": "{\n  \"codigo\": \"EQ-010\",\n  \"nome\": \"Centro de Usinagem 5 Eixos\",\n  \"setor\": \"Usinagem\",\n  \"criticidade\": \"Alta\",\n  \"status\": \"Operacional\",\n  \"fabricante\": \"Mazak\",\n  \"modelo\": \"Variaxis i-700\"\n}",
-        "form": []
-      }
-    },
-    {
-      "_id": "req-listar-equipamentos",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-equipamentos",
-      "name": "Listar Equipamentos",
-      "url": "http://localhost:3000/api/equipamentos",
-      "method": "GET",
-      "sortNum": 20000,
-      "headers": [
+            "_id": "8817258e-a80e-4838-b283-f5e2934e33ab",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Atualizar Usuário",
+            "url": "http://localhost:3000/api/usuarios/a98ed939-968d-4cb0-802e-ea7306599ae4",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2026-10-31T20:01:18.449Z",
+            "modified": "2026-10-31T20:01:18.449Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{\r",
+                    "  \"nome\": \"João Silva Editado\",\r",
+                    "  \"perfil\": \"supervisor\"\r",
+                    "}"
+                ],
+                "form": []
+            }
+        },
         {
-          "name": "Authorization",
-          "value": "Bearer {{TOKEN_JWT}}"
-        }
-      ]
-    },
-    {
-      "_id": "req-criar-ordem",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-ordens",
-      "name": "Criar Ordem de Serviço",
-      "url": "http://localhost:3000/api/ordens",
-      "method": "POST",
-      "sortNum": 10000,
-      "headers": [
+            "_id": "3186b415-f4b2-460d-8253-c991a3691ecf",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Buscar por ID",
+            "url": "http://localhost:3000/api/usuarios/a98ed939-968d-4cb0-802e-ea7306599ae4",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2026-10-31T20:01:18.450Z",
+            "modified": "2026-10-31T20:01:18.450Z",
+            "headers": []
+        },
         {
-          "name": "Authorization",
-          "value": "Bearer {{TOKEN_JWT}}"
-        }
-      ],
-      "body": {
-        "type": "json",
-        "raw": "{\n  \"codigoEquipamento\": \"EQ-010\",\n  \"tipo\": \"Corretiva\",\n  \"prioridade\": \"Alta\",\n  \"descricao\": \"Falha no servomotor do eixo Z\",\n  \"responsavel\": \"Devan Marçal\"\n}",
-        "form": []
-      }
-    },
-    {
-      "_id": "req-listar-ordens",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-ordens",
-      "name": "Listar Ordens de Serviço",
-      "url": "http://localhost:3000/api/ordens",
-      "method": "GET",
-      "sortNum": 20000,
-      "headers": [
+            "_id": "996378cd-8505-47f6-90a6-a12dcc66592b",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Listar Usuários",
+            "url": "http://localhost:3000/api/usuarios",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2026-10-31T20:01:18.451Z",
+            "modified": "2026-10-31T20:01:18.451Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTY0OTMxYzUxYmFiMWQ3OGI5MGU4OCIsImVtYWlsIjoiam9hb0BlbWFpbC5jb20iLCJwZXJmaWwiOiJ0ZWNuaWNvIiwiaWF0IjoxNzkzNDc2OTEzLCJleHAiOjE3OTM1NjMzMTN9.g3r4UYq7vXD8-CMTS95sUvquL_Myjss1XlYyWUIjga0"
+            }
+        },
         {
-          "name": "Authorization",
-          "value": "Bearer {{TOKEN_JWT}}"
-        }
-      ]
-    },
-    {
-      "_id": "req-dashboard",
-      "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
-      "containerId": "fld-dashboard",
-      "name": "Resumo Indicadores do Dashboard",
-      "url": "http://localhost:3000/api/dashboard/resumo",
-      "method": "GET",
-      "sortNum": 10000,
-      "headers": [
+            "_id": "dcb3b337-2357-4556-94fb-4a155cd2149f",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Criar Usuário",
+            "url": "http://localhost:3000/api/usuarios",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2026-10-31T20:01:18.452Z",
+            "modified": "2026-10-31T20:01:18.452Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{",
+                    "  \"nome\": \"João Silva\",",
+                    "  \"dataNascimento\": \"1995-04-12\",",
+                    "  \"email\": \"joao@email.com\",",
+                    "  \"senha\": \"SenhaForte123\",",
+                    "  \"perfil\": \"tecnico\"",
+                    "}"
+                ],
+                "form": []
+            }
+        },
         {
-          "name": "Authorization",
-          "value": "Bearer {{TOKEN_JWT}}"
+            "_id": "f9cbf01b-9213-4099-b3b8-24cc79700569",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Login",
+            "url": "http://localhost:3000/api/usuarios/auth/login",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2026-10-31T20:34:46.840Z",
+            "modified": "2026-10-31T20:34:46.840Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{",
+                    "  \"email\": \"joao@email.com\",",
+                    "  \"senha\": \"SenhaForte123\"",
+                    "}"
+                ],
+                "form": []
+            },
+            "auth": {
+                "type": "oauth2",
+                "oauth2": {
+                    "grantType": "authorization_code",
+                    "tokenUrl": "",
+                    "clientId": "",
+                    "clientSecret": "",
+                    "clientAuth": "in-header"
+                }
+            }
+        },
+        {
+            "_id": "66c0b022-81a8-492d-a897-70aa4dfb5ccc",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Listar Equipamentos",
+            "url": "http://localhost:3000/api/equipamentos",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2026-10-31T20:36:23.687Z",
+            "modified": "2026-10-31T20:36:23.687Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTY0OTMxYzUxYmFiMWQ3OGI5MGU4OCIsImVtYWlsIjoiam9hb0BlbWFpbC5jb20iLCJwZXJmaWwiOiJ0ZWNuaWNvIiwiaWF0IjoxNzkzNDc4ODcwLCJleHAiOjE3OTM1NjUyNzB9.jxXilSQ8SmUp11LgHjeX4yVxCm4RMGBemecAk7ORmzY"
+            }
+        },
+        {
+            "_id": "8856bef8-9650-4135-ab82-760c013ff938",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Criar Equipamento",
+            "url": "http://localhost:3000/api/equipamentos",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2026-10-31T20:37:38.015Z",
+            "modified": "2026-10-31T20:37:38.015Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{\r",
+                    "  \"codigo\": \"EQ-100\",\r",
+                    "  \"nome\": \"Torno CNC Automático\",\r",
+                    "  \"setor\": \"Usinagem\",\r",
+                    "  \"criticidade\": \"Alta\",\r",
+                    "  \"status\": \"Operacional\",\r",
+                    "  \"fabricante\": \"Romi\",\r",
+                    "  \"modelo\": \"Centur 30D\"\r",
+                    "}"
+                ],
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTY0OTMxYzUxYmFiMWQ3OGI5MGU4OCIsImVtYWlsIjoiam9hb0BlbWFpbC5jb20iLCJwZXJmaWwiOiJ0ZWNuaWNvIiwiaWF0IjoxNzkzNDc4ODcwLCJleHAiOjE3OTM1NjUyNzB9.jxXilSQ8SmUp11LgHjeX4yVxCm4RMGBemecAk7ORmzY"
+            }
+        },
+        {
+            "_id": "0d625964-151f-4642-897a-d0042bec96da",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Criar OS",
+            "url": "http://localhost:3000/api/ordens",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2026-10-31T20:38:55.262Z",
+            "modified": "2026-10-31T20:38:55.262Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{\r",
+                    "  \"codigoEquipamento\": \"EQ-100\",\r",
+                    "  \"tipo\": \"Corretiva\",\r",
+                    "  \"prioridade\": \"Alta\",\r",
+                    "  \"descricao\": \"Ruído excessivo no motor principal\",\r",
+                    "  \"responsavel\": \"João Silva\"\r",
+                    "}"
+                ],
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTY0OTMxYzUxYmFiMWQ3OGI5MGU4OCIsImVtYWlsIjoiam9hb0BlbWFpbC5jb20iLCJwZXJmaWwiOiJ0ZWNuaWNvIiwiaWF0IjoxNzkzNDc4ODcwLCJleHAiOjE3OTM1NjUyNzB9.jxXilSQ8SmUp11LgHjeX4yVxCm4RMGBemecAk7ORmzY"
+            }
+        },
+        {
+            "_id": "e9eff650-fa64-4df4-b673-b683ea189117",
+            "colId": "4933ca73-c0e6-4c36-9c1e-69202a229f13",
+            "containerId": "",
+            "name": "Dashboard resumo",
+            "url": "http://localhost:3000/api/dashboard/resumo",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2026-10-31T20:39:58.856Z",
+            "modified": "2026-10-31T20:39:58.856Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTY0OTMxYzUxYmFiMWQ3OGI5MGU4OCIsImVtYWlsIjoiam9hb0BlbWFpbC5jb20iLCJwZXJmaWwiOiJ0ZWNuaWNvIiwiaWF0IjoxNzkzNDc4ODcwLCJleHAiOjE3OTM1NjUyNzB9.jxXilSQ8SmUp11LgHjeX4yVxCm4RMGBemecAk7ORmzY"
+            }
         }
-      ]
-    }
-  ],
-  "ref": "keXfaF_SLSFL_kdWUOHzTAzPQwtkce0uu47_1wj7ynWXKtBWzRrqsW5_jiu7Dj6R6xkjpQw-ZNpzgKGXpkr7wg"
+    ],
+    "ref": "zIYe0WPJ_utw6s9HtHYSghNvTc9VxzOEkZBkblRYTrW7NxTDvq1WSIBj3Do_l3XnvNPKIiVhVjKolZUY_LTGWQ"
 }
