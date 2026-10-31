@@ -1,0 +1,94 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "DM-CMMS - Usuarios",
+    "collectionId": "fee959b9-ff11-4042-b33d-a780129dd96c",
+    "dateExported": "2026-10-31T19:06:17.393Z",
+    "version": "1.4",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "bc7788ba-7c68-4e72-bb36-532f50271d7b",
+            "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
+            "containerId": "",
+            "name": "Deletar Usuário",
+            "url": "http://localhost:3000/api/usuarios/a98ed939-968d-4cb0-802e-ea7306599ae4",
+            "method": "DELETE",
+            "sortNum": 10000,
+            "created": "2026-10-31T19:05:03.374Z",
+            "modified": "2026-10-31T19:05:03.374Z",
+            "headers": []
+        },
+        {
+            "_id": "c53625c1-fe74-4ed6-99b7-fe3cfd7eb0cf",
+            "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
+            "containerId": "",
+            "name": "Atualizar Usuário",
+            "url": "http://localhost:3000/api/usuarios/a98ed939-968d-4cb0-802e-ea7306599ae4",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2026-10-31T19:05:11.028Z",
+            "modified": "2026-10-31T19:05:11.028Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{\r",
+                    "  \"nome\": \"João Silva Editado\",\r",
+                    "  \"perfil\": \"supervisor\"\r",
+                    "}"
+                ],
+                "form": []
+            }
+        },
+        {
+            "_id": "2482f48f-971d-4ec5-8ee3-1dd6fabe7043",
+            "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
+            "containerId": "",
+            "name": "Buscar por ID",
+            "url": "http://localhost:3000/api/usuarios/a98ed939-968d-4cb0-802e-ea7306599ae4",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2026-10-31T19:05:26.412Z",
+            "modified": "2026-10-31T19:05:26.412Z",
+            "headers": []
+        },
+        {
+            "_id": "05774852-ae18-4edb-843d-5eaa489c61cd",
+            "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
+            "containerId": "",
+            "name": "Listar Usuários",
+            "url": "http://localhost:3000/api/usuarios",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2026-10-31T19:05:35.645Z",
+            "modified": "2026-10-31T19:05:35.645Z",
+            "headers": []
+        },
+        {
+            "_id": "ef06c3f9-af18-494f-bf8a-4805d3d2f534",
+            "colId": "fee959b9-ff11-4042-b33d-a780129dd96c",
+            "containerId": "",
+            "name": "Criar Usuário",
+            "url": "http://localhost:3000/api/usuarios",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2026-10-31T19:05:41.443Z",
+            "modified": "2026-10-31T19:05:41.443Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{",
+                    "  \"nome\": \"João Silva\",",
+                    "  \"dataNascimento\": \"1995-04-12\",",
+                    "  \"email\": \"joao@email.com\",",
+                    "  \"senha\": \"SenhaForte123\",",
+                    "  \"perfil\": \"tecnico\"",
+                    "}"
+                ],
+                "form": []
+            }
+        }
+    ],
+    "ref": "keXfaF_SLSFL_kdWUOHzTAzPQwtkce0uu47_1wj7ynWXKtBWzRrqsW5_jiu7Dj6R6xkjpQw-ZNpzgKGXpkr7wg"
+}

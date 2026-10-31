@@ -1,4 +1,4 @@
-const UsuarioRepository = require('../models/UsuarioRepository');
+const UsuarioRepository = require('../repositories/UsuarioRepository');
 const UsuarioService = require('../services/UsuarioService');
 
 const repo = new UsuarioRepository();
