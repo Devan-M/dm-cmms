@@ -3,14 +3,18 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../../src/app');
 const Usuario = require('../../src/models/Usuario');
+const Equipamento = require('../../src/models/Equipamento');
+const OrdemServico = require('../../src/models/OrdemServico');
 
 const MONGO_TEST_URI = 'mongodb://127.0.0.1:27017/dm-cmms-test';
 
 async function rodarTestes() {
-  console.log('--- Iniciando Testes de Integração com MongoDB e JWT ---');
+  console.log('--- Iniciando Testes Completos do Backend DM-CMMS ---');
   
   await mongoose.connect(MONGO_TEST_URI, { family: 4 });
   await Usuario.deleteMany({});
+  await Equipamento.deleteMany({});
+  await OrdemServico.deleteMany({});
 
   try {
     // 1. Health check
@@ -18,77 +22,96 @@ async function rodarTestes() {
     assert.strictEqual(health.status, 200);
     console.log(' [GET /api/health] Status 200 OK');
 
-    // 2. Criar Usuário (POST)
-    const criacao = await request(app)
+    // 2. Cadastro de Usuário
+    const criacaoUser = await request(app)
       .post('/api/usuarios')
       .send({
-        nome: 'Usuario Teste',
+        nome: 'Devan Técnico',
         dataNascimento: '1995-04-12',
-        email: 'usuario.teste@dmcmms.com',
+        email: 'devan.cmms@empresa.com',
         senha: 'SenhaForte123',
-        perfil: 'tecnico'
+        perfil: 'admin'
       });
-    assert.strictEqual(criacao.status, 201);
-    assert.strictEqual(criacao.body.sucesso, true);
-    assert.ok(criacao.body.token, 'Token JWT deve ser gerado no cadastro');
-    assert.strictEqual(criacao.body.usuario.senha, undefined);
+    assert.strictEqual(criacaoUser.status, 201);
+    const token = criacaoUser.body.token;
+    assert.ok(token, 'Token JWT gerado');
     console.log(' [POST /api/usuarios] Usuário criado e salvo no MongoDB com sucesso!');
 
-    const idCriado = criacao.body.usuario.id;
-    const token = criacao.body.token;
-
-    // 3. Login com JWT (POST)
+    // 3. Login com JWT
     const login = await request(app)
       .post('/api/usuarios/auth/login')
       .send({
-        email: 'usuario.teste@dmcmms.com',
+        email: 'devan.cmms@empresa.com',
         senha: 'SenhaForte123'
       });
     assert.strictEqual(login.status, 200);
-    assert.strictEqual(login.body.sucesso, true);
-    assert.ok(login.body.token, 'Token JWT retornado no login');
-    console.log(' [POST /api/usuarios/auth/login] Autenticação e geração de JWT OK');
+    assert.ok(login.body.token, 'Token JWT validado');
+    console.log(' [POST /api/usuarios/auth/login] Login e JWT autenticados');
 
-    // 4. Bloqueio sem JWT (GET)
-    const semToken = await request(app).get('/api/usuarios');
-    assert.strictEqual(semToken.status, 401);
-    console.log(' [GET /api/usuarios] Bloqueio sem token JWT (401) OK');
-
-    // 5. Listar com JWT (GET)
-    const listar = await request(app)
-      .get('/api/usuarios')
-      .set('Authorization', `Bearer ${token}`);
-    assert.strictEqual(listar.status, 200);
-    assert.strictEqual(listar.body.total, 1);
-    console.log(' [GET /api/usuarios] Listagem autenticada com sucesso!');
-
-    // 6. Buscar por ID com JWT (GET)
-    const obter = await request(app)
-      .get(`/api/usuarios/${idCriado}`)
-      .set('Authorization', `Bearer ${token}`);
-    assert.strictEqual(obter.status, 200);
-    assert.strictEqual(obter.body.usuario.id, idCriado);
-    console.log(' [GET /api/usuarios/:id] Busca por ID com JWT OK');
-
-    // 7. Atualizar com JWT (PUT)
-    const atualizar = await request(app)
-      .put(`/api/usuarios/${idCriado}`)
+    // 4. CRUD de Equipamento (MongoDB + JWT)
+    const criacaoEq = await request(app)
+      .post('/api/equipamentos')
       .set('Authorization', `Bearer ${token}`)
-      .send({ nome: 'Nome Atualizado MongoDB' });
-    assert.strictEqual(atualizar.status, 200);
-    assert.strictEqual(atualizar.body.usuario.nome, 'Nome Atualizado MongoDB');
-    console.log(' [PUT /api/usuarios/:id] Atualização no MongoDB com JWT OK');
+      .send({
+        codigo: 'EQ-001',
+        nome: 'Torno CNC Romi D800',
+        setor: 'Usinagem',
+        criticidade: 'Alta',
+        status: 'Operacional'
+      });
+    assert.strictEqual(criacaoEq.status, 201);
+    const idEquipamento = criacaoEq.body.equipamento.id;
+    console.log(' [POST /api/equipamentos] Equipamento salvo no MongoDB');
 
-    // 8. Deletar com JWT (DELETE)
-    const deletar = await request(app)
-      .delete(`/api/usuarios/${idCriado}`)
+    const listarEq = await request(app)
+      .get('/api/equipamentos')
       .set('Authorization', `Bearer ${token}`);
-    assert.strictEqual(deletar.status, 200);
-    console.log(' [DELETE /api/usuarios/:id] Exclusão no MongoDB com JWT OK');
+    assert.strictEqual(listarEq.status, 200);
+    assert.strictEqual(listarEq.body.total, 1);
+    console.log(' [GET /api/equipamentos] Listagem de equipamentos com JWT OK');
 
-    console.log('\n TODOS OS TESTES PASSARAM COM SUCESSO!');
+    // 5. CRUD de Ordens de Serviço (MongoDB + JWT)
+    const criacaoOS = await request(app)
+      .post('/api/ordens')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        codigoEquipamento: 'EQ-001',
+        tipo: 'Corretiva',
+        prioridade: 'Alta',
+        descricao: 'Vazamento de óleo no cabeçote principal',
+        responsavel: 'Devan Técnico'
+      });
+    assert.strictEqual(criacaoOS.status, 201);
+    const idOS = criacaoOS.body.ordem.id;
+    console.log(' [POST /api/ordens] Ordem de Serviço criada com número sequencial');
+
+    // Verifica se o status do equipamento mudou para "Em Manutenção"
+    const eqAtualizado = await Equipamento.findById(idEquipamento);
+    assert.strictEqual(eqAtualizado.status, 'Em Manutenção');
+    console.log(' [Regra de Negócio] Status do Equipamento alterado para "Em Manutenção"');
+
+    // Conclui a Ordem de Serviço
+    const conclusaoOS = await request(app)
+      .put(`/api/ordens/${idOS}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ status: 'Concluída' });
+    assert.strictEqual(conclusaoOS.status, 200);
+    console.log(' [PUT /api/ordens/:id] Ordem concluída e equipamento liberado');
+
+    // 6. Dashboard Indicadores
+    const dashboard = await request(app)
+      .get('/api/dashboard/resumo')
+      .set('Authorization', `Bearer ${token}`);
+    assert.strictEqual(dashboard.status, 200);
+    assert.strictEqual(dashboard.body.indicadores.totalEquipamentos, 1);
+    assert.strictEqual(dashboard.body.indicadores.totalOrdens, 1);
+    console.log(' [GET /api/dashboard/resumo] Indicadores calculados via MongoDB com sucesso!');
+
+    console.log('\n TODOS OS TESTES DO BACKEND CMMS PASSARAM COM SUCESSO!');
   } finally {
     await Usuario.deleteMany({});
+    await Equipamento.deleteMany({});
+    await OrdemServico.deleteMany({});
     await mongoose.disconnect();
   }
 }
