@@ -1,248 +1,151 @@
 # DM-CMMS
 
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?logo=jsonwebtokens&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
-[![Licença](https://img.shields.io/badge/licença-free%20até%20o%20momento-brightgreen)](#licença)
+![Status](https://img.shields.io/badge/status-ativo-brightgreen)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Devan%20M.-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devan-m/)
 
-Sistema de gerenciamento de manutenção (CMMS) para controlar ativos, ordens de serviço, rotinas preventivas e o histórico operacional da manutenção.
+Sistema de Gerenciamento de Manutenção Computadorizado (CMMS) para controle de ativos, ordens de serviço, manutenção industrial e métricas operacionais, estruturado em arquitetura **MVC** com **API RESTful**, persistência no **MongoDB via Mongoose** e autenticação segura com **JSON Web Tokens (JWT)**.
 
-## Visão geral
+---
 
-O DM-CMMS é uma aplicação web estática desenvolvida em HTML, CSS e JavaScript para apoiar a gestão da manutenção industrial e de instalações. O objetivo é centralizar a operação em um único ambiente com foco em:
+## 🏗️ Arquitetura do Backend
 
-- organização dos equipamentos;
-- agendamento de manutenções;
-- abertura e acompanhamento de ordens de serviço;
-- visão geral do desempenho da manutenção por dashboard;
-- persistência local dos dados no navegador.
+O backend foi construído em **Node.js** utilizando o framework **Express** e segue rigorosamente o padrão **MVC (Model-View-Controller)**:
 
-A solução foi pensada para uso em ambientes de produção, manutenção predial, manutenção de plantas e setores fabris que necessitam de acompanhamento simples e visual.
-
-## Funcionalidades
-
-### 1. Dashboard
-
-A página inicial apresenta indicadores resumidos e visão operacional do sistema, incluindo:
-
-- total de equipamentos cadastrados;
-- ordens de serviço abertas;
-- manutenções pendentes;
-- preventivas do mês;
-- próximas manutenções;
-- últimas atividades registradas;
-- distribuição de tipos de O.S. por categoria.
-
-### 2. Gestão de equipamentos
-
-A área de equipamentos permite:
-
-- cadastro de novos ativos;
-- filtro por setor e status;
-- consulta por código, nome ou setor;
-- visualização de ficha técnica detalhada;
-- histórico de O.S. associadas;
-- peças de reposição e manuais do equipamento;
-- atualização do status do ativo (operacional, em manutenção, inativo).
-
-Cada equipamento pode ter informações como:
-
-- código;
-- fabricante e modelo;
-- setor e localização;
-- criticidade;
-- tensão elétrica;
-- data de instalação;
-- disponibilidade;
-- MTBF;
-- custo acumulado;
-- próxima manutenção;
-- peças e manuais.
-
-### 3. Ordens de serviço
-
-A área de O.S. oferece:
-
-- abertura de novas ordens de serviço;
-- seleção do equipamento, prioridade e tipo de serviço;
-- acompanhamento por status (Em Aberto, Em Andamento, Concluída, Cancelada);
-- filtros por busca, prioridade e status;
-- detalhamento da ordem com resumo, eventos e dados do equipamento;
-- possibilidade de iniciar atendimento e encerrar O.S. diretamente no modal.
-
-### 4. Planejamento de manutenções
-
-A seção de manutenções permite:
-
-- cadastro de rotinas e planos de manutenção;
-- definição de categoria (Preventiva, Corretiva, Preditiva);
-- frequência (semanal, quinzenal, mensal, trimestral, semestral, anual);
-- responsável técnico;
-- próxima data da execução;
-- status da rotina (programada, atrasada, concluída);
-- filtros por tarefa, categoria, status e data.
-
-### 5. Persistência local
-
-Os dados são armazenados no navegador via `localStorage`, o que facilita testes, demonstrações e uso local sem necessidade de banco de dados ou backend.
-
-Isso significa que:
-
-- os dados ficam salvos no navegador do usuário;
-- a aplicação funciona em modo standalone;
-- o conteúdo pode ser reutilizado entre sessões no mesmo navegador.
-
-### 6. Módulos em desenvolvimento
-
-Algumas páginas já foram estruturadas como futuras funcionalidades do sistema, mas ainda não estão totalmente liberadas:
-
-- Histórico de intervenções;
-- Relatórios e indicadores;
-- Usuários e níveis de acesso;
-
-Essas páginas aparecem com estrutura educacional e de orientação para o futuro do produto.
-
-## Tecnologias
-
-- HTML5
-- CSS3
-- JavaScript vanilla
-- LocalStorage para persistência
-
-## Requisitos
-
-Para usar o projeto, basta ter:
-
-- navegador moderno (Chrome, Edge, Firefox ou Safari);
-- conexão opcional para carregar fontes externas da internet;
-- acesso local ao projeto em pasta ou via servidor HTTP.
-
-Não há dependências de Node.js, npm ou framework para execução básica.
-
-## Estrutura do projeto
-
-```text
-.
-├── css/
-│   ├── dashboard.css
-│   ├── equipamentos.css
-│   ├── manutencoes.css
-│   ├── ordens.css
-│   ├── style.css
-│   └── usuarios.css
-├── js/
-│   ├── dashboard.js
-│   ├── dados.js
-│   ├── manutencoes.js
-│   ├── ordens.js
-│   └── script.js
-├── index.html
-├── equipamentos.html
-├── ordens.html
-├── manutencoes.html
-├── historico.html
-├── relatorios.html
-├── usuarios.html
-├── README.md
-└── .gitignore
+```
+backend/
+├── src/
+│   ├── config/
+│   │   └── database.js         # Conexão assíncrona com MongoDB (Mongoose)
+│   ├── controllers/
+│   │   ├── usuarioController.js     # Regras de cadastro, login e CRUD de usuários
+│   │   ├── equipamentoController.js # CRUD e filtros de ativos/equipamentos
+│   │   ├── ordemController.js       # Abertura, gestão e encerramento de O.S.
+│   │   └── dashboardController.js   # Cálculo e agregação de indicadores gerais
+│   ├── middleware/
+│   │   └── auth.js             # Middleware de interceptação e validação de Token JWT
+│   ├── models/
+│   │   ├── Usuario.js          # Mongoose Schema de Usuários com hash bcryptjs
+│   │   ├── Equipamento.js      # Mongoose Schema de Equipamentos/Ativos
+│   │   └── OrdemServico.js     # Mongoose Schema de Ordens de Serviço
+│   ├── routes/
+│   │   ├── usuarioRoutes.js    # Rotas de autenticação e gestão de usuários
+│   │   ├── equipamentoRoutes.js# Rotas protegidas de equipamentos
+│   │   ├── ordemRoutes.js      # Rotas protegidas de O.S.
+│   │   └── dashboardRoutes.js  # Rota protegida de métricas do dashboard
+│   ├── app.js                  # Configuração do Express, CORS e registro de rotas
+│   └── server.js               # Inicialização do servidor após conexão com o banco
+├── test/
+│   └── integration/
+│       └── usuario.test.js     # Testes automatizados de ponta a ponta
+└── package.json
 ```
 
-## Como executar
+---
 
-### Opção 1: abrir diretamente no navegador
+## 🚀 Como Executar o Backend
 
-1. Faça o clone do projeto:
+### 1. Pré-requisitos
+- **Node.js** (v18+)
+- **MongoDB** em execução local na porta `27017` (ou via Docker):
+  ```bash
+  docker run -d --name mongodb -p 27017:27017 mongo:latest
+  ```
+
+### 2. Instalação e Execução
+1. Entre na pasta do backend:
+   ```bash
+   cd backend
+   ```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Inicie o servidor em modo de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+   *O servidor estará acessível em: `http://localhost:3000`*
+
+---
+
+## 🧪 Testes Automatizados
+O projeto possui testes de integração automatizados que validam todo o ciclo (Criação de Usuário, Login JWT, bloqueio de rotas sem token, CRUD no MongoDB e regras de negócio de O.S.):
 
 ```bash
-git clone https://github.com/Devan-M/dm-cmms.git
-cd dm-cmms
+cd backend
+npm test
 ```
 
-2. Abra o arquivo `index.html` no navegador.
+---
 
-### Opção 2: servir localmente com Python
+## 📡 Endpoints da API
 
-Se preferir executar em um servidor local para evitar limitações do navegador:
+### 🔐 1. Autenticação e Usuários (`/api/usuarios`)
+| Método | Endpoint | Protegido por JWT | Descrição |
+| :--- | :--- | :---: | :--- |
+| `POST` | `/api/usuarios` | Não | Cadastro de novo usuário (gera token inicial) |
+| `POST` | `/api/usuarios/auth/login` | Não | Autenticação com e-mail e senha (retorna Token JWT) |
+| `GET` | `/api/usuarios` | **Sim** | Listar todos os usuários cadastrados |
+| `GET` | `/api/usuarios/:id` | **Sim** | Buscar usuário específico por ID |
+| `PUT` | `/api/usuarios/:id` | **Sim** | Atualizar dados cadastrais |
+| `DELETE` | `/api/usuarios/:id` | **Sim** | Excluir usuário |
 
-```bash
-cd dm-cmms
-python -m http.server 8000
-```
+---
 
-Em seguida, acesse:
+### ⚙️ 2. Gestão de Equipamentos (`/api/equipamentos`)
+*Todas as rotas exigem header `Authorization: Bearer <TOKEN>`*
 
-```text
-http://localhost:8000
-```
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/equipamentos` | Cadastrar novo ativo (código, nome, setor, criticidade, etc.) |
+| `GET` | `/api/equipamentos` | Listar todos os equipamentos (suporta filtros `?setor=&status=`) |
+| `GET` | `/api/equipamentos/:id` | Obter ficha técnica detalhada por ID |
+| `PUT` | `/api/equipamentos/:id` | Atualizar dados ou status operacional |
+| `DELETE` | `/api/equipamentos/:id` | Remover equipamento do sistema |
 
-## Como usar o sistema
+---
 
-### Dashboard
+### 📋 3. Ordens de Serviço (`/api/ordens`)
+*Todas as rotas exigem header `Authorization: Bearer <TOKEN>`*
 
-- Acesse a página inicial para acompanhar o status geral da manutenção.
-- Veja indicadores de desempenho e principais pendências.
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/ordens` | Abrir nova O.S. (Gera número sequencial e altera status do ativo) |
+| `GET` | `/api/ordens` | Listar O.S. (suporta filtros `?status=&prioridade=&tipo=`) |
+| `GET` | `/api/ordens/:id` | Consultar detalhes da O.S. por ID |
+| `PUT` | `/api/ordens/:id` | Atualizar O.S. (ao marcar como "Concluída", restaura o ativo para "Operacional") |
+| `DELETE` | `/api/ordens/:id` | Cancelar/remover Ordem de Serviço |
 
-### Equipamentos
+---
 
-- Clique em "Equipamentos" no menu superior.
-- Utilize o botão "Novo Equipamento" para cadastrar um ativo.
-- Aplique filtros por setor e status.
-- Clique em "Detalhes" para acessar ficha técnica, histórico e peças.
+### 📊 4. Dashboard & Indicadores (`/api/dashboard`)
+*Exige header `Authorization: Bearer <TOKEN>`*
 
-### Ordens de Serviço
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `GET` | `/api/dashboard/resumo` | Retorna total de equipamentos, ativos operacionais, disponibilidade (%), ordens abertas e concluídas |
 
-- Na página "Ordens de Serviço", informe equipamento, prioridade e descrição.
-- Crie a O.S. e acompanhe ela na lista.
-- Abra o detalhamento para iniciar atendimento, concluir ou cancelar.
+---
 
-### Manutenções
+## ⚡ Testando com o Thunder Client
 
-- Na página "Manutenções", cadastre rotinas preventivas, corretivas ou preditivas.
-- Defina data, categoria, responsável e frequência.
-- Marque a rotina como concluída quando executada.
+O repositório já inclui uma collection pronta e exportada para o **Thunder Client** no VS Code:
 
-## Dados de demonstração
+📁 **Arquivo:** [`thunder-client/thunder-collection_DM-CMMS - Usuarios.json`](thunder-client/thunder-collection_DM-CMMS%20-%20Usuarios.json)
 
-O projeto já vem com dados iniciais de exemplo para facilitar a visualização e a navegação, incluindo equipamentos e rotinas prontas. Esses dados são carregados no `localStorage` na primeira execução do sistema.
+### Passo a passo para testar:
+1. Abra o **Thunder Client** no VS Code.
+2. Na aba **Collections**, clique em `...` -> **Import** e selecione o arquivo acima.
+3. Execute a requisição **1. Login (Gerar JWT)** para receber seu token.
+4. Nas demais requisições protegidas, informe o token no header `Authorization: Bearer <seu-token>`.
 
-## Fluxo de desenvolvimento
+---
 
-O projeto está organizado como uma aplicação front-end de gestão de manutenção, com foco em validação de conceitos, interface e usabilidade. O próximo estágio de evolução pode incluir:
+## 💻 Interface Front-end
 
-- backend para persistência centralizada;
-- autenticação de usuários;
-- banco de dados relacional ou NoSQL;
-- exportação de relatórios;
-- integração com APIs e sistemas externos;
-- versões responsivas e mobile-first.
-
-## Boas práticas
-
-- Não versionar dados sensíveis ou reais;
-- manter a documentação atualizada quando a aplicação evoluir;
-- testar as alterações no navegador antes de compartilhar a versão;
-- manter nomes de arquivos e elementos consistentes com a estrutura do projeto.
-
-## Contribuição
-
-Contribuições são bem-vindas. Para colaborar:
-
-```bash
-git checkout -b feature/minha-alteracao
-git add .
-git commit -m "Adiciona funcionalidade X"
-git push origin feature/minha-alteracao
-```
-
-Depois, abra um pull request com uma descrição clara do que foi alterado e como validar.
-
-## Licença
-
-A licença do projeto está em desenvolvimento. Neste momento, a aplicação é disponibilizada como uso gratuito para fins de estudo, demonstração e evolução interna.
-
-## Contato
-
-Para dúvidas, sugestões, melhorias ou relatórios de problema, você pode:
-
-- abrir uma issue no repositório;
-- entrar em contato pelo [LinkedIn de Devan M.](https://www.linkedin.com/in/devan-m/).
+As telas do front-end (`index.html`, `equipamentos.html`, `ordens.html`, etc.) oferecem a interface visual para demonstração e navegação das rotinas do CMMS (com gráficos, previsão do tempo industrial e fichas técnicas).
