@@ -1,0 +1,57 @@
+/* ===================================================
+   equipamentos.css — Estilos da página Equipamentos
+   =================================================== */
+
+.form-painel {
+  border-left: 4px solid var(--primary);
+}
+
+.form-painel-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-col-span {
+  grid-column: 1 / -1;
+}
+
+.form-col-span .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .form-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Barra de pesquisa com ícone interno */
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-icon-inner {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-wrapper .input-search {
+  padding-left: 2.25rem;
+  width: 100%;
+}

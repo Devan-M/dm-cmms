@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// Importação dos componentes criados
-import Header from './components/Header';
-import CardContainer from './components/CardContainer';
-import EquipamentoForm from './components/EquipamentoForm';
-import EquipamentoLista from './components/EquipamentoLista';
+// Layout shell com sidebar
+import Layout from './components/Layout';
 
+// Páginas da aplicação
+import Dashboard from './pages/Dashboard';
+import Equipamentos from './pages/Equipamentos';
+import EquipamentoDetalhe from './pages/EquipamentoDetalhe';
+import Ordens from './pages/Ordens';
+import OrdemDetalhe from './pages/OrdemDetalhe';
+import NotFound from './pages/NotFound';
+
+/**
+ * App.jsx — Raiz da aplicação DM-CMMS
+ *
+ * Estado global gerenciado aqui e passado via props às páginas.
+ * Roteamento via React Router com passagem de dados por parâmetros de rota.
+ *
+ * Rotas:
+ *   /                      → Dashboard
+ *   /equipamentos          → Lista de Equipamentos
+ *   /equipamentos/:id      → Detalhe de Equipamento (parâmetro :id)
+ *   /ordens                → Lista de Ordens de Serviço
+ *   /ordens/:id            → Detalhe de OS (parâmetro :id)
+ *   *                      → 404 Not Found
+ */
 function App() {
-  // Estado inicial de equipamentos
+  // ── Estado global: Equipamentos ──
   const [equipamentos, setEquipamentos] = useState([
     {
       id: 1,
@@ -17,7 +36,7 @@ function App() {
       setor: 'Usinagem',
       criticidade: 'Alta',
       status: 'Operacional',
-      dataCadastro: '28/10/2026'
+      dataCadastro: '28/10/2026',
     },
     {
       id: 2,
@@ -26,7 +45,7 @@ function App() {
       setor: 'Utilidades',
       criticidade: 'Crítica',
       status: 'Em Manutenção',
-      dataCadastro: '29/10/2026'
+      dataCadastro: '29/10/2026',
     },
     {
       id: 3,
@@ -35,98 +54,158 @@ function App() {
       setor: 'Soldagem',
       criticidade: 'Alta',
       status: 'Operacional',
-      dataCadastro: '30/10/2026'
-    }
+      dataCadastro: '30/10/2026',
+    },
+    {
+      id: 4,
+      nome: 'Prensa Hidráulica Romi',
+      codigo: 'PRN-08',
+      setor: 'Estamparia',
+      criticidade: 'Média',
+      status: 'Operacional',
+      dataCadastro: '01/11/2026',
+    },
   ]);
 
-  // Handler para adicionar novo equipamento (recebido do EquipamentoForm via props)
-  const handleAddEquipamento = (novoEquipamento) => {
-    setEquipamentos((prev) => [novoEquipamento, ...prev]);
+  // ── Estado global: Ordens de Serviço ──
+  const [ordens, setOrdens] = useState([
+    {
+      id: 1001,
+      equipamento: 'Compressor de Ar Schulz',
+      equipamentoId: 2,
+      tipo: 'Corretiva',
+      prioridade: 'Alta',
+      status: 'Em Andamento',
+      responsavel: 'Carlos Melo',
+      descricao: 'Substituição do filtro de ar e revisão do sistema de pressão.',
+      dataAbertura: '29/10/2026',
+    },
+    {
+      id: 1002,
+      equipamento: 'Torno Mecânico Nardini',
+      equipamentoId: 1,
+      tipo: 'Preventiva',
+      prioridade: 'Média',
+      status: 'Em Aberto',
+      responsavel: 'Ana Silva',
+      descricao: 'Lubrificação geral e verificação de folgas.',
+      dataAbertura: '01/11/2026',
+    },
+    {
+      id: 1003,
+      equipamento: 'Robô de Solda Yaskawa',
+      equipamentoId: 3,
+      tipo: 'Inspeção',
+      prioridade: 'Baixa',
+      status: 'Concluída',
+      responsavel: 'Pedro Costa',
+      descricao: 'Inspeção periódica semestral de rotina.',
+      dataAbertura: '30/10/2026',
+    },
+  ]);
+
+  // ── Handlers: Equipamentos ──
+  const handleAddEquipamento = (novo) => {
+    setEquipamentos((prev) => [novo, ...prev]);
   };
 
-  // Handler para alternar status entre Operacional e Em Manutenção
-  const handleToggleStatus = (id) => {
+  const handleToggleEquipamento = (id) => {
     setEquipamentos((prev) =>
       prev.map((eq) =>
         eq.id === id
           ? {
               ...eq,
-              status: eq.status === 'Operacional' ? 'Em Manutenção' : 'Operacional'
+              status: eq.status === 'Operacional' ? 'Em Manutenção' : 'Operacional',
             }
           : eq
       )
     );
   };
 
-  // Handler para deletar equipamento
   const handleDeleteEquipamento = (id) => {
-    if (window.confirm('Deseja realmente remover este ativo do sistema?')) {
-      setEquipamentos((prev) => prev.filter((eq) => eq.id !== id));
-    }
+    setEquipamentos((prev) => prev.filter((eq) => eq.id !== id));
   };
 
-  // Métricas calculadas com base nas variáveis de estado
-  const totalEquipamentos = equipamentos.length;
-  const emOperacao = equipamentos.filter((eq) => eq.status === 'Operacional').length;
-  const emManutencao = totalEquipamentos - emOperacao;
+  // ── Handlers: Ordens ──
+  const handleAddOrdem = (nova) => {
+    setOrdens((prev) => [nova, ...prev]);
+  };
+
+  const handleUpdateStatusOrdem = (id, novoStatus) => {
+    setOrdens((prev) =>
+      prev.map((os) => (os.id === id ? { ...os, status: novoStatus } : os))
+    );
+  };
 
   return (
-    <div className="app-container">
-      {/* Componente 1: Header (Troca de dados via props) */}
-      <Header
-        title="DM-CMMS"
-        subtitle="Gerenciamento de Ativos e Manutenção Industrial"
-        totalEquipamentos={totalEquipamentos}
-        totalOrdens={emManutencao}
-      />
+    <BrowserRouter>
+      <Routes>
+        {/* Layout shell envolve todas as páginas principais */}
+        <Route
+          path="/"
+          element={<Layout equipamentos={equipamentos} ordens={ordens} />}
+        >
+          {/* Rota index → Dashboard */}
+          <Route
+            index
+            element={
+              <Dashboard equipamentos={equipamentos} ordens={ordens} />
+            }
+          />
 
-      <main className="main-content">
-        {/* Painel de Indicadores Rápidos */}
-        <section className="quick-stats">
-          <div className="stat-box">
-            <span className="stat-label">Total de Equipamentos</span>
-            <span className="stat-value">{totalEquipamentos}</span>
-          </div>
-          <div className="stat-box">
-            <span className="stat-label">Equipamentos Operacionais</span>
-            <span className="stat-value stat-highlight-green">{emOperacao}</span>
-          </div>
-          <div className="stat-box">
-            <span className="stat-label">Paradas / Em Manutenção</span>
-            <span className="stat-value stat-highlight-red">{emManutencao}</span>
-          </div>
-        </section>
+          {/* Rota: /equipamentos */}
+          <Route
+            path="equipamentos"
+            element={
+              <Equipamentos
+                equipamentos={equipamentos}
+                onAdd={handleAddEquipamento}
+                onToggle={handleToggleEquipamento}
+                onDelete={handleDeleteEquipamento}
+              />
+            }
+          />
 
-        {/* Grade de Conteúdo */}
-        <div className="content-grid">
-          {/* Componente 2: CardContainer (Usa a prop children para encapsular o formulário) */}
-          <CardContainer
-            title="Novo Equipamento"
-            subtitle="Cadastre um novo ativo no inventário"
-          >
-            {/* Componente 3: EquipamentoForm (Usa useState e callback via prop) */}
-            <EquipamentoForm onAddEquipamento={handleAddEquipamento} />
-          </CardContainer>
+          {/* Rota com parâmetro: /equipamentos/:id */}
+          <Route
+            path="equipamentos/:id"
+            element={
+              <EquipamentoDetalhe
+                equipamentos={equipamentos}
+                onToggle={handleToggleEquipamento}
+                onDelete={handleDeleteEquipamento}
+              />
+            }
+          />
 
-          {/* Componente 2: CardContainer reutilizado com children para a lista */}
-          <CardContainer
-            title="Inventário de Ativos"
-            subtitle="Equipamentos industriais monitorados"
-          >
-            {/* Componente 4: EquipamentoLista (Troca de dados e funções via props, e useState para busca) */}
-            <EquipamentoLista
-              equipamentos={equipamentos}
-              onToggleStatus={handleToggleStatus}
-              onDelete={handleDeleteEquipamento}
-            />
-          </CardContainer>
-        </div>
-      </main>
+          {/* Rota: /ordens */}
+          <Route
+            path="ordens"
+            element={
+              <Ordens
+                ordens={ordens}
+                equipamentos={equipamentos}
+                onAddOrdem={handleAddOrdem}
+              />
+            }
+          />
 
-      <footer className="footer">
-        DM-CMMS &copy; 2026 - Desenvolvido com React + Vite
-      </footer>
-    </div>
+          {/* Rota com parâmetro: /ordens/:id */}
+          <Route
+            path="ordens/:id"
+            element={
+              <OrdemDetalhe
+                ordens={ordens}
+                onUpdateStatus={handleUpdateStatusOrdem}
+              />
+            }
+          />
+        </Route>
+
+        {/* Rota 404 — captura qualquer caminho não mapeado */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

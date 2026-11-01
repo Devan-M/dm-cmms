@@ -1,0 +1,143 @@
+/* ===================================================
+   layout.css — Shell da aplicação (sidebar + main)
+   =================================================== */
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar fixa ── */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1.5rem 1rem;
+  background-color: var(--bg-sidebar);
+  color: var(--text-sidebar);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar-logo-icon {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  padding: 0.45rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-brand h1 {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-brand p {
+  font-size: 0.72rem;
+  color: var(--text-sidebar);
+  margin: 0;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  color: var(--text-sidebar);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+
+nav a.active {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.sidebar-stats {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sidebar-stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.sidebar-stat-label { color: var(--text-sidebar); }
+
+.sidebar-stat-value {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.sidebar-stat-alert {
+  background-color: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+/* ── Área de conteúdo ── */
+.main-shell {
+  margin-left: 240px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-shell main { flex: 1; }
+
+.main-shell footer {
+  padding: 1.25rem 2rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 200px; }
+  .main-shell { margin-left: 200px; }
+}

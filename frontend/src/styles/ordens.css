@@ -1,0 +1,23 @@
+/* ===================================================
+   ordens.css — Estilos da página Ordens
+   =================================================== */
+
+.form-painel-os {
+  border-left: 4px solid #0284c7;
+}
+
+.form-os-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.os-col-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .form-os-grid {
+    grid-template-columns: 1fr;
+  }
+}

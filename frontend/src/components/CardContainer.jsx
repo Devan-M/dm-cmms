@@ -1,5 +1,5 @@
 import React from 'react';
-import './CardContainer.css';
+import '../styles/card-container.css';
 
 /**
  * Componente CardContainer (Usa a prop especial children)
