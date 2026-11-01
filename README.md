@@ -148,4 +148,19 @@ O repositório já inclui uma collection pronta e exportada para o **Thunder Cli
 
 ## 💻 Interface Front-end
 
-As telas do front-end (`index.html`, `equipamentos.html`, `ordens.html`, etc.) oferecem a interface visual para demonstração e navegação das rotinas do CMMS (com gráficos, previsão do tempo industrial e fichas técnicas).
+O projeto conta com uma nova aplicação moderna em **React + Vite** localizada na pasta [`frontend/`](frontend/):
+
+### Requisitos Atendidos:
+- **Componentes Modulares**: `Header`, `CardContainer`, `EquipamentoForm`, `EquipamentoLista`.
+- **Passagem de Propriedades (`props`)**: Envio de dados, títulos, contadores e callbacks entre componentes pai e filhos.
+- **Uso do atributo `children`**: Implementado no componente [`CardContainer`](frontend/src/components/CardContainer.jsx) para envelopamento flexível de conteúdos.
+- **Estilização Dedicada**: Cada componente possui seu próprio arquivo CSS modularizado.
+- **Gerenciamento de Estado com `useState`**: Controle de formulários, inventário de ativos, filtros dinâmicos de busca e status operacionais.
+
+### Como Executar o Frontend React:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+O frontend estará acessível em: `http://localhost:5173` (ou porta informada pelo Vite).
