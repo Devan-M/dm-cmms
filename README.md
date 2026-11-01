@@ -12,6 +12,19 @@ Sistema de Gerenciamento de Manutenção Computadorizado (CMMS) para controle de
 
 ---
 
+## 📂 Estrutura Geral do Repositório
+
+`
+dm-cmms/
+├── backend/            # API RESTful em Node.js/Express, MongoDB e JWT
+├── frontend/           # Aplicação SPA moderna em React + Vite
+├── legacy-frontend/    # Interface original em HTML/CSS/JS (base de referência)
+├── thunder-client/     # Coleções de testes da API no VS Code
+└── README.md
+`
+
+---
+
 ## 🏗️ Arquitetura do Backend
 
 O backend foi construído em **Node.js** utilizando o framework **Express** e segue rigorosamente o padrão **MVC (Model-View-Controller)**:
