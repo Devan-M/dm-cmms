@@ -1,0 +1,841 @@
+/* =========================================================
+   VARIÁVEIS DE DESIGN E CORES
+   ========================================================= */
+:root {
+    /* Cores Globais */
+    --bg-app: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0f172a;
+    --primary: #2563eb;
+    --bg-sidebar-active: var(--primary);
+    /* Textos */
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --text-sidebar: #94a3b8;
+    --text-body: #1e293b;
+    /* Bordas e Sombras */
+    --border-color: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --bg-muted: #f1f5f9;
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --radius-card: 10px;
+    /* Cores dos Status */
+    --badge-agendada-bg: #dcfce7;
+    --badge-agendada-text: #166534;
+    --badge-pendente-bg: #fef3c7;
+    --badge-pendente-text: #92400e;
+    /* Cores semânticas reutilizadas */
+    --danger: #ef4444;
+    --danger-text: #991b1b;
+    --warning: #eab308;
+    --warn-bg: #fffbeb;
+    --warn-border: #fef08a;
+    --info: #0284c7;
+    --info-bg: #e0f2fe;
+    --info-text: #075985;
+    --neutral-bg: #f3f4f6;
+    --neutral-text: #374151;
+    /* Cores dos Ícones dos Cards */
+    --card-eq-bg: #eff6ff;
+    --card-eq-icon: #3b82f6;
+    --card-os-bg: #fef2f2;
+    --card-os-icon: var(--danger);
+    --card-mt-bg: #fefce8;
+    --card-mt-icon: var(--warning);
+    --card-pv-bg: #f0fdf4;
+    --card-pv-icon: #22c55e;
+}
+
+/* RESET INICIAL */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+}
+
+/* =========================================================
+   1. SIDEBAR LATERAL FIXA
+   ========================================================= */
+body>header {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    padding: 1.5rem 1rem;
+    background-color: var(--bg-sidebar);
+    color: var(--text-sidebar);
+}
+
+body>header h1 {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+body>header>p {
+    font-size: 0.75rem;
+    color: var(--text-sidebar);
+    margin-bottom: 2rem;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    list-style: none;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    color: var(--text-sidebar);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+nav a[aria-current="page"] {
+    background-color: var(--bg-sidebar-active);
+    color: #ffffff;
+}
+
+body>footer {
+    margin-left: 240px;
+    padding: 1.5rem 2rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+/* =========================================================
+   2. ÁREA PRINCIPAL DE CONTEÚDO (MAIN)
+   ========================================================= */
+main {
+    flex: 1;
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 2rem;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.main-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.main-header p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* =========================================================
+   3. CARDS DE INDICADORES (GRID DE 4 COLUNAS)
+   ========================================================= */
+.indicadores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.indicador-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: var(--shadow-card);
+}
+
+.indicador-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.indicador-valor {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0.2rem 0;
+}
+
+.indicador-descricao {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.indicador-icone {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+.indicador-icone.eq {
+    background-color: var(--card-eq-bg);
+    color: var(--card-eq-icon);
+}
+
+.indicador-icone.os {
+    background-color: var(--card-os-bg);
+    color: var(--card-os-icon);
+}
+
+.indicador-icone.mt {
+    background-color: var(--card-mt-bg);
+    color: var(--card-mt-icon);
+}
+
+.indicador-icone.pv {
+    background-color: var(--card-pv-bg);
+    color: var(--card-pv-icon);
+}
+
+/* =========================================================
+   4. LAYOUT EM 2 COLUNAS (GRID DO DASHBOARD)
+   ========================================================= */
+.dashboard-grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* Coluna esquerda maior que a direita */
+    gap: 1.5rem;
+}
+
+/* Estilo comum dos painéis/cards */
+.proximas-manutencoes,
+.dica-manutencao,
+.dica-seguranca .ultimas-atividades,
+.distribuicao-manutencoes,
+.card-painel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1.5rem;
+}
+
+.proximas-manutencoes h3,
+.ultimas-atividades h3,
+.distribuicao-manutencoes h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* --- TABELA DA COLUNA PRINCIPAL --- */
+.proximas-manutencoes table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.proximas-manutencoes th {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.proximas-manutencoes td {
+    padding: 0.85rem 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+.proximas-manutencoes tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges de Status (Pill Design) */
+.status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-agendada,
+.status-ativo {
+    background-color: var(--badge-agendada-bg);
+    color: var(--badge-agendada-text);
+}
+
+.status-pendente {
+    background-color: var(--badge-pendente-bg);
+    color: var(--badge-pendente-text);
+}
+
+.status-andamento {
+    background-color: var(--info-bg);
+    color: var(--info-text);
+}
+
+.status-inativo {
+    background-color: var(--neutral-bg);
+    color: var(--neutral-text);
+}
+
+/* Cards Dica de Manutenção e de Segurança */
+.dica-manutencao,
+.dica-seguranca {
+    background-color: #f0f9ff;
+    border-color: #bae6fd;
+}
+
+.dica-manutencao h4,
+.dica-seguranca h2 {
+    color: #0369a1;
+    margin-bottom: 0.5rem;
+}
+
+.dica-manutencao p,
+.dica-seguranca p {
+    font-size: 0.85rem;
+    color: #0c4a6e;
+}
+
+/* --- COLUNA LATERAL (ATIVIDADES & GRÁFICO) --- */
+/* Lista de Atividades */
+.lista-atividades {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.lista-atividades li {
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.6rem;
+}
+
+.lista-atividades li:last-child {
+    border-bottom: none;
+}
+
+.lista-atividades span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Gráfico de Rosca CSS */
+.grafico-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.donut-chart {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    /* Simulação de fatias via Conic Gradient */
+    background: conic-gradient(var(--primary) 0% 60%,
+            var(--danger) 60% 85%,
+            var(--warning) 85% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.donut-hole {
+    width: 70px;
+    height: 70px;
+    background-color: var(--bg-card);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.legenda-grafico {
+    list-style: none;
+    width: 100%;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.legenda-grafico li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legenda-grafico span {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.cor-preventiva {
+    background-color: var(--primary);
+}
+
+.cor-corretiva {
+    background-color: var(--danger);
+}
+
+.cor-inspecao {
+    background-color: var(--warning);
+}
+
+/* =========================================================
+   5. COMPONENTES COMPARTILHADOS (BOTÕES, TABELAS, FORMULÁRIOS)
+   ========================================================= */
+/* Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--bg-sidebar-active);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+    border: 1px solid var(--border-strong);
+    color: #334155;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-muted);
+}
+
+/* Tabelas genéricas */
+.tabela-dados {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.tabela-dados th {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.tabela-dados td {
+    padding: 0.85rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+/* Campos de entrada e filtros */
+.filtros-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.input-search,
+.select-filter,
+.textarea-custom,
+.form-group input,
+.form-group select {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: var(--font-main);
+    background-color: #fff;
+    color: var(--text-primary);
+}
+
+.input-search,
+.select-filter,
+.textarea-custom {
+    outline: none;
+}
+
+.input-search {
+    flex: 1;
+    min-width: 200px;
+}
+
+.textarea-custom {
+    width: 100%;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.input-search:focus,
+.select-filter:focus {
+    border-color: var(--bg-sidebar-active);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+fieldset {
+    border: none;
+    min-width: 0;
+}
+
+/* Badges de criticidade/prioridade */
+.badge-criticidade {
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-criticidade.alta {
+    background-color: #fee2e2;
+    color: var(--danger-text);
+}
+
+.badge-criticidade.media {
+    background-color: var(--badge-pendente-bg);
+    color: var(--badge-pendente-text);
+}
+
+.badge-criticidade.baixa {
+    background-color: var(--neutral-bg);
+    color: var(--neutral-text);
+}
+
+.link-acao {
+    color: var(--bg-sidebar-active);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-acao:hover {
+    text-decoration: underline;
+}
+
+/* Acessibilidade: esconde visualmente, mantém para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+/* =========================================================
+   6. MODAL DE DETALHES
+   ========================================================= */
+/* Fundo escurecido que cobre a tela inteira */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+/* Classe utilitária para abrir o modal via JavaScript */
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Caixa central do modal */
+.modal-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalEntrada 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalEntrada {
+    from {
+        transform: scale(0.95) translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: var(--bg-app);
+}
+
+.modal-titulo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 4px 0 0;
+}
+
+.modal-subtitulo {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.modal-badge-status {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.modal-btn-fechar {
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+    transition: color 0.2s;
+}
+
+.modal-btn-fechar:hover {
+    color: #475569;
+}
+
+/* Corpo e rolagem interna se necessário */
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* KPIs rápidas do topo do modal */
+.modal-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.modal-kpi-card {
+    background-color: var(--bg-muted);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--info);
+}
+
+.kpi-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.kpi-valor {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Abas de navegação */
+.modal-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 20px;
+    gap: 8px;
+}
+
+.tab-link {
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    bottom: -2px;
+    transition: color 0.2s;
+}
+
+.tab-link:hover {
+    color: var(--text-primary);
+}
+
+.tab-link.active {
+    color: var(--info);
+    border-bottom: 2px solid var(--info);
+    font-weight: 600;
+}
+
+/* Grid da Ficha Técnica */
+.grid-ficha-tecnica {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 24px;
+}
+
+.campo-ficha label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.campo-ficha p {
+    font-size: 0.95rem;
+    color: var(--text-body);
+    font-weight: 500;
+}
+
+/* Caixa de alerta de manutenção */
+.alerta-manutencao {
+    background-color: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-left: 4px solid var(--warning);
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-top: 24px;
+    font-size: 0.875rem;
+    color: #713f12;
+    line-height: 1.5;
+}
+
+/* Rodapé das ações */
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* =========================================================
+   7. RESPONSIVIDADE (DISPOSITIVOS MÓVEIS / TABLETS)
+   ========================================================= */
+@media (max-width: 1024px) {
+    .indicadores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid-layout {
+        grid-template-columns: 1fr;
+        /* Transforma as 2 colunas em uma única coluna */
+    }
+}
+
+@media (max-width: 640px) {
+    body>header {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    body>footer {
+        margin-left: 0;
+    }
+
+    .indicadores-grid {
+        grid-template-columns: 1fr;
+    }
+}

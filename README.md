@@ -12,6 +12,19 @@ Sistema de Gerenciamento de Manutenção Computadorizado (CMMS) para controle de
 
 ---
 
+## 📂 Estrutura Geral do Repositório
+
+`
+dm-cmms/
+├── backend/            # API RESTful em Node.js/Express, MongoDB e JWT
+├── frontend/           # Aplicação SPA moderna em React + Vite
+├── legacy-frontend/    # Interface original em HTML/CSS/JS (base de referência)
+├── thunder-client/     # Coleções de testes da API no VS Code
+└── README.md
+`
+
+---
+
 ## 🏗️ Arquitetura do Backend
 
 O backend foi construído em **Node.js** utilizando o framework **Express** e segue rigorosamente o padrão **MVC (Model-View-Controller)**:
@@ -148,4 +161,19 @@ O repositório já inclui uma collection pronta e exportada para o **Thunder Cli
 
 ## 💻 Interface Front-end
 
-As telas do front-end (`index.html`, `equipamentos.html`, `ordens.html`, etc.) oferecem a interface visual para demonstração e navegação das rotinas do CMMS (com gráficos, previsão do tempo industrial e fichas técnicas).
+A interface do usuário é estruturada como uma SPA (Single Page Application) moderna desenvolvida em **React** com **Vite**, localizada no diretório [rontend/](frontend/).
+
+### ⚙️ Funcionamento da Interface:
+- **Painel de Indicadores (Dashboard Operacional):** Exibe métricas em tempo real sobre o total de ativos cadastrados, equipamentos disponíveis para operação e itens parados em manutenção preventiva/corretiva.
+- **Cadastro Rápido de Ativos:** Formulário integrado para inclusão imediata de máquinas e equipamentos, permitindo configurar identificador/tag, setor fabril e grau de criticidade operacional.
+- **Inventário Interativo com Busca e Filtros:** Visualização em formato de cards responsivos com pesquisa instantânea por texto e filtragem por setor fabril.
+- **Gestão Rápida de Status:** Botão de alternância instantânea entre os estados *Operacional* e *Em Manutenção*, com atualização dinâmica dos indicadores gerais do painel.
+- **Arquitetura Modular em Componentes:** Interface desacoplada em componentes reutilizáveis (Header, CardContainer, EquipamentoForm, EquipamentoLista) com estilização CSS independente para cada módulo.
+
+### Como Executar o Frontend React:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+O frontend estará acessível em: `http://localhost:5173` (ou porta informada pelo Vite).
