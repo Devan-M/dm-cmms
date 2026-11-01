@@ -1,39 +1,66 @@
-# DM-CMMS - Frontend (React + Vite)
+# DM-CMMS - Frontend (React + Vite + React Router)
 
-Interface moderna de Single Page Application (SPA) para o **DM-CMMS (Sistema de Gerenciamento de Manutenção Computadorizado)**, desenvolvida em **React** utilizando **Vite** para empacotamento rápido e Hot Module Replacement (HMR).
+Interface moderna de Single Page Application (SPA) para o **DM-CMMS (Sistema de Gerenciamento de Manutenção Computadorizado)**, desenvolvida em **React 19** utilizando **Vite** para empacotamento rápido e **React Router Dom** para navegação e roteamento dinâmico.
 
 ---
 
-## 🏗️ Arquitetura dos Componentes
+## 📌 Requisitos Atendidos na Aplicação
 
-A aplicação foi estruturada seguindo o princípio de componentes reutilizáveis e desacoplados:
+- [x] **No mínimo 4 páginas:** Dashboard (`/`), Equipamentos (`/equipamentos`), Ordens de Serviço (`/ordens`), Detalhes do Equipamento (`/equipamentos/:id`), Detalhes da Ordem (`/ordens/:id`) e Página 404 (`*`).
+- [x] **Envio de dados via rotas através de parâmetros:** Rotas dinâmicas `/equipamentos/:id` e `/ordens/:id` consumindo os parâmetros de URL via hook `useParams`.
+- [x] **Página de erro 404:** Rota curinga `path="*"` com tela personalizada, amigável e estilizada para rotas não mapeadas.
+- [x] **Todas as páginas estilizadas:** Interface inspirada na identidade visual do frontend legado (sidebar fixa escura `#0f172a`, cards brancos, badges pill semânticos e tabelas responsivas).
+- [x] **Organização de estilos:** Todos os arquivos CSS centralizados e modulares na pasta `src/styles/`.
+
+---
+
+## 🏗️ Estrutura do Projeto
 
 ```
 frontend/src/
-├── components/
-│   ├── Header.jsx           # Cabeçalho com identidade visual e badges de métricas
-│   ├── Header.css
-│   ├── CardContainer.jsx    # Componente container flexível usando a prop 'children'
-│   ├── CardContainer.css
-│   ├── EquipamentoForm.jsx  # Formulário controlado via useState para novos ativos
-│   ├── EquipamentoForm.css
-│   ├── EquipamentoLista.jsx # Grid de cartões de ativos com filtros e busca reativa
-│   └── EquipamentoLista.css
-├── App.jsx                  # Componente raiz, gerenciamento de estado global e regras de negócio
-├── App.css                  # Estilização do layout geral e cards de estatísticas
-├── index.css                # Variáveis de cor globais e reset de CSS
+├── assets/                  # Imagens e ícones estáticos
+├── components/              # Componentes de estrutura e blocos reutilizáveis
+│   ├── CardContainer.jsx    # Container flexível usando a prop 'children'
+│   ├── EquipamentoForm.jsx  # Formulário isolado para cadastro
+│   ├── EquipamentoLista.jsx # Grid/listagem de cartões de ativos
+│   ├── Header.jsx           # Cabeçalho complementar com métricas
+│   └── Layout.jsx           # Shell da aplicação (Sidebar fixa + Outlet de rotas)
+├── pages/                   # Telas / Páginas da aplicação
+│   ├── Dashboard.jsx        # Visão geral, KPIs operacionais e gráficos
+│   ├── Equipamentos.jsx     # Inventário completo, filtros e cadastro
+│   ├── EquipamentoDetalhe.jsx # Ficha técnica do ativo consumindo :id da rota
+│   ├── Ordens.jsx           # Gestão e abertura de Ordens de Serviço
+│   ├── OrdemDetalhe.jsx     # Detalhes da OS e timeline de status consumindo :id
+│   └── NotFound.jsx         # Página de erro 404 para rotas inexistentes
+├── styles/                  # Todos os estilos CSS centralizados
+│   ├── card-container.css
+│   ├── dashboard.css
+│   ├── equipamento-detalhe.css
+│   ├── equipamento-form.css
+│   ├── equipamento-lista.css
+│   ├── equipamentos.css
+│   ├── global.css           # Variáveis de design tokens, resets e tipografia
+│   ├── header.css
+│   ├── layout.css           # Estilos da Sidebar e estrutura principal
+│   ├── not-found.css
+│   ├── ordem-detalhe.css
+│   └── ordens.css
+├── App.jsx                  # Configuração do BrowserRouter, Routes e estado global
 └── main.jsx                 # Ponto de entrada da aplicação React
 ```
 
 ---
 
-## ⚙️ Funcionalidades da Interface
+## 🗺️ Rotas Disponíveis
 
-- **Painel de Indicadores (Dashboard Operacional):** Exibição em tempo real do total de ativos monitorados, quantidade em plena operação e equipamentos parados em manutenção.
-- **Cadastro de Ativos:** Inclusão rápida de novos equipamentos informando nome, código/tag, setor fabril (Usinagem, Soldagem, etc.) e criticidade (Baixa a Crítica).
-- **Inventário Interativo:** Cartões visuais detalhando cada equipamento cadastrado.
-- **Busca e Filtros Instantâneos:** Filtragem simultânea por digitação (nome ou tag) e seleção por setor fabril gerenciada via `useState`.
-- **Alternância de Status:** Botão de ação rápida para comutar o ativo entre *Operacional* e *Em Manutenção*, recalculando automaticamente os indicadores do sistema.
+| Rota | Componente | Descrição |
+| :--- | :--- | :--- |
+| `/` | `Dashboard` | Visão geral dos KPIs, alertas, distribuição e resumo de OSs |
+| `/equipamentos` | `Equipamentos` | Listagem com busca em tempo real, filtros por setor/status e novo cadastro |
+| `/equipamentos/:id` | `EquipamentoDetalhe` | **Rota com parâmetro:** Exibe a ficha técnica completa do ativo correspondente |
+| `/ordens` | `Ordens` | Listagem de Ordens de Serviço, abertura de nova OS e filtros |
+| `/ordens/:id` | `OrdemDetalhe` | **Rota com parâmetro:** Exibe dados da OS e fluxo de avanço de status |
+| `*` | `NotFound` | **Erro 404:** Captura qualquer endereço inválido com atalhos de retorno |
 
 ---
 
@@ -72,5 +99,5 @@ frontend/src/
 | Comando | Descrição |
 | :--- | :--- |
 | `npm run dev` | Inicia o servidor local de desenvolvimento com Vite e HMR |
-| `npm run build` | Gera o build de produção otimizado na pasta `dist/` |
-| `npm run preview` | Executa localmente o build gerado para pré-visualização |
+| `npm run build` | Valida tipos e compila a aplicação para produção na pasta `dist/` |
+| `npm run preview` | Executa localmente o build gerado para validação em ambiente similar à produção |
