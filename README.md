@@ -161,14 +161,14 @@ O repositório já inclui uma collection pronta e exportada para o **Thunder Cli
 
 ## 💻 Interface Front-end
 
-O projeto conta com uma nova aplicação moderna em **React + Vite** localizada na pasta [`frontend/`](frontend/):
+A interface do usuário é estruturada como uma SPA (Single Page Application) moderna desenvolvida em **React** com **Vite**, localizada no diretório [rontend/](frontend/).
 
-### Requisitos Atendidos:
-- **Componentes Modulares**: `Header`, `CardContainer`, `EquipamentoForm`, `EquipamentoLista`.
-- **Passagem de Propriedades (`props`)**: Envio de dados, títulos, contadores e callbacks entre componentes pai e filhos.
-- **Uso do atributo `children`**: Implementado no componente [`CardContainer`](frontend/src/components/CardContainer.jsx) para envelopamento flexível de conteúdos.
-- **Estilização Dedicada**: Cada componente possui seu próprio arquivo CSS modularizado.
-- **Gerenciamento de Estado com `useState`**: Controle de formulários, inventário de ativos, filtros dinâmicos de busca e status operacionais.
+### ⚙️ Funcionamento da Interface:
+- **Painel de Indicadores (Dashboard Operacional):** Exibe métricas em tempo real sobre o total de ativos cadastrados, equipamentos disponíveis para operação e itens parados em manutenção preventiva/corretiva.
+- **Cadastro Rápido de Ativos:** Formulário integrado para inclusão imediata de máquinas e equipamentos, permitindo configurar identificador/tag, setor fabril e grau de criticidade operacional.
+- **Inventário Interativo com Busca e Filtros:** Visualização em formato de cards responsivos com pesquisa instantânea por texto e filtragem por setor fabril.
+- **Gestão Rápida de Status:** Botão de alternância instantânea entre os estados *Operacional* e *Em Manutenção*, com atualização dinâmica dos indicadores gerais do painel.
+- **Arquitetura Modular em Componentes:** Interface desacoplada em componentes reutilizáveis (Header, CardContainer, EquipamentoForm, EquipamentoLista) com estilização CSS independente para cada módulo.
 
 ### Como Executar o Frontend React:
 ```bash
