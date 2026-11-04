@@ -1,6 +1,14 @@
 import React from 'react';
+import type { Equipamento } from '../types/equipamento';
 
-const Equipamentos: React.FC = () => {
+interface EquipamentosProps {
+  equipments: Equipamento[];
+  onAdd: (equipamento: Equipamento) => void;
+  onToggle: (id: number) => void;
+  onDelete: (id: number) => void;
+}
+
+const Equipamentos: React.FC<EquipamentosProps> = () => {
   return (
     <div>
       <h1>Equipamentos</h1>

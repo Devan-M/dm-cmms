@@ -8,7 +8,7 @@ import '../styles/equipamento-detalhe.css';
  * Demonstra o envio de dados via parâmetros de rota (:id).
  * Recebe o ID pela URL e busca o equipamento na lista de estado global.
  */
-function EquipamentoDetalhe({ equipamentos, onToggle, onDelete }) {
+function EquipamentoDetalhe({ equipments: equipamentos, onToggle, onDelete }) {
   const { id } = useParams(); // 👈 Parâmetro de rota recebido via URL
   const navigate = useNavigate();
 

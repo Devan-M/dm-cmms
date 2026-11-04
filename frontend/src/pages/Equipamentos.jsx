@@ -9,7 +9,7 @@ import '../styles/equipamentos.css';
  * alterar status e excluir.
  * Navega para detalhes via Link com parâmetros de rota.
  */
-function Equipamentos({ equipamentos, onAdd, onToggle, onDelete }) {
+function Equipamentos({ equipments: equipamentos, onAdd, onToggle, onDelete }) {
   const [busca, setBusca] = useState('');
   const [filtroSetor, setFiltroSetor] = useState('Todos');
   const [filtroStatus, setFiltroStatus] = useState('Todos');

@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 // Layout shell com sidebar
-import Layout from './components/Layout';
+import Layout from './components/Layout.jsx';
 
 // Pǭginas da aplica��ǜo
-import Dashboard from './pages/Dashboard';
-import Equipamentos from './pages/Equipamentos';
-import EquipamentoDetalhe from './pages/EquipamentoDetalhe';
-import Ordens from './pages/Ordens';
-import OrdemDetalhe from './pages/OrdemDetalhe';
-import Login from './components/Login';
-import NotFound from './pages/NotFound';
+import Dashboard from './pages/Dashboard.jsx';
+import Equipamentos from './pages/Equipamentos.jsx';
+import EquipamentoDetalhe from './pages/EquipamentoDetalhe.jsx';
+import Ordens from './pages/Ordens.jsx';
+import OrdemDetalhe from './pages/OrdemDetalhe.jsx';
+import Login from './components/Login.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 /**
  * Verifica se hǭ token no localStorage para autentica��ǜo
@@ -23,15 +23,15 @@ function isAuth(): boolean {
 // Guard de autentica��ǜo - redireciona para /login se nǜo tiver token
 function requireAuth() {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!isAuth()) {
       navigate('/login');
     }
   }, [navigate]);
-  
+
   // Componente vazio que sempre retorna null quando requer auth
-  return null as React.ReactElement;
+  return null;
 }
 
 /**
@@ -52,16 +52,16 @@ function App() {
     { id: 1003, equipamento: 'Rob�� de Solda Yaskawa', equipamentoId: 3, tipo: 'Inspe��ǜo', prioridade: 'Baixa', status: 'Conclu��da', responsavel: 'Pedro Costa', descricao: 'Inspe��ǜo peri��dica semestral de rotina.', dataAbertura: '30/10/2026' },
   ]);
 
-  const handleAddEquipamento = (novo) => { setEquipamentos((prev) => [novo, ...prev]); };
-  const handleToggleEquipamento = (id) => {
+  const handleAddEquipamento = (novo: any) => { setEquipamentos((prev) => [novo, ...prev]); };
+  const handleToggleEquipamento = (id: any) => {
     setEquipamentos((prev) => prev.map((eq) =>
       eq.id === id ? { ...eq, status: eq.status === 'Operacional' ? 'Em Manuten��ǜo' : 'Operacional' } : eq
     ));
   };
-  const handleDeleteEquipamento = (id) => { setEquipamentos((prev) => prev.filter((eq) => eq.id !== id)); };
+  const handleDeleteEquipamento = (id: any) => { setEquipamentos((prev) => prev.filter((eq) => eq.id !== id)); };
 
-  const handleAddOrdem = (nova) => { setOrdens((prev) => [nova, ...prev]); };
-  const handleUpdateStatusOrdem = (id, novoStatus) => {
+  const handleAddOrdem = (nova: any) => { setOrdens((prev) => [nova, ...prev]); };
+  const handleUpdateStatusOrdem = (id: any, novoStatus: any) => {
     setOrdens((prev) => prev.map(os => os.id === id ? { ...os, status: novoStatus } : os));
   };
 
@@ -92,7 +92,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
