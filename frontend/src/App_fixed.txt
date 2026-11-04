@@ -1,0 +1,98 @@
+﻿import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+
+// Layout shell com sidebar
+import Layout from './components/Layout';
+
+// PÇ­ginas da aplicaï¿½ï¿½Çœo
+import Dashboard from './pages/Dashboard';
+import Equipamentos from './pages/Equipamentos';
+import EquipamentoDetalhe from './pages/EquipamentoDetalhe';
+import Ordens from './pages/Ordens';
+import OrdemDetalhe from './pages/OrdemDetalhe';
+import Login from './components/Login';
+import NotFound from './pages/NotFound';
+
+/**
+ * Verifica se hÇ­ token no localStorage para autenticaï¿½ï¿½Çœo
+ */
+function isAuth(): boolean {
+  return localStorage.getItem('token') !== null;
+}
+
+// Guard de autenticaï¿½ï¿½Çœo - redireciona para /login se nÇœo tiver token
+function requireAuth() {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!isAuth()) {
+      navigate('/login');
+    }
+  }, [navigate]);
+  
+  // Componente vazio que sempre retorna null quando requer auth
+  return null as React.ReactElement;
+}
+
+/**
+ * App.tsx ï¿½?" Raiz da aplicaï¿½ï¿½Çœo DM-CMMS
+ * Rotas protegidas verificam token no localStorage e redirecionam para /login se necessÇ­rio.
+ */
+function App() {
+  const [equipamentos, setEquipamentos] = useState([
+    { id: 1, nome: 'Torno MecÇ½nico Nardini', codigo: 'TOR-01', setor: 'Usinagem', criticidade: 'Alta', status: 'Operacional', dataCadastro: '28/10/2026' },
+    { id: 2, nome: 'Compressor de Ar Schulz', codigo: 'CMP-02', setor: 'Utilidades', criticidade: 'Crï¿½ï¿½tica', status: 'Em Manutenï¿½ï¿½Çœo', dataCadastro: '29/10/2026' },
+    { id: 3, nome: 'Robï¿½ï¿½ de Solda Yaskawa', codigo: 'SLD-05', setor: 'Soldagem', criticidade: 'Alta', status: 'Operacional', dataCadastro: '30/10/2026' },
+    { id: 4, nome: 'Prensa HidrÇ­ulica Romi', codigo: 'PRN-08', setor: 'Estamparia', criticidade: 'MÇ¸dia', status: 'Operacional', dataCadastro: '01/11/2026' },
+  ]);
+
+  const [ordens, setOrdens] = useState([
+    { id: 1001, equipamento: 'Compressor de Ar Schulz', equipamentoId: 2, tipo: 'Corretiva', prioridade: 'Alta', status: 'Em Andamento', responsavel: 'Carlos Melo', descricao: 'Substituiï¿½ï¿½Çœo do filtro de ar e revisÇœo do sistema de pressÇœo.', dataAbertura: '29/10/2026' },
+    { id: 1002, equipamento: 'Torno MecÇ½nico Nardini', equipamentoId: 1, tipo: 'Preventiva', prioridade: 'MÇ¸dia', status: 'Em Aberto', responsavel: 'Ana Silva', descricao: 'Lubrificaï¿½ï¿½Çœo geral e verificaï¿½ï¿½Çœo de folgas.', dataAbertura: '01/11/2026' },
+    { id: 1003, equipamento: 'Robï¿½ï¿½ de Solda Yaskawa', equipamentoId: 3, tipo: 'Inspeï¿½ï¿½Çœo', prioridade: 'Baixa', status: 'Concluï¿½ï¿½da', responsavel: 'Pedro Costa', descricao: 'Inspeï¿½ï¿½Çœo periï¿½ï¿½dica semestral de rotina.', dataAbertura: '30/10/2026' },
+  ]);
+
+  const handleAddEquipamento = (novo) => { setEquipamentos((prev) => [novo, ...prev]); };
+  const handleToggleEquipamento = (id) => {
+    setEquipamentos((prev) => prev.map((eq) =>
+      eq.id === id ? { ...eq, status: eq.status === 'Operacional' ? 'Em Manutenï¿½ï¿½Çœo' : 'Operacional' } : eq
+    ));
+  };
+  const handleDeleteEquipamento = (id) => { setEquipamentos((prev) => prev.filter((eq) => eq.id !== id)); };
+
+  const handleAddOrdem = (nova) => { setOrdens((prev) => [nova, ...prev]); };
+  const handleUpdateStatusOrdem = (id, novoStatus) => {
+    setOrdens((prev) => prev.map(os => os.id === id ? { ...os, status: novoStatus } : os));
+  };
+
+  return (
+    <Router>
+      <Routes>
+        {/* Rota de Login - acessï¿½ï¿½vel para todos */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Guard de autenticaï¿½ï¿½Çœo */}
+        <Route path="/" element={requireAuth()} />
+
+        {/* Layout shell envolve todas as pÇ­ginas protegidas */}
+        <Route path="/" element={<Layout equipamentos={equipamentos} ordens={ordens} />}>
+          <Route index element={<Dashboard equipments={equipamentos} ordens={ordens} />} />
+
+          <Route path="equipamentos" element={<Equipamentos equipments={equipamentos} onAdd={handleAddEquipamento} onToggle={handleToggleEquipamento} onDelete={handleDeleteEquipamento} />} />
+          <Route path="equipamentos/:id" element={<EquipamentoDetalhe equipments={equipamentos} onToggle={handleToggleEquipamento} onDelete={handleDeleteEquipamento} />} />
+
+          <Route path="ordens" element={<Ordens ordens={ordens} equipments={equipamentos} onAddOrdem={handleAddOrdem} />} />
+          <Route path="ordens/:id" element={<OrdemDetalhe ordens={ordens} onUpdateStatus={handleUpdateStatusOrdem} />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+
+
+
