@@ -122,6 +122,50 @@ const autenticar = async (req, res) => {
   }
 };
 
+const obterMinhaConta = async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.usuario.id);
+    if (!usuario) {
+      return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado' });
+    }
+
+    return res.json({ sucesso: true, usuario: usuario.toJSON() });
+  } catch (erro) {
+    return res.status(500).json({ sucesso: false, mensagem: erro.message });
+  }
+};
+
+const atualizarMinhaConta = async (req, res) => {
+  try {
+    const { nome, email, dataNascimento, senhaAtual, novaSenha } = req.body;
+    const usuario = await Usuario.findById(req.usuario.id);
+    if (!usuario) {
+      return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado' });
+    }
+
+    if (nome !== undefined) usuario.nome = nome;
+    if (email !== undefined) usuario.email = email;
+    if (dataNascimento !== undefined) usuario.dataNascimento = dataNascimento;
+
+    if (novaSenha) {
+      if (!senhaAtual || !(await usuario.validarSenha(senhaAtual))) {
+        return res.status(400).json({ sucesso: false, mensagem: 'Senha atual inválida' });
+      }
+      usuario.senha = novaSenha;
+    }
+
+    await usuario.save();
+    return res.json({
+      sucesso: true,
+      mensagem: 'Conta atualizada com sucesso',
+      usuario: usuario.toJSON()
+    });
+  } catch (erro) {
+    const status = erro.code === 11000 ? 409 : 400;
+    return res.status(status).json({ sucesso: false, mensagem: erro.message });
+  }
+};
+
 // GET - Listar todos os usuários (Protegido por JWT)
 const listarUsuarios = async (req, res) => {
   try {
@@ -136,6 +180,45 @@ const listarUsuarios = async (req, res) => {
       sucesso: false,
       mensagem: erro.message
     });
+  }
+};
+
+const atualizarStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { ativo } = req.body;
+
+    if (typeof ativo !== 'boolean') {
+      return res.status(400).json({ sucesso: false, mensagem: 'O campo ativo deve ser booleano' });
+    }
+    if (String(req.usuario.id) === String(id)) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Não é permitido desativar a própria conta' });
+    }
+
+    const usuario = await Usuario.findById(id);
+    if (!usuario) {
+      return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado' });
+    }
+
+    if (!ativo && usuario.perfil === 'admin' && usuario.ativo) {
+      const adminsAtivos = await Usuario.countDocuments({ perfil: 'admin', ativo: true });
+      if (adminsAtivos <= 1) {
+        return res.status(400).json({
+          sucesso: false,
+          mensagem: 'Não é possível desativar o último administrador ativo'
+        });
+      }
+    }
+
+    usuario.ativo = ativo;
+    await usuario.save();
+    return res.json({
+      sucesso: true,
+      mensagem: `Conta ${ativo ? 'ativada' : 'desativada'} com sucesso`,
+      usuario: usuario.toJSON()
+    });
+  } catch (erro) {
+    return res.status(400).json({ sucesso: false, mensagem: erro.message });
   }
 };
 
@@ -225,7 +308,10 @@ const deletarUsuario = async (req, res) => {
 module.exports = {
   criarUsuario,
   autenticar,
+  obterMinhaConta,
+  atualizarMinhaConta,
   listarUsuarios,
+  atualizarStatus,
   obterUsuario,
   atualizarUsuario,
   deletarUsuario
