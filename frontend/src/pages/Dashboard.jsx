@@ -94,19 +94,19 @@ function Dashboard({ equipamentos, ordens }) {
                 <tbody>
                   {ordens.slice(0, 5).map((os) => (
                     <tr key={os.id}>
-                      <td>
+                      <td data-label="Nº OS">
                         <Link to={`/ordens/${os.id}`} className="link-acao">
                           #{String(os.id).padStart(4, '0')}
                         </Link>
                       </td>
-                      <td>{os.equipamento}</td>
-                      <td>{os.tipo}</td>
-                      <td>
+                      <td data-label="Equipamento">{os.equipamento}</td>
+                      <td data-label="Tipo">{os.tipo}</td>
+                      <td data-label="Prioridade">
                         <span className={`badge-criticidade ${os.prioridade?.toLowerCase()}`}>
                           {os.prioridade}
                         </span>
                       </td>
-                      <td>
+                      <td data-label="Status">
                         <span className={`status status-${os.status === 'Em Aberto' ? 'pendente' : os.status === 'Em Andamento' ? 'andamento' : os.status === 'Concluída' ? 'agendada' : 'inativo'}`}>
                           {os.status}
                         </span>
@@ -115,7 +115,7 @@ function Dashboard({ equipamentos, ordens }) {
                   ))}
                   {ordens.length === 0 && (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: 'center', color: '#94a3b8', padding: '2rem' }}>
+                      <td data-empty-state colSpan="5" style={{ textAlign: 'center', color: '#94a3b8', padding: '2rem' }}>
                         Nenhuma ordem de serviço cadastrada.
                       </td>
                     </tr>

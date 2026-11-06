@@ -1,0 +1,72 @@
+.account-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.account-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.account-form input,
+.account-form select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.account-form input:focus,
+.account-form select:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.2);
+  border-color: var(--primary);
+}
+
+.account-form input:disabled {
+  background: var(--bg-muted);
+}
+
+.account-form button {
+  justify-self: start;
+  align-self: end;
+}
+
+.account-message,
+.account-error {
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+}
+
+.account-message {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.account-error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.account-list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .account-form {
+    grid-template-columns: 1fr;
+  }
+}

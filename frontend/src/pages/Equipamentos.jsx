@@ -181,25 +181,25 @@ function Equipamentos({ equipments: equipamentos, onAdd, onToggle, onDelete }) {
               <tbody>
                 {filtrados.map((eq) => (
                   <tr key={eq.id}>
-                    <td>
+                    <td data-label="Código">
                       <Link to={`/equipamentos/${eq.id}`} className="link-acao">
                         {eq.codigo}
                       </Link>
                     </td>
-                    <td><strong>{eq.nome}</strong></td>
-                    <td>{eq.setor}</td>
-                    <td>
+                    <td data-label="Nome"><strong>{eq.nome}</strong></td>
+                    <td data-label="Setor">{eq.setor}</td>
+                    <td data-label="Criticidade">
                       <span className={`badge-criticidade ${eq.criticidade?.toLowerCase().replace('é', 'e')}`}>
                         {eq.criticidade}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <span className={`status ${eq.status === 'Operacional' ? 'status-agendada' : eq.status === 'Em Manutenção' ? 'status-pendente' : 'status-inativo'}`}>
                         {eq.status}
                       </span>
                     </td>
-                    <td style={{ color: '#64748b' }}>{eq.dataCadastro}</td>
-                    <td>
+                    <td data-label="Cadastro" style={{ color: '#64748b' }}>{eq.dataCadastro}</td>
+                    <td data-label="Ações">
                       <div className="acoes-celula">
                         <button
                           className="btn-icone btn-toggle"

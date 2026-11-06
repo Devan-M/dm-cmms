@@ -206,26 +206,26 @@ function Ordens({ ordens, equipamentos, onAddOrdem }) {
               <tbody>
                 {filtradas.map((os) => (
                   <tr key={os.id}>
-                    <td>
+                    <td data-label="Nº OS">
                       <Link to={`/ordens/${os.id}`} className="link-acao">
                         #{String(os.id).slice(-4).padStart(4, '0')}
                       </Link>
                     </td>
-                    <td><strong>{os.equipamento}</strong></td>
-                    <td>{os.tipo}</td>
-                    <td>
+                    <td data-label="Equipamento"><strong>{os.equipamento}</strong></td>
+                    <td data-label="Tipo">{os.tipo}</td>
+                    <td data-label="Prioridade">
                       <span className={`badge-criticidade ${os.prioridade?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`}>
                         {os.prioridade}
                       </span>
                     </td>
-                    <td>{os.responsavel}</td>
-                    <td style={{ color: '#64748b' }}>{os.dataAbertura}</td>
-                    <td>
+                    <td data-label="Responsável">{os.responsavel}</td>
+                    <td data-label="Abertura" style={{ color: '#64748b' }}>{os.dataAbertura}</td>
+                    <td data-label="Status">
                       <span className={`status ${statusClassMap[os.status] || 'status-inativo'}`}>
                         {os.status}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="Ações">
                       <Link to={`/ordens/${os.id}`} className="link-acao" style={{ fontSize: '0.8rem' }}>
                         Detalhes →
                       </Link>

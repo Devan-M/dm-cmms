@@ -12,9 +12,7 @@
   border: 1px solid var(--border-color);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 420px;
+  padding: 1.25rem;
 }
 
 .login-header {
@@ -53,9 +51,10 @@
 }
 
 .login-form {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  justify-content: space-evenly;
 }
 
 .login-label {
@@ -89,7 +88,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 1.5rem;
+  padding: 00.85rem 1.25rem;
   border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -98,10 +97,12 @@
   background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: white;
   transition: opacity 0.2s;
+  width: 100%;
+  margin-top: 1.5rem;
 }
 
 .login-submit-btn:hover {
-  opacity: 0.9;
+  opacity: .75;
 }
 
 /* ── Error message styling ── */
@@ -113,8 +114,6 @@
   font-size: 0.875rem;
   text-align: center;
 }
-
-.login-card { margin: auto 240px auto 240px;}
 
 /* ── Login Screen ── */
 .sidebar {
@@ -130,6 +129,31 @@
   flex-direction: column;
   z-index: 100;
   overflow-y: auto;
+}
+
+.sidebar-collapse-button,
+.mobile-menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-sidebar);
+  cursor: pointer;
+}
+
+.sidebar-collapse-button:hover,
+.mobile-menu-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.mobile-menu-button {
+  display: none;
 }
 
 .sidebar-brand {
@@ -204,6 +228,44 @@ nav a.active {
   gap: 0.6rem;
 }
 
+.sidebar-account {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem 0;
+  color: #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.sidebar-account span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-account button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-sidebar);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-account button:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+
+.sidebar-account button span,
+.sidebar-brand-copy {
+  min-width: 0;
+}
+
 .sidebar-stat-item {
   display: flex;
   justify-content: space-between;
@@ -227,6 +289,46 @@ nav a.active {
   color: #fca5a5;
 }
 
+.shell--collapsed .sidebar {
+  width: 72px;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.shell--collapsed .sidebar-brand {
+  justify-content: center;
+}
+
+.shell--collapsed .sidebar-brand-copy,
+.shell--collapsed .sidebar nav a span,
+.shell--collapsed .sidebar-account-name,
+.shell--collapsed .sidebar-account button span,
+.shell--collapsed .sidebar-stat-label {
+  display: none;
+}
+
+.shell--collapsed .sidebar-collapse-button {
+  position: absolute;
+  top: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.shell--collapsed .sidebar nav {
+  margin-top: 2rem;
+}
+
+.shell--collapsed .sidebar nav a,
+.shell--collapsed .sidebar-account button {
+  justify-content: center;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.shell--collapsed .sidebar-stats {
+  align-items: center;
+}
+
 /* ── Área de conteúdo ── */
 .main-shell {
   margin-left: 240px;
@@ -234,6 +336,10 @@ nav a.active {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.shell--collapsed .main-shell {
+  margin-left: 72px;
 }
 
 .main-shell main { flex: 1; }
@@ -246,7 +352,106 @@ nav a.active {
   background-color: var(--bg-card);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 521px) and (max-width: 768px) {
   .sidebar { width: 200px; }
   .main-shell { margin-left: 200px; }
+
+  .shell--collapsed .sidebar { width: 72px; }
+  .shell--collapsed .main-shell { margin-left: 72px; }
+}
+
+@media (max-width: 520px) {
+  .sidebar,
+  .shell--collapsed .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    min-height: 64px;
+    padding: 0.75rem 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .sidebar-brand,
+  .shell--collapsed .sidebar-brand {
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
+
+  .sidebar-brand-copy,
+  .shell--collapsed .sidebar-brand-copy {
+    display: block;
+  }
+
+  .sidebar-collapse-button {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex;
+    margin-left: auto;
+    color: #ffffff;
+  }
+
+  .sidebar nav,
+  .sidebar-account,
+  .sidebar-stats {
+    display: none;
+  }
+
+  .sidebar--mobile-open nav {
+    display: block;
+    margin-top: 0.75rem;
+  }
+
+  .sidebar--mobile-open .sidebar-account {
+    display: flex;
+    padding: 0.75rem 0;
+  }
+
+  .sidebar--mobile-open .sidebar-stats {
+    display: flex;
+    margin-top: 0;
+    padding-top: 0.75rem;
+  }
+
+  .shell--collapsed .sidebar nav a span,
+  .shell--collapsed .sidebar-account-name,
+  .shell--collapsed .sidebar-account button span,
+  .shell--collapsed .sidebar-stat-label {
+    display: initial;
+  }
+
+  .shell--collapsed .sidebar nav a,
+  .shell--collapsed .sidebar-account button {
+    justify-content: flex-start;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .shell--collapsed .sidebar-stats {
+    align-items: stretch;
+  }
+
+  .shell--collapsed .sidebar-collapse-button {
+    display: none;
+  }
+
+  .main-shell,
+  .shell--collapsed .main-shell {
+    margin-left: 0;
+    padding-top: 64px;
+  }
+
+  .mobile-menu-backdrop {
+    position: fixed;
+    z-index: 90;
+    inset: 64px 0 0;
+    width: 100%;
+    border: 0;
+    background: rgba(15, 23, 42, 0.35);
+  }
 }

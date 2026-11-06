@@ -21,7 +21,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, senha: password }),
       });
 
       if (!response.ok) {
@@ -51,7 +51,7 @@ const Login = () => {
         progress: undefined,
       });
       navigate('/');
-    } catch (error) {
+    } catch {
       toast.error('Erro ao fazer login', {
         position: 'top-right',
         autoClose: 5000,
