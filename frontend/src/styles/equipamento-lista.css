@@ -1,3 +1,7 @@
+/* ===================================================
+   equipamento-lista.css — Componente EquipamentoLista
+   =================================================== */
+
 .equipamentos-container {
   display: flex;
   flex-direction: column;

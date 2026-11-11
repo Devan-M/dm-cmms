@@ -1,5 +1,5 @@
 import React from 'react';
-import './Header.css';
+import '../styles/header.css';
 import { Wrench } from 'lucide-react';
 
 /**

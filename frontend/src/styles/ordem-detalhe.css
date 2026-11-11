@@ -1,0 +1,117 @@
+/* ===================================================
+   ordem-detalhe.css — Estilos da página OrdemDetalhe
+   =================================================== */
+
+.os-hero {
+  border-left: 4px solid #0284c7;
+}
+
+.os-logo {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid #7dd3fc;
+}
+
+.os-descricao-bloco {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--bg-muted);
+  border-radius: 8px;
+  border-left: 3px solid var(--border-strong);
+}
+
+.os-descricao-bloco h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.os-descricao-bloco p {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+/* Linha do tempo */
+.os-timeline {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.os-timeline h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  position: relative;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--border-color);
+  z-index: 0;
+}
+
+.timeline-step.active:not(:last-child)::after {
+  background-color: #16a34a;
+}
+
+.timeline-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  position: relative;
+  z-index: 1;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.timeline-step.active .timeline-dot {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.timeline-step.current .timeline-dot {
+  background-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}

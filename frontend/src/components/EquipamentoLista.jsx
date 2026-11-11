@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './EquipamentoLista.css';
+import '../styles/equipamento-lista.css';
 import { Search, Trash2, RefreshCw } from 'lucide-react';
 
 /**

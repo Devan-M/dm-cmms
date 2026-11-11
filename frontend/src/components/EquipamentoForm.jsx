@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './EquipamentoForm.css';
+import '../styles/equipamento-form.css';
 import { PlusCircle } from 'lucide-react';
 
 /**

@@ -1,0 +1,71 @@
+/* ===================================================
+   dashboard.css — Estilos da página Dashboard
+   =================================================== */
+
+.painel-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.painel-cabecalho h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.2rem;
+}
+
+.painel-cabecalho p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.tabela-responsiva {
+  overflow-x: auto;
+}
+
+/* Alerta de atenção */
+.painel-alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: #fffbeb;
+  border-color: #fef08a;
+  border-left: 4px solid #eab308;
+}
+
+.painel-alerta h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #713f12;
+  margin-bottom: 0.3rem;
+}
+
+.painel-alerta p {
+  font-size: 0.85rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.alerta-icone {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #eab308;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.dashboard-coluna-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

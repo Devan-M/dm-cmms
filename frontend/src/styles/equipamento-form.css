@@ -1,3 +1,7 @@
+/* ===================================================
+   equipamento-form.css — Componente EquipamentoForm
+   =================================================== */
+
 .equipamento-form {
   display: flex;
   flex-direction: column;
