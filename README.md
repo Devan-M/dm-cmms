@@ -1,179 +1,89 @@
-# DM-CMMS
+# DM-CMMS — Sistema de Gestão de Manutenção Industrial
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?logo=jsonwebtokens&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![Status](https://img.shields.io/badge/status-ativo-brightgreen)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Devan%20M.-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devan-m/)
-
-Sistema de Gerenciamento de Manutenção Computadorizado (CMMS) para controle de ativos, ordens de serviço, manutenção industrial e métricas operacionais, estruturado em arquitetura **MVC** com **API RESTful**, persistência no **MongoDB via Mongoose** e autenticação segura com **JSON Web Tokens (JWT)**.
+Sistema completo para controle de inventário de ativos, acompanhamento de ordens de serviço (OS) e gestão de manutenção com autenticação JWT e controle de acesso (RBAC).
 
 ---
 
-## 📂 Estrutura Geral do Repositório
+## 🛠️ Tecnologias Utilizadas
 
-`
-dm-cmms/
-├── backend/            # API RESTful em Node.js/Express, MongoDB e JWT
-├── frontend/           # Aplicação SPA moderna em React + Vite
-├── legacy-frontend/    # Interface original em HTML/CSS/JS (base de referência)
-├── thunder-client/     # Coleções de testes da API no VS Code
-└── README.md
-`
+- **Frontend:** React 19, TypeScript, Vite, React Router DOM (Rotas Privadas), React Toastify, Lucide Icons.
+- **Backend:** Node.js, Express, MongoDB (Mongoose), JWT, Bcrypt.
+- **Banco de Dados:** MongoDB via Docker.
 
 ---
 
-## 🏗️ Arquitetura do Backend
+## 🚀 Como Executar o Projeto
 
-O backend foi construído em **Node.js** utilizando o framework **Express** e segue rigorosamente o padrão **MVC (Model-View-Controller)**:
+### Pré-requisitos
+- [Node.js](https://nodejs.org/) (versão 18+)
+- [Docker & Docker Compose](https://www.docker.com/) (para o banco MongoDB)
 
+---
+
+### 1️⃣ Subir o Banco de Dados (MongoDB via Docker)
+Na raiz do projeto (`dm-cmms`), execute:
+
+```bash
+docker compose up -d
 ```
-backend/
-├── src/
-│   ├── config/
-│   │   └── database.js         # Conexão assíncrona com MongoDB (Mongoose)
-│   ├── controllers/
-│   │   ├── usuarioController.js     # Regras de cadastro, login e CRUD de usuários
-│   │   ├── equipamentoController.js # CRUD e filtros de ativos/equipamentos
-│   │   ├── ordemController.js       # Abertura, gestão e encerramento de O.S.
-│   │   └── dashboardController.js   # Cálculo e agregação de indicadores gerais
-│   ├── middleware/
-│   │   └── auth.js             # Middleware de interceptação e validação de Token JWT
-│   ├── models/
-│   │   ├── Usuario.js          # Mongoose Schema de Usuários com hash bcryptjs
-│   │   ├── Equipamento.js      # Mongoose Schema de Equipamentos/Ativos
-│   │   └── OrdemServico.js     # Mongoose Schema de Ordens de Serviço
-│   ├── routes/
-│   │   ├── usuarioRoutes.js    # Rotas de autenticação e gestão de usuários
-│   │   ├── equipamentoRoutes.js# Rotas protegidas de equipamentos
-│   │   ├── ordemRoutes.js      # Rotas protegidas de O.S.
-│   │   └── dashboardRoutes.js  # Rota protegida de métricas do dashboard
-│   ├── app.js                  # Configuração do Express, CORS e registro de rotas
-│   └── server.js               # Inicialização do servidor após conexão com o banco
-├── test/
-│   └── integration/
-│       └── usuario.test.js     # Testes automatizados de ponta a ponta
-└── package.json
-```
+> Isso iniciará um container com o MongoDB na porta padrão `27017`.
 
 ---
 
-## 🚀 Como Executar o Backend
-
-### 1. Pré-requisitos
-- **Node.js** (v18+)
-- **MongoDB** em execução local na porta `27017` (ou via Docker):
-  ```bash
-  docker run -d --name mongodb -p 27017:27017 mongo:latest
-  ```
-
-### 2. Instalação e Execução
-1. Entre na pasta do backend:
-   ```bash
-   cd backend
-   ```
-2. Instale as dependências:
-   ```bash
-   npm install
-   ```
-3. Inicie o servidor em modo de desenvolvimento:
-   ```bash
-   npm run dev
-   ```
-   *O servidor estará acessível em: `http://localhost:3000`*
-
----
-
-## 🧪 Testes Automatizados
-O projeto possui testes de integração automatizados que validam todo o ciclo (Criação de Usuário, Login JWT, bloqueio de rotas sem token, CRUD no MongoDB e regras de negócio de O.S.):
+### 2️⃣ Iniciar o Backend (API)
+Abra um terminal e acesse a pasta `backend`:
 
 ```bash
 cd backend
-npm test
-```
 
----
-
-## 📡 Endpoints da API
-
-### 🔐 1. Autenticação e Usuários (`/api/usuarios`)
-| Método | Endpoint | Protegido por JWT | Descrição |
-| :--- | :--- | :---: | :--- |
-| `POST` | `/api/usuarios` | Não | Cadastro de novo usuário (gera token inicial) |
-| `POST` | `/api/usuarios/auth/login` | Não | Autenticação com e-mail e senha (retorna Token JWT) |
-| `GET` | `/api/usuarios` | **Sim** | Listar todos os usuários cadastrados |
-| `GET` | `/api/usuarios/:id` | **Sim** | Buscar usuário específico por ID |
-| `PUT` | `/api/usuarios/:id` | **Sim** | Atualizar dados cadastrais |
-| `DELETE` | `/api/usuarios/:id` | **Sim** | Excluir usuário |
-
----
-
-### ⚙️ 2. Gestão de Equipamentos (`/api/equipamentos`)
-*Todas as rotas exigem header `Authorization: Bearer <TOKEN>`*
-
-| Método | Endpoint | Descrição |
-| :--- | :--- | :--- |
-| `POST` | `/api/equipamentos` | Cadastrar novo ativo (código, nome, setor, criticidade, etc.) |
-| `GET` | `/api/equipamentos` | Listar todos os equipamentos (suporta filtros `?setor=&status=`) |
-| `GET` | `/api/equipamentos/:id` | Obter ficha técnica detalhada por ID |
-| `PUT` | `/api/equipamentos/:id` | Atualizar dados ou status operacional |
-| `DELETE` | `/api/equipamentos/:id` | Remover equipamento do sistema |
-
----
-
-### 📋 3. Ordens de Serviço (`/api/ordens`)
-*Todas as rotas exigem header `Authorization: Bearer <TOKEN>`*
-
-| Método | Endpoint | Descrição |
-| :--- | :--- | :--- |
-| `POST` | `/api/ordens` | Abrir nova O.S. (Gera número sequencial e altera status do ativo) |
-| `GET` | `/api/ordens` | Listar O.S. (suporta filtros `?status=&prioridade=&tipo=`) |
-| `GET` | `/api/ordens/:id` | Consultar detalhes da O.S. por ID |
-| `PUT` | `/api/ordens/:id` | Atualizar O.S. (ao marcar como "Concluída", restaura o ativo para "Operacional") |
-| `DELETE` | `/api/ordens/:id` | Cancelar/remover Ordem de Serviço |
-
----
-
-### 📊 4. Dashboard & Indicadores (`/api/dashboard`)
-*Exige header `Authorization: Bearer <TOKEN>`*
-
-| Método | Endpoint | Descrição |
-| :--- | :--- | :--- |
-| `GET` | `/api/dashboard/resumo` | Retorna total de equipamentos, ativos operacionais, disponibilidade (%), ordens abertas e concluídas |
-
----
-
-## ⚡ Testando com o Thunder Client
-
-O repositório já inclui uma collection pronta e exportada para o **Thunder Client** no VS Code:
-
-📁 **Arquivo:** [`thunder-client/thunder-collection_DM-CMMS - Usuarios.json`](thunder-client/thunder-collection_DM-CMMS%20-%20Usuarios.json)
-
-### Passo a passo para testar:
-1. Abra o **Thunder Client** no VS Code.
-2. Na aba **Collections**, clique em `...` -> **Import** e selecione o arquivo acima.
-3. Execute a requisição **1. Login (Gerar JWT)** para receber seu token.
-4. Nas demais requisições protegidas, informe o token no header `Authorization: Bearer <seu-token>`.
-
----
-
-## 💻 Interface Front-end
-
-A interface do usuário é estruturada como uma SPA (Single Page Application) moderna desenvolvida em **React** com **Vite**, localizada no diretório [rontend/](frontend/).
-
-### ⚙️ Funcionamento da Interface:
-- **Painel de Indicadores (Dashboard Operacional):** Exibe métricas em tempo real sobre o total de ativos cadastrados, equipamentos disponíveis para operação e itens parados em manutenção preventiva/corretiva.
-- **Cadastro Rápido de Ativos:** Formulário integrado para inclusão imediata de máquinas e equipamentos, permitindo configurar identificador/tag, setor fabril e grau de criticidade operacional.
-- **Inventário Interativo com Busca e Filtros:** Visualização em formato de cards responsivos com pesquisa instantânea por texto e filtragem por setor fabril.
-- **Gestão Rápida de Status:** Botão de alternância instantânea entre os estados *Operacional* e *Em Manutenção*, com atualização dinâmica dos indicadores gerais do painel.
-- **Arquitetura Modular em Componentes:** Interface desacoplada em componentes reutilizáveis (Header, CardContainer, EquipamentoForm, EquipamentoLista) com estilização CSS independente para cada módulo.
-
-### Como Executar o Frontend React:
-```bash
-cd frontend
+# Instalar dependências
 npm install
+
+# (Recomendado) Popular o banco com dados de teste e usuários iniciais
+node src/seedDemo.js
+
+# Iniciar o servidor
 npm run dev
 ```
-O frontend estará acessível em: `http://localhost:5173` (ou porta informada pelo Vite).
+> O servidor da API rodará em: `http://localhost:3000`
+
+---
+
+### 3️⃣ Iniciar o Frontend (React + Vite)
+Abra outro terminal e acesse a pasta `frontend`:
+
+```bash
+cd frontend
+
+# Instalar dependências
+npm install
+
+# Iniciar a aplicação
+npm run dev
+```
+> O frontend rodará em: `http://localhost:5173`
+
+---
+
+## 🔑 Credenciais de Acesso (Demo)
+
+Após executar `node src/seedDemo.js`, você poderá entrar com:
+
+| Perfil | E-mail | Senha |
+|---|---|---|
+| **Administrador** | `demo@teste.com` | `Admin123` |
+| **Técnico** | `carlos@dm-cmms.com` | `Admin123` |
+| **Técnico** | `ana@dm-cmms.com` | `Admin123` |
+
+---
+
+## 📋 Requisitos Atendidos
+
+- ✅ **No mínimo 2 páginas:** Dashboard, Gestão de Equipamentos, Detalhe do Equipamento, Ordens de Serviço, Detalhe da OS e Minha Conta.
+- ✅ **Página de autenticação:** Tela de login conectada ao backend (`POST /api/usuarios/auth/login`) com feedback visual via toasts.
+- ✅ **Utilização de Hooks React:**
+  - `useContext`: Gestão global da sessão no `AuthContext`.
+  - `useState`: Controle de formulários, filtros, buscas e estados locais.
+  - `useEffect`: Restauração da sessão no `localStorage` e carregamento de dados assíncronos.
+- ✅ **Rotas privadas:** Bloqueio de navegação via `ProtectedRoute` para usuários não autenticados.
+- ✅ **Integração com API:** Serviços centralizados via `apiRequest` com envio dinâmico do token `Bearer JWT`.
