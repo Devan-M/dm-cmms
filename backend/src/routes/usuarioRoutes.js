@@ -38,8 +38,11 @@ router.post('/auth/login', usuarioController.autenticar);
 
 // Rotas protegidas por JWT (exigem header: Authorization: Bearer <token>)
 // O CRUD de usuários é operação sensível: exclusivo de ADMIN.
+router.get('/me', authMiddleware, usuarioController.obterMinhaConta);
+router.put('/me', authMiddleware, usuarioController.atualizarMinhaConta);
 router.post('/', authMiddleware, exigirPerfil('admin'), usuarioController.criarUsuario);
 router.get('/', authMiddleware, exigirPerfil('admin'), usuarioController.listarUsuarios);
+router.patch('/:id/status', authMiddleware, exigirPerfil('admin'), usuarioController.atualizarStatus);
 router.get('/:id', authMiddleware, selfOuAdmin, usuarioController.obterUsuario);
 router.put('/:id', authMiddleware, exigirPerfil('admin'), usuarioController.atualizarUsuario);
 router.delete('/:id', authMiddleware, exigirPerfil('admin'), usuarioController.deletarUsuario);

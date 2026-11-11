@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   Wrench,
   LayoutDashboard,
@@ -13,31 +13,56 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import '../styles/layout.css';
+import { useAuth } from '../contexts/AuthContext';
+import { apiRequest } from '../services/api';
 
 /**
  * Componente Layout
- * Shell da aplicação: sidebar fixa (fiel ao legado) + área de conteúdo.
+ * Shell da aplicação: sidebar fixa + área de conteúdo.
  * Usa <Outlet /> do React Router para renderizar a página ativa.
  */
-function Layout({ equipamentos, ordens }) {
+function Layout() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user, logout } = useAuth();
   const [menuAberto, setMenuAberto] = useState(false);
   const [sidebarColapsada, setSidebarColapsada] = useState(false);
-  const totalEq = equipamentos.length;
-  const osAbertas = ordens.filter(
-    (o) => o.status === 'Em Aberto' || o.status === 'Em Andamento'
-  ).length;
-  const usuarioSalvo = localStorage.getItem('usuario');
-  let usuario = null;
-  try {
-    usuario = usuarioSalvo ? JSON.parse(usuarioSalvo) : null;
-  } catch {
-    usuario = null;
-  }
+
+  const [totalEq, setTotalEq] = useState(0);
+  const [osAbertas, setOsAbertas] = useState(0);
+
+  // Recarrega contadores sempre que a rota mudar ou a cada intervalo (para manter atualizado)
+  useEffect(() => {
+    async function carregarTotais() {
+      try {
+        const [resEq, resOs] = await Promise.allSettled([
+          apiRequest('/equipamentos'),
+          apiRequest('/ordens')
+        ]);
+
+        if (resEq.status === 'fulfilled') {
+          const dadosEq = Array.isArray(resEq.value) ? resEq.value : (resEq.value.dados || resEq.value.equipamentos || []);
+          setTotalEq(dadosEq.length);
+        }
+
+        if (resOs.status === 'fulfilled') {
+          const dadosOs = Array.isArray(resOs.value) ? resOs.value : (resOs.value.dados || resOs.value.ordens || []);
+          const abertas = dadosOs.filter((o) => o.status === 'Em Aberto' || o.status === 'Em Andamento').length;
+          setOsAbertas(abertas);
+        }
+      } catch (err) {
+        console.error('Erro ao atualizar contadores da barra lateral:', err);
+      }
+    }
+
+    carregarTotais();
+    // Atualiza automaticamente a cada 10 segundos para refletir alterações
+    const intervalo = setInterval(carregarTotais, 10000);
+    return () => clearInterval(intervalo);
+  }, [location.pathname]);
 
   const sair = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
+    logout();
     navigate('/login', { replace: true });
   };
 
@@ -54,27 +79,19 @@ function Layout({ equipamentos, ordens }) {
             <p>Gestão de Manutenção</p>
           </div>
           <button
+            type="button"
             className="sidebar-collapse-button"
-            type="button"
-            aria-label={sidebarColapsada ? 'Expandir menu lateral' : 'Recolher menu lateral'}
-            title={sidebarColapsada ? 'Expandir menu lateral' : 'Recolher menu lateral'}
-            onClick={() => setSidebarColapsada((colapsada) => !colapsada)}
+            onClick={() => setSidebarColapsada((v) => !v)}
+            aria-label={sidebarColapsada ? 'Expandir sidebar' : 'Recolher sidebar'}
+            title={sidebarColapsada ? 'Expandir sidebar' : 'Recolher sidebar'}
           >
-            {sidebarColapsada ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-          </button>
-          <button
-            className="mobile-menu-button"
-            type="button"
-            aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
-            aria-expanded={menuAberto}
-            onClick={() => setMenuAberto((aberto) => !aberto)}
-          >
-            {menuAberto ? <X size={22} /> : <Menu size={22} />}
+            {sidebarColapsada ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
         </div>
 
+        {/* Navegação principal com NavLink (adiciona classe 'active' automaticamente) */}
         <nav aria-label="Navegação principal">
-          <ul>
+          <ul className="sidebar-nav">
             <li>
               <NavLink to="/" end title="Dashboard" onClick={() => setMenuAberto(false)}>
                 <LayoutDashboard size={16} />
@@ -103,7 +120,7 @@ function Layout({ equipamentos, ordens }) {
         </nav>
 
         <div className="sidebar-account">
-          <span className="sidebar-account-name">{usuario?.nome || 'Conta'}</span>
+          <span className="sidebar-account-name">{user?.nome || 'Conta'}</span>
           <button type="button" onClick={sair} title="Sair" aria-label="Sair">
             <LogOut size={16} />
             <span>Sair</span>
@@ -122,6 +139,18 @@ function Layout({ equipamentos, ordens }) {
           </div>
         </div>
       </header>
+
+      {/* Botão flutuante para abrir menu no mobile */}
+      <button
+        type="button"
+        className="mobile-menu-button"
+        aria-label={menuAberto ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+        aria-expanded={menuAberto}
+        onClick={() => setMenuAberto((v) => !v)}
+      >
+        {menuAberto ? <X size={20} /> : <Menu size={20} />}
+      </button>
+
       {menuAberto && (
         <button
           className="mobile-menu-backdrop"
