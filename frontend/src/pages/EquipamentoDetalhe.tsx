@@ -1,7 +1,7 @@
 // frontend/src/pages/EquipamentoDetalhe.tsx
 
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, RefreshCw, Trash2, Wrench, Edit3, Save, X } from 'lucide-react';
 import { apiRequest } from '../services/api';
 import { toast } from 'react-toastify';
@@ -10,9 +10,11 @@ import '../styles/equipamento-detalhe.css';
 const EquipamentoDetalhe: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const stateEquipamento = (location.state as { equipamento?: any })?.equipamento;
 
-  const [equipamento, setEquipamento] = useState<any>(null);
-  const [carregando, setCarregando] = useState<boolean>(true);
+  const [equipamento, setEquipamento] = useState<any>(stateEquipamento || null);
+  const [carregando, setCarregando] = useState<boolean>(!stateEquipamento);
 
   // Estados de edição
   const [editando, setEditando] = useState<boolean>(false);

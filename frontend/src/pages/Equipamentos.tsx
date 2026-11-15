@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusCircle, Search, Trash2, RefreshCw } from 'lucide-react';
+import { PlusCircle, Search, Trash2, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { apiRequest } from '../services/api';
 import { toast } from 'react-toastify';
 import '../styles/equipamentos.css';
@@ -26,6 +26,10 @@ const Equipamentos: React.FC = () => {
   const [busca, setBusca] = useState('');
   const [filtroSetor, setFiltroSetor] = useState('Todos');
   const [filtroStatus, setFiltroStatus] = useState('Todos');
+
+  // Estados de paginação
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [itensPorPagina, setItensPorPagina] = useState(5);
 
   // Estados do formulário de novo equipamento
   const [showForm, setShowForm] = useState(false);
@@ -227,9 +231,39 @@ const Equipamentos: React.FC = () => {
 
       {/* Tabela de Dados */}
       <article className="card-painel">
-        <div className="painel-cabecalho-simples">
-          <h3>Inventário de Ativos</h3>
-          <span className="contagem-badge">{filtrados.length} equipamentos</span>
+        <div className="painel-cabecalho-simples" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <h3 style={{ margin: 0 }}>Inventário de Ativos</h3>
+            <span className="contagem-badge">{filtrados.length} equipamentos</span>
+          </div>
+
+          {/* Seletor de registros por página */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#64748b' }}>
+            <label htmlFor="itens-por-pagina-equip">Exibir:</label>
+            <select
+              id="itens-por-pagina-equip"
+              value={itensPorPagina}
+              onChange={(e) => {
+                setItensPorPagina(Number(e.target.value));
+                setPaginaAtual(1);
+              }}
+              style={{
+                padding: '0.3rem 0.5rem',
+                borderRadius: '6px',
+                border: '1px solid #cbd5e1',
+                fontSize: '0.85rem',
+                backgroundColor: '#ffffff',
+                color: '#1e293b',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <option value={5}>5 por página</option>
+              <option value={10}>10 por página</option>
+              <option value={20}>20 por página</option>
+              <option value={50}>50 por página</option>
+            </select>
+          </div>
         </div>
 
         {carregando ? (
@@ -241,68 +275,152 @@ const Equipamentos: React.FC = () => {
             Nenhum equipamento encontrado com os filtros aplicados.
           </div>
         ) : (
-          <div className="tabela-responsiva">
-            <table className="tabela-dados">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Nome</th>
-                  <th>Setor</th>
-                  <th>Criticidade</th>
-                  <th>Status</th>
-                  <th>Cadastro</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtrados.map((eq) => {
-                  const itemId = eq._id || eq.id;
-                  return (
-                    <tr key={itemId}>
-                      <td data-label="Código">
-                        <Link to={`/equipamentos/${itemId}`} className="link-acao" style={{ fontWeight: 600 }}>
-                          {eq.codigo}
-                        </Link>
-                      </td>
-                      <td data-label="Nome"><strong>{eq.nome}</strong></td>
-                      <td data-label="Setor">{eq.setor}</td>
-                      <td data-label="Criticidade">
-                        <span className={`badge-criticidade ${String(eq.criticidade || 'media').toLowerCase().replace('é', 'e')}`}>
-                          {eq.criticidade}
-                        </span>
-                      </td>
-                      <td data-label="Status">
-                        <span className={`status ${eq.status === 'Operacional' ? 'status-agendada' : eq.status === 'Em Manutenção' ? 'status-pendente' : 'status-inativo'}`}>
-                          {eq.status}
-                        </span>
-                      </td>
-                      <td data-label="Cadastro" style={{ color: '#64748b' }}>
-                        {eq.dataCadastro || '—'}
-                      </td>
-                      <td data-label="Ações">
-                        <div className="acoes-celula">
-                          <button
-                            className="btn-icone btn-toggle"
-                            title="Alternar status Operacional / Em Manutenção"
-                            onClick={() => handleToggleStatus(itemId)}
-                          >
-                            <RefreshCw size={14} />
-                          </button>
-                          <button
-                            className="btn-icone btn-danger"
-                            title="Excluir equipamento"
-                            onClick={() => handleDeleteEquipamento(itemId)}
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <>
+            <div className="tabela-responsiva">
+              <table className="tabela-dados">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Setor</th>
+                    <th>Criticidade</th>
+                    <th>Status</th>
+                    <th>Cadastro</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(() => {
+                    const inicio = (paginaAtual - 1) * itensPorPagina;
+                    const paginados = filtrados.slice(inicio, inicio + itensPorPagina);
+
+                    return paginados.map((eq) => {
+                      const itemId = eq._id || eq.id;
+                      return (
+                        <tr key={itemId}>
+                          <td data-label="Código">
+                            <Link
+                              to={`/equipamentos/${itemId}`}
+                              state={{ equipamento: eq }}
+                              className="link-acao"
+                              style={{ fontWeight: 600 }}
+                            >
+                              {eq.codigo}
+                            </Link>
+                          </td>
+                          <td data-label="Nome"><strong>{eq.nome}</strong></td>
+                          <td data-label="Setor">{eq.setor}</td>
+                          <td data-label="Criticidade">
+                            <span className={`badge-criticidade ${String(eq.criticidade || 'media').toLowerCase().replace('é', 'e')}`}>
+                              {eq.criticidade}
+                            </span>
+                          </td>
+                          <td data-label="Status">
+                            <span className={`status ${eq.status === 'Operacional' ? 'status-agendada' : eq.status === 'Em Manutenção' ? 'status-pendente' : 'status-inativo'}`}>
+                              {eq.status}
+                            </span>
+                          </td>
+                          <td data-label="Cadastro" style={{ color: '#64748b' }}>
+                            {eq.dataCadastro || '—'}
+                          </td>
+                          <td data-label="Ações">
+                            <div className="acoes-celula">
+                              <button
+                                className="btn-icone btn-toggle"
+                                title="Alternar status Operacional / Em Manutenção"
+                                onClick={() => handleToggleStatus(itemId)}
+                              >
+                                <RefreshCw size={14} />
+                              </button>
+                              <button
+                                className="btn-icone btn-danger"
+                                title="Excluir equipamento"
+                                onClick={() => handleDeleteEquipamento(itemId)}
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    });
+                  })()}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Controles de Paginação */}
+            {(() => {
+              const totalPaginas = Math.ceil(filtrados.length / itensPorPagina) || 1;
+              const inicioIndex = filtrados.length === 0 ? 0 : (paginaAtual - 1) * itensPorPagina + 1;
+              const fimIndex = Math.min(paginaAtual * itensPorPagina, filtrados.length);
+
+              return (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingTop: '1rem',
+                  marginTop: '0.5rem',
+                  borderTop: '1px solid #f1f5f9',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem',
+                  fontSize: '0.85rem',
+                  color: '#64748b'
+                }}>
+                  <div>
+                    Mostrando <strong>{inicioIndex}</strong> a <strong>{fimIndex}</strong> de <strong>{filtrados.length}</strong> equipamentos
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <button
+                      type="button"
+                      onClick={() => setPaginaAtual((p) => Math.max(p - 1, 1))}
+                      disabled={paginaAtual === 1}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0.35rem 0.6rem',
+                        borderRadius: '6px',
+                        border: '1px solid #cbd5e1',
+                        backgroundColor: paginaAtual === 1 ? '#f8fafc' : '#ffffff',
+                        color: paginaAtual === 1 ? '#cbd5e1' : '#334155',
+                        cursor: paginaAtual === 1 ? 'not-allowed' : 'pointer'
+                      }}
+                      title="Página anterior"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+
+                    <span style={{ padding: '0 0.5rem', fontWeight: 600, color: '#334155' }}>
+                      {paginaAtual} de {totalPaginas}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaginaAtual((p) => Math.min(p + 1, totalPaginas))}
+                      disabled={paginaAtual >= totalPaginas}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0.35rem 0.6rem',
+                        borderRadius: '6px',
+                        border: '1px solid #cbd5e1',
+                        backgroundColor: paginaAtual >= totalPaginas ? '#f8fafc' : '#ffffff',
+                        color: paginaAtual >= totalPaginas ? '#cbd5e1' : '#334155',
+                        cursor: paginaAtual >= totalPaginas ? 'not-allowed' : 'pointer'
+                      }}
+                      title="Próxima página"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+          </>
         )}
       </article>
     </div>

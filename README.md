@@ -1,179 +1,130 @@
-# DM-CMMS
+# DM-CMMS — Sistema de Gestão de Manutenção Industrial
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?logo=jsonwebtokens&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![Status](https://img.shields.io/badge/status-ativo-brightgreen)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Devan%20M.-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devan-m/)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-7.0-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-HTTP-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![NodeJS](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-4.21-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Tokens-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-Sistema de Gerenciamento de Manutenção Computadorizado (CMMS) para controle de ativos, ordens de serviço, manutenção industrial e métricas operacionais, estruturado em arquitetura **MVC** com **API RESTful**, persistência no **MongoDB via Mongoose** e autenticação segura com **JSON Web Tokens (JWT)**.
-
----
-
-## 📂 Estrutura Geral do Repositório
-
-`
-dm-cmms/
-├── backend/            # API RESTful em Node.js/Express, MongoDB e JWT
-├── frontend/           # Aplicação SPA moderna em React + Vite
-├── legacy-frontend/    # Interface original em HTML/CSS/JS (base de referência)
-├── thunder-client/     # Coleções de testes da API no VS Code
-└── README.md
-`
+Sistema web completo para gestão de manutenção industrial (CMMS), controle de ativos, ordens de serviço (OS) e usuários com controle de acesso baseado em papéis (RBAC).
 
 ---
 
-## 🏗️ Arquitetura do Backend
+## 🛠️ Tecnologias Utilizadas
 
-O backend foi construído em **Node.js** utilizando o framework **Express** e segue rigorosamente o padrão **MVC (Model-View-Controller)**:
+- **Frontend:**
+  - React 19 & TypeScript
+  - Vite (Build Tool & Fast HMR)
+  - Tailwind CSS & Vite Plugin
+  - Axios (Instância centralizada com interceptors para tokens JWT)
+  - React Router DOM 7 (Rotas aninhadas, rotas protegidas e troca de dados via props de rota)
+  - Context API (`useContext`) para estado global de autenticação e sessão
+  - React Toastify (Notificações visuais)
+  - Lucide React (Ícones SVG)
+- **Backend:**
+  - Node.js & Express.js (API RESTful consumindo endpoints `GET`, `POST`, `PUT`, `DELETE`, `PATCH`)
+  - MongoDB com Mongoose (ODM e Modelagem de Dados)
+  - Autenticação com JSON Web Token (JWT) e Bcrypt para hash de senhas
+  - Middlewares de autorização e controle de acesso RBAC
+- **DevOps & Banco de Dados:**
+  - Docker & Docker Compose para orquestração do MongoDB
 
+---
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- [Docker Desktop](https://www.docker.com/) (com o serviço em execução)
+
+---
+
+### 1️⃣ Subir o Banco de Dados (MongoDB via Docker)
+Na raiz do projeto (`dm-cmms`), execute:
+
+```bash
+docker compose up -d
 ```
-backend/
-├── src/
-│   ├── config/
-│   │   └── database.js         # Conexão assíncrona com MongoDB (Mongoose)
-│   ├── controllers/
-│   │   ├── usuarioController.js     # Regras de cadastro, login e CRUD de usuários
-│   │   ├── equipamentoController.js # CRUD e filtros de ativos/equipamentos
-│   │   ├── ordemController.js       # Abertura, gestão e encerramento de O.S.
-│   │   └── dashboardController.js   # Cálculo e agregação de indicadores gerais
-│   ├── middleware/
-│   │   └── auth.js             # Middleware de interceptação e validação de Token JWT
-│   ├── models/
-│   │   ├── Usuario.js          # Mongoose Schema de Usuários com hash bcryptjs
-│   │   ├── Equipamento.js      # Mongoose Schema de Equipamentos/Ativos
-│   │   └── OrdemServico.js     # Mongoose Schema de Ordens de Serviço
-│   ├── routes/
-│   │   ├── usuarioRoutes.js    # Rotas de autenticação e gestão de usuários
-│   │   ├── equipamentoRoutes.js# Rotas protegidas de equipamentos
-│   │   ├── ordemRoutes.js      # Rotas protegidas de O.S.
-│   │   └── dashboardRoutes.js  # Rota protegida de métricas do dashboard
-│   ├── app.js                  # Configuração do Express, CORS e registro de rotas
-│   └── server.js               # Inicialização do servidor após conexão com o banco
-├── test/
-│   └── integration/
-│       └── usuario.test.js     # Testes automatizados de ponta a ponta
-└── package.json
-```
+> Isso iniciará o container do MongoDB na porta padrão `27017` com volume persistente.
 
 ---
 
-## 🚀 Como Executar o Backend
-
-### 1. Pré-requisitos
-- **Node.js** (v18+)
-- **MongoDB** em execução local na porta `27017` (ou via Docker):
-  ```bash
-  docker run -d --name mongodb -p 27017:27017 mongo:latest
-  ```
-
-### 2. Instalação e Execução
-1. Entre na pasta do backend:
-   ```bash
-   cd backend
-   ```
-2. Instale as dependências:
-   ```bash
-   npm install
-   ```
-3. Inicie o servidor em modo de desenvolvimento:
-   ```bash
-   npm run dev
-   ```
-   *O servidor estará acessível em: `http://localhost:3000`*
-
----
-
-## 🧪 Testes Automatizados
-O projeto possui testes de integração automatizados que validam todo o ciclo (Criação de Usuário, Login JWT, bloqueio de rotas sem token, CRUD no MongoDB e regras de negócio de O.S.):
+### 2️⃣ Iniciar e Popular o Backend (API)
+Abra um terminal e acesse a pasta `backend`:
 
 ```bash
 cd backend
-npm test
-```
 
----
-
-## 📡 Endpoints da API
-
-### 🔐 1. Autenticação e Usuários (`/api/usuarios`)
-| Método | Endpoint | Protegido por JWT | Descrição |
-| :--- | :--- | :---: | :--- |
-| `POST` | `/api/usuarios` | Não | Cadastro de novo usuário (gera token inicial) |
-| `POST` | `/api/usuarios/auth/login` | Não | Autenticação com e-mail e senha (retorna Token JWT) |
-| `GET` | `/api/usuarios` | **Sim** | Listar todos os usuários cadastrados |
-| `GET` | `/api/usuarios/:id` | **Sim** | Buscar usuário específico por ID |
-| `PUT` | `/api/usuarios/:id` | **Sim** | Atualizar dados cadastrais |
-| `DELETE` | `/api/usuarios/:id` | **Sim** | Excluir usuário |
-
----
-
-### ⚙️ 2. Gestão de Equipamentos (`/api/equipamentos`)
-*Todas as rotas exigem header `Authorization: Bearer <TOKEN>`*
-
-| Método | Endpoint | Descrição |
-| :--- | :--- | :--- |
-| `POST` | `/api/equipamentos` | Cadastrar novo ativo (código, nome, setor, criticidade, etc.) |
-| `GET` | `/api/equipamentos` | Listar todos os equipamentos (suporta filtros `?setor=&status=`) |
-| `GET` | `/api/equipamentos/:id` | Obter ficha técnica detalhada por ID |
-| `PUT` | `/api/equipamentos/:id` | Atualizar dados ou status operacional |
-| `DELETE` | `/api/equipamentos/:id` | Remover equipamento do sistema |
-
----
-
-### 📋 3. Ordens de Serviço (`/api/ordens`)
-*Todas as rotas exigem header `Authorization: Bearer <TOKEN>`*
-
-| Método | Endpoint | Descrição |
-| :--- | :--- | :--- |
-| `POST` | `/api/ordens` | Abrir nova O.S. (Gera número sequencial e altera status do ativo) |
-| `GET` | `/api/ordens` | Listar O.S. (suporta filtros `?status=&prioridade=&tipo=`) |
-| `GET` | `/api/ordens/:id` | Consultar detalhes da O.S. por ID |
-| `PUT` | `/api/ordens/:id` | Atualizar O.S. (ao marcar como "Concluída", restaura o ativo para "Operacional") |
-| `DELETE` | `/api/ordens/:id` | Cancelar/remover Ordem de Serviço |
-
----
-
-### 📊 4. Dashboard & Indicadores (`/api/dashboard`)
-*Exige header `Authorization: Bearer <TOKEN>`*
-
-| Método | Endpoint | Descrição |
-| :--- | :--- | :--- |
-| `GET` | `/api/dashboard/resumo` | Retorna total de equipamentos, ativos operacionais, disponibilidade (%), ordens abertas e concluídas |
-
----
-
-## ⚡ Testando com o Thunder Client
-
-O repositório já inclui uma collection pronta e exportada para o **Thunder Client** no VS Code:
-
-📁 **Arquivo:** [`thunder-client/thunder-collection_DM-CMMS - Usuarios.json`](thunder-client/thunder-collection_DM-CMMS%20-%20Usuarios.json)
-
-### Passo a passo para testar:
-1. Abra o **Thunder Client** no VS Code.
-2. Na aba **Collections**, clique em `...` -> **Import** e selecione o arquivo acima.
-3. Execute a requisição **1. Login (Gerar JWT)** para receber seu token.
-4. Nas demais requisições protegidas, informe o token no header `Authorization: Bearer <seu-token>`.
-
----
-
-## 💻 Interface Front-end
-
-A interface do usuário é estruturada como uma SPA (Single Page Application) moderna desenvolvida em **React** com **Vite**, localizada no diretório [rontend/](frontend/).
-
-### ⚙️ Funcionamento da Interface:
-- **Painel de Indicadores (Dashboard Operacional):** Exibe métricas em tempo real sobre o total de ativos cadastrados, equipamentos disponíveis para operação e itens parados em manutenção preventiva/corretiva.
-- **Cadastro Rápido de Ativos:** Formulário integrado para inclusão imediata de máquinas e equipamentos, permitindo configurar identificador/tag, setor fabril e grau de criticidade operacional.
-- **Inventário Interativo com Busca e Filtros:** Visualização em formato de cards responsivos com pesquisa instantânea por texto e filtragem por setor fabril.
-- **Gestão Rápida de Status:** Botão de alternância instantânea entre os estados *Operacional* e *Em Manutenção*, com atualização dinâmica dos indicadores gerais do painel.
-- **Arquitetura Modular em Componentes:** Interface desacoplada em componentes reutilizáveis (Header, CardContainer, EquipamentoForm, EquipamentoLista) com estilização CSS independente para cada módulo.
-
-### Como Executar o Frontend React:
-```bash
-cd frontend
+# 1. Instalar dependências
 npm install
+
+# 2. Executar o seed unificado (popula usuários, 150 equipamentos e 100 ordens de serviço)
+npm run seed
+
+# 3. Iniciar o servidor em modo de desenvolvimento
 npm run dev
 ```
-O frontend estará acessível em: `http://localhost:5173` (ou porta informada pelo Vite).
+> O servidor da API iniciará em: `http://localhost:3000`
+
+---
+
+### 3️⃣ Iniciar o Frontend (React + Vite)
+Abra outro terminal e acesse a pasta `frontend`:
+
+```bash
+cd frontend
+
+# 1. Instalar dependências
+npm install
+
+# 2. Iniciar a aplicação em modo de desenvolvimento
+npm run dev
+```
+> O frontend iniciará em: `http://localhost:5173`
+
+---
+
+## 🔑 Credenciais de Acesso (Demo)
+
+Após executar `npm run seed`, utilize qualquer um dos perfis pré-configurados:
+
+| Perfil | E-mail | Senha | Acesso / Permissões |
+|---|---|---|---|
+| **Administrador** | `demo@teste.com` | `Admin123` | Acesso total: CRUDs, gestão e cadastro de usuários |
+| **Supervisor** | `mariana.rocha@dm-cmms.com` | `Admin123` | Supervisão de ativos e ordens de manutenção |
+| **Técnico** | `carlos@dm-cmms.com` | `Admin123` | Abertura, execução e atualização de ordens |
+
+---
+
+## 💻 Funcionalidades do Sistema
+
+- **Autenticação & Sessão:**
+  - Tela de login com validações de credenciais e persistência de sessão no `localStorage`.
+  - Rotas protegidas via `ProtectedRoute`, garantindo redirecionamento automático caso o usuário não esteja autenticado.
+- **Dashboard Operacional (`/`):**
+  - Contadores em tempo real de ativos cadastrados, ordens em aberto, taxa de disponibilidade e manutenções preventivas.
+  - Tabela com as ordens de serviço mais recentes e atalhos rápidos.
+- **Inventário de Ativos / Equipamentos (`/equipamentos`):**
+  - CRUD completo de equipamentos.
+  - Filtros instantâneos por setor (*Usinagem, Soldagem, Pintura, Montagem, etc.*) e status (*Operacional, Em Manutenção, Inativo*).
+  - Tabela com paginação selecionável (**5**, **10**, **20** ou **50** registros por página).
+- **Ficha Técnica do Equipamento (`/equipamentos/:id`):**
+  - Detalhamento completo do ativo acessado via rota dinâmica.
+  - Edição de dados técnicos e alternância rápida de status operacional.
+  - Remoção do equipamento com diálogo de confirmação.
+- **Gestão de Ordens de Serviço (`/ordens`):**
+  - CRUD completo para abertura e acompanhamento de OS.
+  - Filtros combinados por status (*Em Aberto, Em Andamento, Concluída, Cancelada*) e tipo (*Corretiva, Preventiva, Preditiva, Inspeção*).
+  - Tabela com paginação selecionável e histórico de manutenções.
+- **Ficha Técnica da Ordem (`/ordens/:id`):**
+  - Controle de ciclo de vida da OS, avanço de etapas de manutenção, registro de custos e encerramento.
+- **Minha Conta & Gestão de Usuários (`/usuarios`):**
+  - Card retrátil de **Dados Pessoais** para alteração de nome, data de nascimento e senha de acesso.
+  - Card retrátil exclusivo para administradores de **Cadastrar Novo Usuário**.
+  - Tabela de **Usuários Cadastrados** com paginação e ativação/desativação de contas com 1 clique.
