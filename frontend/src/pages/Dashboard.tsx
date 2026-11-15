@@ -1,11 +1,13 @@
 // frontend/src/pages/Dashboard.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { apiRequest } from '../services/api';
 import '../styles/dashboard.css';
 
 const Dashboard: React.FC = () => {
+  // Dados recebidos via props de rota através do Outlet Context do Layout
+  const layoutData = useOutletContext<{ totalEq?: number; osAbertas?: number; user?: any }>();
   const [equipamentos, setEquipamentos] = useState<any[]>([]);
   const [ordens, setOrdens] = useState<any[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusCircle, Search } from 'lucide-react';
+import { PlusCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { apiRequest } from '../services/api';
 import { toast } from 'react-toastify';
 import '../styles/ordens.css';
@@ -16,6 +16,10 @@ const Ordens: React.FC = () => {
   const [busca, setBusca] = useState('');
   const [filtroStatus, setFiltroStatus] = useState('Todos');
   const [filtroTipo, setFiltroTipo] = useState('Todos');
+
+  // Estados de paginação
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [itensPorPagina, setItensPorPagina] = useState(5);
 
   // Estados do formulário
   const [showForm, setShowForm] = useState(false);
@@ -244,9 +248,39 @@ const Ordens: React.FC = () => {
 
       {/* Tabela de OS */}
       <article className="card-painel">
-        <div className="painel-cabecalho-simples">
-          <h3>Registro de Ordens</h3>
-          <span className="contagem-badge">{filtradas.length} ordens</span>
+        <div className="painel-cabecalho-simples" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <h3 style={{ margin: 0 }}>Registro de Ordens</h3>
+            <span className="contagem-badge">{filtradas.length} ordens</span>
+          </div>
+
+          {/* Seletor de registros por página */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#64748b' }}>
+            <label htmlFor="itens-por-pagina-ordens">Exibir:</label>
+            <select
+              id="itens-por-pagina-ordens"
+              value={itensPorPagina}
+              onChange={(e) => {
+                setItensPorPagina(Number(e.target.value));
+                setPaginaAtual(1);
+              }}
+              style={{
+                padding: '0.3rem 0.5rem',
+                borderRadius: '6px',
+                border: '1px solid #cbd5e1',
+                fontSize: '0.85rem',
+                backgroundColor: '#ffffff',
+                color: '#1e293b',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <option value={5}>5 por página</option>
+              <option value={10}>10 por página</option>
+              <option value={20}>20 por página</option>
+              <option value={50}>50 por página</option>
+            </select>
+          </div>
         </div>
 
         {carregando ? (
@@ -258,54 +292,133 @@ const Ordens: React.FC = () => {
             Nenhuma ordem de serviço encontrada com os filtros aplicados.
           </div>
         ) : (
-          <div className="tabela-responsiva">
-            <table className="tabela-dados">
-              <thead>
-                <tr>
-                  <th>Nº OS</th>
-                  <th>Equipamento</th>
-                  <th>Tipo</th>
-                  <th>Prioridade</th>
-                  <th>Responsável</th>
-                  <th>Abertura</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtradas.map((os) => {
-                  const numOS = os.numero || String(os.id || os._id || '0').slice(-4);
-                  const osId = os._id || os.id;
-                  return (
-                    <tr key={osId}>
-                      <td data-label="Nº OS">
-                        <Link to={`/ordens/${osId}`} className="link-acao" style={{ fontWeight: 600 }}>
-                          #{numOS}
-                        </Link>
-                      </td>
-                      <td data-label="Equipamento">
-                        <strong>{getNomeEquipamento(os)}</strong>
-                      </td>
-                      <td data-label="Tipo">{os.tipo || 'Corretiva'}</td>
-                      <td data-label="Prioridade">
-                        <span className={`badge-criticidade ${String(os.prioridade || 'baixa').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`}>
-                          {os.prioridade || 'Média'}
-                        </span>
-                      </td>
-                      <td data-label="Responsável">{os.responsavel || 'Não atribuído'}</td>
-                      <td data-label="Abertura" style={{ color: '#64748b' }}>
-                        {formatarData(os.dataAbertura || os.createdAt)}
-                      </td>
-                      <td data-label="Status">
-                        <span className={`status ${statusClassMap[os.status] || 'status-pendente'}`}>
-                          {os.status}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <>
+            <div className="tabela-responsiva">
+              <table className="tabela-dados">
+                <thead>
+                  <tr>
+                    <th>Nº OS</th>
+                    <th>Equipamento</th>
+                    <th>Tipo</th>
+                    <th>Prioridade</th>
+                    <th>Responsável</th>
+                    <th>Abertura</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(() => {
+                    const inicio = (paginaAtual - 1) * itensPorPagina;
+                    const paginadas = filtradas.slice(inicio, inicio + itensPorPagina);
+
+                    return paginadas.map((os) => {
+                      const numOS = os.numero || String(os.id || os._id || '0').slice(-4);
+                      const osId = os._id || os.id;
+                      return (
+                        <tr key={osId}>
+                          <td data-label="Nº OS">
+                            <Link to={`/ordens/${osId}`} className="link-acao" style={{ fontWeight: 600 }}>
+                              #{numOS}
+                            </Link>
+                          </td>
+                          <td data-label="Equipamento">
+                            <strong>{getNomeEquipamento(os)}</strong>
+                          </td>
+                          <td data-label="Tipo">{os.tipo || 'Corretiva'}</td>
+                          <td data-label="Prioridade">
+                            <span className={`badge-criticidade ${String(os.prioridade || 'baixa').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`}>
+                              {os.prioridade || 'Média'}
+                            </span>
+                          </td>
+                          <td data-label="Responsável">{os.responsavel || 'Não atribuído'}</td>
+                          <td data-label="Abertura" style={{ color: '#64748b' }}>
+                            {formatarData(os.dataAbertura || os.createdAt)}
+                          </td>
+                          <td data-label="Status">
+                            <span className={`status ${statusClassMap[os.status] || 'status-pendente'}`}>
+                              {os.status}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    });
+                  })()}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Controles de Paginação */}
+            {(() => {
+              const totalPaginas = Math.ceil(filtradas.length / itensPorPagina) || 1;
+              const inicioIndex = filtradas.length === 0 ? 0 : (paginaAtual - 1) * itensPorPagina + 1;
+              const fimIndex = Math.min(paginaAtual * itensPorPagina, filtradas.length);
+
+              return (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingTop: '1rem',
+                  marginTop: '0.5rem',
+                  borderTop: '1px solid #f1f5f9',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem',
+                  fontSize: '0.85rem',
+                  color: '#64748b'
+                }}>
+                  <div>
+                    Mostrando <strong>{inicioIndex}</strong> a <strong>{fimIndex}</strong> de <strong>{filtradas.length}</strong> ordens
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <button
+                      type="button"
+                      onClick={() => setPaginaAtual((p) => Math.max(p - 1, 1))}
+                      disabled={paginaAtual === 1}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0.35rem 0.6rem',
+                        borderRadius: '6px',
+                        border: '1px solid #cbd5e1',
+                        backgroundColor: paginaAtual === 1 ? '#f8fafc' : '#ffffff',
+                        color: paginaAtual === 1 ? '#cbd5e1' : '#334155',
+                        cursor: paginaAtual === 1 ? 'not-allowed' : 'pointer'
+                      }}
+                      title="Página anterior"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+
+                    <span style={{ padding: '0 0.5rem', fontWeight: 600, color: '#334155' }}>
+                      {paginaAtual} de {totalPaginas}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaginaAtual((p) => Math.min(p + 1, totalPaginas))}
+                      disabled={paginaAtual >= totalPaginas}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0.35rem 0.6rem',
+                        borderRadius: '6px',
+                        border: '1px solid #cbd5e1',
+                        backgroundColor: paginaAtual >= totalPaginas ? '#f8fafc' : '#ffffff',
+                        color: paginaAtual >= totalPaginas ? '#cbd5e1' : '#334155',
+                        cursor: paginaAtual >= totalPaginas ? 'not-allowed' : 'pointer'
+                      }}
+                      title="Próxima página"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+          </>
         )}
       </article>
     </div>

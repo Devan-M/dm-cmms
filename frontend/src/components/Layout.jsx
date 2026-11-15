@@ -163,8 +163,8 @@ function Layout() {
       {/* Área principal de conteúdo */}
       <div className="main-shell">
         <main>
-          {/* Outlet renderiza a página ativa via React Router */}
-          <Outlet />
+          {/* Outlet renderiza a página ativa via React Router repassando dados/props de contexto */}
+          <Outlet context={{ totalEq, osAbertas, user, recarregarTotais: () => carregarTotais() }} />
         </main>
 
         <footer>
